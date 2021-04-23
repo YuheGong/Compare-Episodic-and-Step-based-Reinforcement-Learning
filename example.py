@@ -16,3 +16,13 @@ class MyIterativeExperiment(experiment.AbstractIterativeExperiment):
 
     def finalize(self, surrender: bool = False, crash: bool = False):
         print("Finished. Closing Down.")
+
+
+exp = AbstractIterativeExperiment()     # Initialize only global CONSTANTS
+for r in repetitions:
+    exp.initialize(...)    # Initialize / Reset the experiment for each repetition.
+    for i in iterations:
+        result = exp.iterate(...)   # Make a single iteration, return the result
+        log(result)                 # Log the result
+        exp.save_state(...)         # Save the current experiment state
+    exp.finalize()      # Finalize / Clean the experiment after each repetition
