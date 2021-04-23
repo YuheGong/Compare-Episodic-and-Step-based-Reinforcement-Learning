@@ -1,0 +1,7 @@
+-e git+https://github.com/ALRhub/cw2.git@master#egg=cw2
+-e git+https://github.com/ALRhub/alr_envs.git@dmp_env_dev#egg=alr_envs
+cma
+pyyaml
+mujoco_py
+
+
