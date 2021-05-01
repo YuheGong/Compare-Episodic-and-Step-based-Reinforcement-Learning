@@ -1,18 +1,8 @@
 import os
 import datetime as dt
-import abc
-import cma
-import dill
-import numpy as np
-from cma.bbobbenchmarks import nfreefunclasses
 from cw2.cw_data import cw_logging
 from cw2.cw_error import ExperimentSurrender
-
-import cw2.cluster_work
-import cw2.cw_data.cw_pd_logger
 import PPOexperiment
-from stable_baselines3 import PPO
-import numpy as np
 from alr_envs.classic_control.dense_hole_reacher import DenseHoleReacher
 import torch as th
 

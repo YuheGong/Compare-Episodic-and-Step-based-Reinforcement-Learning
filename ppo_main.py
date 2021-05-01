@@ -1,10 +1,3 @@
-import os
-
-import cma
-import dill
-import numpy as np
-from cma.bbobbenchmarks import nfreefunclasses
-
 import cw2.cluster_work
 import cw2.experiment
 import ppo_logger
