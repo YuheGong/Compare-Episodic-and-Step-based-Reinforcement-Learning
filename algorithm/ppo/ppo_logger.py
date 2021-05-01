@@ -3,7 +3,6 @@ import os
 import attrdict
 import pandas as pd
 from cw2.cw_data import cw_logging
-from stable_baselines3 import PPO
 
 class PPOLogger(cw_logging.AbstractLogger):
     """Writes the results of each repetition seperately to disk
@@ -26,25 +25,9 @@ class PPOLogger(cw_logging.AbstractLogger):
         self.model_path = os.path.join(self.log_path, 'model')
         self.env_path = os.path.join(self.log_path, 'env.pkl')
 
-    def process(self, data: dict):#model: None, env: None) -> None:
-        '''
-        data = self.filter(log_data)
-        assert 1== 0
-        self.df = self.df.append(data, ignore_index=True)
-
-        try:
-            self.df.to_csv(self.csv_name, index_label='index')
-        except:
-            cw_logging.getLogger().warning('Could not save {}'.format(self.csv_name))
-
-        try:
-            self.df.to_pickle(self.pkl_name)
-        except:
-            cw_logging.getLogger().warning('Could not save {}'.format(self.pkl_name))
-        '''
+    def process(self, data: dict):
 
         model = data[0]
-        #print('model', os.path.dirname(model.save(self.model_name)))
         env = data[1]
         try:
             model.save(self.model_path)
@@ -56,9 +39,6 @@ class PPOLogger(cw_logging.AbstractLogger):
         except:
             cw_logging.getLogger().warning('Could not save env')
 
-        #self.model_name = os.path.join(self.log_path, 'model.zip')
-        #self.env_name = os.path.join(self.log_path, 'env.pkl')
-        #return [self.model_path, self.env_path]
 
 
     def finalize(self) -> None:

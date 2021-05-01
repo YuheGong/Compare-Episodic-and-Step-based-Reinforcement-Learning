@@ -1,33 +1,16 @@
-import os
 import datetime as dt
 from cw2.cw_data import cw_logging
 from cw2.cw_error import ExperimentSurrender
-import PPOexperiment
 from alr_envs.classic_control.dense_hole_reacher import DenseHoleReacher
-import torch as th
 
 from gym import wrappers
-from stable_baselines3.common.callbacks import BaseCallback
-
-from stable_baselines3.common.vec_env import DummyVecEnv, VecNormalize
-import os
-import pickle
-import tensorflow as tf
-import numpy as np
-import torch as th
-
-from gym import wrappers
-from stable_baselines3.common.callbacks import BaseCallback
 
 from stable_baselines3.common.vec_env import DummyVecEnv, VecNormalize
 from stable_baselines3 import PPO
 from stable_baselines3.ppo import MlpPolicy
-import os
-import pickle
-import tensorflow as tf
+import cw2.experiment
 
-
-class PPO_Holereacher(PPOexperiment.AbstractIterativeExperiment):
+class PPO_Holereacher(cw2.experiment.AbstractIterativeExperiment):
     def __init__(self):
         super().__init__()
         self.env = None
@@ -39,7 +22,7 @@ class PPO_Holereacher(PPOexperiment.AbstractIterativeExperiment):
         self.model_initialize()
 
 
-    def env_initialize(self):#, config: dict, logger: cw_logging.AbstractLogger) -> None:
+    def env_initialize(self):
         def make_env(rank, seed=0):
             def _init():
                 env = DenseHoleReacher(num_links=5,
@@ -59,39 +42,33 @@ class PPO_Holereacher(PPOexperiment.AbstractIterativeExperiment):
 
     def model_initialize(self):#, config: dict):#, nv)# logger: cw_logging.AbstractLogger) -> None:
 
-        #if model_name == 'PPO':
         self.model = PPO(MlpPolicy, self.env, verbose=1,
                     # policy_kwargs=policy_kwargs,
                     #tensorboard_log="./ppo_1_wid/",
                     learning_rate=0.0001,
-                    n_steps=2048)  ######200)
-        #else:
-        #    from stable_baselines3 import model_name
-        #    self.model = model_name("MlpPolicy", env, verbose=1,
-        #            # policy_kwargs=policy_kwargs,
-        #            tensorboard_log="./ppo_1_wid/",
-        #            learning_rate=0.0001,
-        #            n_steps=2048)  ######200)
+                    n_steps=2048)
+
 
 
     def iterate(self, config: dict, rep: int, n: int) -> dict:#, config: dict) -> dict:
-        #self.env_initialize()
-        #self.model_initialize()
         self.model.learn(total_timesteps=int(4e4))
         self.env.close()
         return {}
 
-    def save_state(self, rep_path: dict) -> None:#, config: dict, rep: int, n: int) -> None:
-        '''
+    '''
+    def save_state(self, rep_path: dict) -> None:
+        
         model_save = os.path.join(self.config.path, 'model.zip')
         env_save = (self.config.path, 'env.pkl')
-        '''
+        
         model_path = rep_path[0]
         env_path = rep_path[1]
 
         self.model.save(model_path)
         self.env.save(env_path)
+    '''
 
+    ''' 
     def render(self):
         stats_path = os.path.join(self.config.path, "env.pkl")
         model_path = os.path.join(self.config.path, "model.zip")
@@ -103,7 +80,7 @@ class PPO_Holereacher(PPOexperiment.AbstractIterativeExperiment):
             #obs, rewards, dones, info = env.step(action)
             #env.render()
         #env.close()
-
+    '''
 
     def finalize(self, surrender: ExperimentSurrender = None, crash: bool = False):
         pass
