@@ -16,8 +16,6 @@ time: 30
 ---
 # DEFAULT
 name: "DEFAULT"
-repetitions: 1 # number of times one set of parameters is run
-iterations: 1  # number of iterations per repetition
 path: "hole"
 reps_per_job: 1
 reps_in_parallel: 1
@@ -39,8 +37,10 @@ params:
 
 ---
 name: "holereacher_ppo"
-path: /media/gyh/sdb5/home/software/results/ppo_holereacher/
-rep_log_path: /media/gyh/sdb5/home/software/results/ppo_holereacher/
+repetitions: 1
+iterations: 1
+path: /media/gyh/sdb5/home/software/results/holereacher/
+rep_log_path: /media/gyh/sdb5/home/software/results/holereacher/
 params:
   model_params: ''
   env_params:
