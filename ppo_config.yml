@@ -1,0 +1,70 @@
+---
+# Slurm config
+name: "SLURM"
+partition: "dev"
+account: ""  # important for HHLR cluster
+job-name: "cma"  # this will be the experiment's name in slurm
+#experiment_copy_dst: "/home/max_li/exp_code"
+#path_to_template: "/home/max_li/code/cw2/cma_tutorial/sbatch_template.sh"  # TODO: get absolute path from current pwd or so
+path_to_template: "/media/gyh/sdb5/home/software/MasterThesis/src/cw2/cma_tutorial/sbatch_template.sh"
+num_parallel_jobs: 120
+ntasks: 1
+cpus-per-task: 1
+mem-per-cpu: 1000
+time: 30
+
+---
+# DEFAULT
+name: "DEFAULT"
+repetitions: 1 # number of times one set of parameters is run
+iterations: 1  # number of iterations per repetition
+path: "hole"
+reps_per_job: 1
+reps_in_parallel: 1
+gui: false
+params:
+  stop_at_target: true
+  target_fitness: 1.0e-5
+  stop_at_divergence: true
+  divergence_fitness: 1.0e+12
+  optim_params:
+    max_samples: 0
+    x_init: 1
+    init_sigma: 1
+    c_sigma: ~
+    d_sigma: ~
+    c_mu: ~
+    c_c: ~
+    c_1: ~
+
+---
+name: "holereacher_ppo"
+path: /media/gyh/sdb5/home/software/results/ppo_holereacher/
+rep_log_path: /media/gyh/sdb5/home/software/results/ppo_holereacher/
+params:
+  model_params: ''
+  env_params:
+    wrappers:
+      - sb3_contrib.common.wrappers.TimeFeatureWrapper
+      - stable_baselines3.common.vec_env.VecNormalize
+    wrapper_params:
+      - ''
+      - 'gamma:0.99'
+    n_envs: 8
+
+    algorithm: "ppo"
+    algo_params:
+      policy: 'MlpPolicy'
+      batch_size: 64
+      n_steps: 2048
+      gamma: 0.99
+      gae_lambda: 0.95
+      n_epochs: 10
+      ent_coef: 0.0
+      learning_rate: 0.0001
+      clip_range: 0.2
+      max_grad_norm: 0.5
+      vf_coef: 0.5
+      verbose: 1
+
+    n_timesteps: 5.0e+6
