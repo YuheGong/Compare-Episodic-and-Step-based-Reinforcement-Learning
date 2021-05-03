@@ -2,8 +2,8 @@ import cma
 import gym
 import numpy as np
 
-from alr_envs.utils.dmp_async_vec_env import DmpAsyncVectorEnv, _worker
-from alr_envs.utils.dmp_env_wrapper import DmpEnvWrapper
+from alr_envs.utils.legacy.dmp_async_vec_env import DmpAsyncVectorEnv, _worker
+from alr_envs.utils.legacy.dmp_env_wrapper import DmpEnvWrapper
 from cw2.cw_data import cw_logging
 from cw2.cw_error import ExperimentSurrender
 import cw2.experiment
