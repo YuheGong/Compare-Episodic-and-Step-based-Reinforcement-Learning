@@ -22,7 +22,7 @@ if __name__ == "__main__":
     t = 0
     opt = 1e10
     opts = []
-    while t < 1 and opt > 1e-8:
+    while t < 500 and opt > 1e-8:
         print("----------iter {} -----------".format(t))
         solutions = np.vstack(algo.ask())
         for i in range(solutions.shape[0]):
