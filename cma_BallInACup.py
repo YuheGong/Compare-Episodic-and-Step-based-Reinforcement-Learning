@@ -27,11 +27,12 @@ if __name__ == "__main__":
         solutions = np.vstack(algo.ask())
         for i in range(solutions.shape[0]):
             _, reward, __, ___ = sampler(solutions)
+            reward = -reward
             fitness.append(reward)
         fitness = fitness[0].tolist()
         algo.tell(solutions, fitness)
         _, opt, __, ___ = sampler(algo.mean)
-        print(opt)
+        print(-opt)
         fitness = []
         t += 1
 
