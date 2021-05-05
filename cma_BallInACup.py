@@ -36,7 +36,7 @@ if __name__ == "__main__":
         s += 1
         path = path + env_log_name + '_' + str(s)
     log_writer = SummaryWriter(path)
-    print('log into' + path)
+    print('log into' + path + ": ")
 
     t = 0
     opt = 1e10
