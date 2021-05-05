@@ -1,5 +1,11 @@
 # MasterThesis
 
+Compare Episodic and Step-based ReinforcementLearning
+
+Author: Gong, Yuhe
+
+Supervisor: Hüttenrauch, Maximilian & Celik, Mevlüt Onur
+
 ## For HoleReacher + cw2:
 
 python HoleReacher+CW2/ppo_main.py HoleReacher+CW2/ppo_config.yml
