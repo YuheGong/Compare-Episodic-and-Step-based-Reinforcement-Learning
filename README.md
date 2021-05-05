@@ -4,7 +4,7 @@
 
 Author: Gong, Yuhe
 
-Supervisor: Hüttenrauch, Maximilian & Celik, Mevlüt Onur
+Supervisor: Celik, Mevlüt Onur & Hüttenrauch, Maximilian 
 
 ### For HoleReacher + cw2:
 
