@@ -55,7 +55,7 @@ if __name__ == "__main__":
         print("opt", opt)
        
         np.save(path + "/algo_mean.npy", algo.mean)
-        log_writer.add_scalar("iteration/reward", opt, t)
+        log_writer.add_scalar("iteration/reward", opt, t+1)
        
         fitness = []
         t += 1
