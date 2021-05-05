@@ -2,9 +2,9 @@
 
 ## For HoleReacher + cw2:
 
-python ppo_main.py ppo_config.yml
+python HoleReacher+CW2/ppo_main.py HoleReacher+CW2/ppo_config.yml
 
-python cma_main.py cma_config.yml
+python HoleReacher+CW2/cma_main.py HoleReacher+CW2/cma_config.yml
 
 
 
