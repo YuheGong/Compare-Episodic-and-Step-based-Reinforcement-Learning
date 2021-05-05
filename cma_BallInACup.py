@@ -27,13 +27,14 @@ if __name__ == "__main__":
         solutions = np.vstack(algo.ask())
         #for i in range(solutions.shape[0]):
         _, reward, __, ___ = sampler(solutions)
-        print('reward_3', reward)
-            #reward = reward
+        print('reward', reward)
+
         fitness.append(reward)
         fitness = fitness[0].tolist()
         algo.tell(solutions, fitness)
         _, opt, __, ___ = sampler(algo.mean)
-        print(opt)
+        print("opt", opt)
+        np.save("algo_mean.npy", algo.mean)
         fitness = []
         t += 1
 
