@@ -1,6 +1,6 @@
 # MasterThesis
 
-Compare Episodic and Step-based ReinforcementLearning
+## Compare Episodic and Step-based ReinforcementLearning
 
 Author: Gong, Yuhe
 
