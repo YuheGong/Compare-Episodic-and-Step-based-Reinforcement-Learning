@@ -25,14 +25,15 @@ if __name__ == "__main__":
     while t < 500 and opt > 1e-8:
         print("----------iter {} -----------".format(t))
         solutions = np.vstack(algo.ask())
-        for i in range(solutions.shape[0]):
-            _, reward, __, ___ = sampler(solutions)
-            reward = -reward
-            fitness.append(reward)
+        #for i in range(solutions.shape[0]):
+        _, reward, __, ___ = sampler(solutions)
+        print('reward_3', reward)
+            #reward = reward
+        fitness.append(reward)
         fitness = fitness[0].tolist()
         algo.tell(solutions, fitness)
         _, opt, __, ___ = sampler(algo.mean)
-        print(-opt)
+        print(opt)
         fitness = []
         t += 1
 
