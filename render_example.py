@@ -8,7 +8,6 @@ params = np.random.randn(15)
 test_env.step(params)
 
 # render example 2
-
 import gym
 import numpy as np
 env_name = "alr_envs:ALRBallInACupSimpleDMP-v0"
