@@ -25,7 +25,6 @@ if __name__ == "__main__":
     env_log_name = env_name[env_log_index+1:]
     path = "logs/"
     folders = os.listdir(path)
-    print(folders)
     if folders == []:
         path = path + env_log_name + "_1"
     else:
@@ -44,15 +43,14 @@ if __name__ == "__main__":
     while t < 500 and opt > 1e-8:
         print("----------iter {} -----------".format(t))
         solutions = np.vstack(algo.ask())
-        #for i in range(solutions.shape[0]):
         _, reward, __, ___ = sampler(solutions)
-        print('reward', reward)
+        print('reward', -reward)
 
-        fitness.append(reward)
+        fitness.append(-reward)
         fitness = fitness[0].tolist()
         algo.tell(solutions, fitness)
         _, opt, __, ___ = sampler(algo.mean)
-        print("opt", opt)
+        print("opt", -opt)
        
         np.save(path + "/algo_mean.npy", algo.mean)
         log_writer.add_scalar("iteration/reward", opt, t+1)
