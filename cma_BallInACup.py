@@ -9,6 +9,7 @@ from alr_envs.utils.mp_env_async_sampler import AlrMpEnvSampler
 if __name__ == "__main__":
 
     env_name = "alr_envs:ALRBallInACupSimpleDMP-v0"
+    algorithm = 'cma'
     n_cpu = 8
     dim = 15
     n_samples = 1
@@ -23,7 +24,7 @@ if __name__ == "__main__":
     #write tensorboard
     env_log_index = env_name.index(':')
     env_log_name = env_name[env_log_index+1:]
-    path = "logs/"
+    path = "logs/" + algorithm + '/'
     folders = os.listdir(path)
     if folders == []:
         path = path + env_log_name + "_1"
