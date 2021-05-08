@@ -8,10 +8,12 @@ from alr_envs.utils.mp_env_async_sampler import AlrMpEnvSampler
 
 if __name__ == "__main__":
 
-    env_name = "alr_envs:ALRBallInACupSimpleDMP-v0"
+    env_name = "alr_envs:ALRBallInACupSimpleDMP-v0"  # simple version
+    #env_name = "alr_envs:ALRBallInACupDMP-v0"
     algorithm = 'cma'
     n_cpu = 8
     dim = 15
+    #dim = 35
     n_samples = 1
 
     sampler = AlrMpEnvSampler(env_name, num_envs=n_cpu)
