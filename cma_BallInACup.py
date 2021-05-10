@@ -23,9 +23,9 @@ if __name__ == "__main__":
     #params = 3*np.random.randn(1, dim)
     params =  np.zeros((1,dim))
 
-    params[0][-13] = 8* np.pi/4
-    params[0][-14] = -2 * np.pi/3
-    params[0][-15] = -np.pi
+    params[0][-13] = 2 * np.pi
+    params[0][-14] = -2 * np.pi / 3
+    params[0][-15] = - np.pi
     print('param', params)
     algo = cma.CMAEvolutionStrategy(x0=params, sigma0=0.1, inopts={"popsize": 14})
 
@@ -49,7 +49,7 @@ if __name__ == "__main__":
     t = 0
     opt = 0
     opts = []
-    while t < 500 and opt <0.92:
+    while t < 500 and opt < 0.92:
         print("----------iter {} -----------".format(t))
         solutions = np.vstack(algo.ask())
         _, reward, __, ___ = sampler(solutions)
