@@ -16,7 +16,7 @@ import alr_envs
 
 if __name__ == "__main__":
 
-    path = "./log/ppo"
+    path = "./logs/ppo"
     def make_env(rank, seed=0):
 
         def _init():
