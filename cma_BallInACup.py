@@ -1,10 +1,39 @@
 import os
 import cma
 import gym
+import tempfile
+import datetime
 import numpy as np
 from torch.utils.tensorboard import SummaryWriter
 from alr_envs.utils.mp_env_async_sampler import AlrMpEnvSampler
 #from alr_envs.mujoco.ball_in_a_cup import ball_in_a_cup
+
+def logging(env_name, algorithm):
+    env_log_index = env_name.index(':')
+    env_log_name = env_name[env_log_index + 1:]
+    path = "logs/" + algorithm + '/'
+    folders = os.listdir(path)
+    folders = [folder for folder in folders if env_log_name in folder]
+
+    if folders == []:
+        path = path + env_log_name + "_1"
+    else:
+        a = 0
+        for i in range(999):
+            number = [folder[-i - 1:] for folder in folders]
+            if not any([n.isdigit() for n in number]):
+                folders = [folder for folder in folders if folder[-i:].isdigit() == True]
+                a = -i
+                break
+        s = 0
+        for folder in folders:
+            if int(folder[a:]) > s:
+                s = int(folder[a:])
+        s += 1
+        path = path + env_log_name + '_' + str(s)
+    print('log into: ' + path)
+    return path
+
 
 if __name__ == "__main__":
 
@@ -20,31 +49,18 @@ if __name__ == "__main__":
 
     thetas = np.random.randn(n_samples, dim)
     fitness = []
-    #params = 3*np.random.randn(1, dim)
     params =  np.zeros((1,dim))
+    # params = np.random.randn(1, dim)
 
     params[0][-13] = 2 * np.pi
-    params[0][-14] = -2 * np.pi / 3
+    params[0][-14] = - 2 * np.pi / 3
     params[0][-15] = - np.pi
-    print('param', params)
+    #print('param', params)
     algo = cma.CMAEvolutionStrategy(x0=params, sigma0=0.1, inopts={"popsize": 14})
 
-    # create log folder
-    env_log_index = env_name.index(':')
-    env_log_name = env_name[env_log_index+1:]
-    path = "logs/" + algorithm + '/'
-    folders = os.listdir(path)
-    if folders == []:
-        path = path + env_log_name + "_1"
-    else:
-        s = 0
-        for folder in folders:
-            if int(folder[-1]) > s:
-                s = int(folder[-1])
-        s += 1
-        path = path + env_log_name + '_' + str(s)
+    # logging
+    path = logging(env_name, algorithm)
     log_writer = SummaryWriter(path)
-    print('log into: ' + path)
 
     t = 0
     opt = 0
