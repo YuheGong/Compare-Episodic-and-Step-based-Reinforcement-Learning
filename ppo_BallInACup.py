@@ -11,7 +11,7 @@ import os
 import pickle
 import tensorflow as tf
 import alr_envs
-from logger import logging
+from utils.logger import logging
 
 if __name__ == "__main__":
 

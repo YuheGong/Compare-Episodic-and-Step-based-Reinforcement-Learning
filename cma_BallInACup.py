@@ -6,7 +6,7 @@ import datetime
 import numpy as np
 from torch.utils.tensorboard import SummaryWriter
 from alr_envs.utils.mp_env_async_sampler import AlrMpEnvSampler
-from logger import logging
+from utils.logger import logging
 #from alr_envs.mujoco.ball_in_a_cup import ball_in_a_cup
 
 if __name__ == "__main__":
