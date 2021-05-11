@@ -15,3 +15,4 @@ python HoleReacher+CW2/cma_main.py HoleReacher+CW2/cma_config.yml
 ## For BallInACup:
 
 python cma_BallInACup.py
+python ppo_BallInACup.py
