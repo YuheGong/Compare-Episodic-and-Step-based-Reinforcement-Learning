@@ -6,34 +6,8 @@ import datetime
 import numpy as np
 from torch.utils.tensorboard import SummaryWriter
 from alr_envs.utils.mp_env_async_sampler import AlrMpEnvSampler
+from logger import logging
 #from alr_envs.mujoco.ball_in_a_cup import ball_in_a_cup
-
-def logging(env_name, algorithm):
-    env_log_index = env_name.index(':')
-    env_log_name = env_name[env_log_index + 1:]
-    path = "logs/" + algorithm + '/'
-    folders = os.listdir(path)
-    folders = [folder for folder in folders if env_log_name in folder]
-
-    if folders == []:
-        path = path + env_log_name + "_1"
-    else:
-        a = 0
-        for i in range(999):
-            number = [folder[-i - 1:] for folder in folders]
-            if not any([n.isdigit() for n in number]):
-                folders = [folder for folder in folders if folder[-i:].isdigit() == True]
-                a = -i
-                break
-        s = 0
-        for folder in folders:
-            if int(folder[a:]) > s:
-                s = int(folder[a:])
-        s += 1
-        path = path + env_log_name + '_' + str(s)
-    print('log into: ' + path)
-    return path
-
 
 if __name__ == "__main__":
 

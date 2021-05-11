@@ -2,6 +2,7 @@ import gym
 import numpy as np
 import numpy as np
 import torch as th
+
 from gym import wrappers
 from stable_baselines3.common.callbacks import BaseCallback
 from stable_baselines3.common.vec_env import DummyVecEnv, VecNormalize
@@ -11,7 +12,34 @@ import os
 import pickle
 import tensorflow as tf
 import alr_envs
-from logger import logging
+
+
+def logging(env_name, algorithm):
+    env_log_index = env_name.index(':')
+    env_log_name = env_name[env_log_index + 1:]
+    path = "logs/" + algorithm + '/'
+    folders = os.listdir(path)
+    folders = [folder for folder in folders if env_log_name in folder]
+
+    if folders == []:
+        path = path + env_log_name + "_1"
+    else:
+        a = 0
+        for i in range(999):
+            number = [folder[-i - 1:] for folder in folders]
+            if not any([n.isdigit() for n in number]):
+                folders = [folder for folder in folders if folder[-i:].isdigit() == True]
+                a = -i
+                break
+        s = 0
+        for folder in folders:
+            if int(folder[a:]) > s:
+                s = int(folder[a:])
+        s += 1
+        path = path + env_log_name + '_' + str(s)
+    print('log into: ' + path)
+    return path
+
 
 if __name__ == "__main__":
 
