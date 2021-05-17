@@ -23,16 +23,13 @@ if __name__ == "__main__":
 
     thetas = np.random.randn(n_samples, dim)
     fitness = []
+    
     params =  np.zeros((1,dim))
     # params = np.random.randn(1, dim)
-    params[0][14] = 2 * np.pi
-
-    '''
     params[0][-13] = 2 * np.pi
     params[0][-14] = - 2 * np.pi / 3
     params[0][-15] = - np.pi
-    '''
-    #print('param', params)
+
     algo = cma.CMAEvolutionStrategy(x0=params, sigma0=0.1, inopts={"popsize": 14})
 
     # logging
