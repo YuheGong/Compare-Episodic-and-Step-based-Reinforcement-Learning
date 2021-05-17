@@ -15,11 +15,11 @@ from utils.logger import logging
 
 if __name__ == "__main__":
 
-    def make_env(env_name, rank, seed=0):
+    def make_env(env_name,path, rank, seed=0):
 
         def _init():
-            env = gym.make(env_name)
-            #env = wrappers.Monitor(env)#, path, force=True)
+            env = gym.make('alr_envs:ALRBallInACupSimpleDense-v0')
+            env = wrappers.Monitor(env, path, force=True)
             return env
 
         return _init
@@ -29,9 +29,9 @@ if __name__ == "__main__":
     path = logging(env_name, algorithm)
 
     n_cpu = 1
-    env = DummyVecEnv(env_fns=[make_env(env_name, i) for i in range(n_cpu)])
+    env = DummyVecEnv(env_fns=[make_env(env_name, path, i) for i in range(n_cpu)])
     env = VecNormalize(env, norm_obs=True, norm_reward=True, clip_obs=10.)
-
+    #env.render("human")
     ALGOS = {
         'a2c': A2C,
         'dqn': DQN,

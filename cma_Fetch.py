@@ -11,11 +11,11 @@ from utils.logger import logging
 
 if __name__ == "__main__":
 
-    env_name = "alr_envs:ALRBallInACupSimpleDMP-v0"  # simple version
+    env_name = "gym:FetchReach-v1"
     #env_name = "alr_envs:ALRBallInACupDMP-v0"
     algorithm = 'cma'
     n_cpu = 1
-    dim = 15
+    dim = 4
     #dim = 35
     n_samples = 1
 
@@ -23,12 +23,15 @@ if __name__ == "__main__":
 
     thetas = np.random.randn(n_samples, dim)
     fitness = []
-    params =  np.zeros((1,dim))
+    params =  np.random.randn(dim)
     # params = np.random.randn(1, dim)
+    #params[0][14] = 2 * np.pi
 
+    '''
     params[0][-13] = 2 * np.pi
     params[0][-14] = - 2 * np.pi / 3
     params[0][-15] = - np.pi
+    '''
     #print('param', params)
     algo = cma.CMAEvolutionStrategy(x0=params, sigma0=0.1, inopts={"popsize": 14})
 
