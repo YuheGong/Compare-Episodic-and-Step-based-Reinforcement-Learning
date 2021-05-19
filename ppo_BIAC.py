@@ -26,13 +26,26 @@ class TensorboardCallback(BaseCallback):
         super(TensorboardCallback, self).__init__(verbose)
 
     def _on_step(self) -> bool:
-        # Log scalar value (here a random variable)
         last_dist = np.mean([self.model.env.venv.envs[i].last_dist \
-                             for i in range(len(self.model.env.venv.envs))])
+                             for i in range(len(self.model.env.venv.envs))
+                             if self.model.env.venv.envs[i].last_dist != 0])
         last_dist_final = np.mean([self.model.env.venv.envs[i].last_dist_final \
+                                   for i in range(len(self.model.env.venv.envs)) 
+                                   if self.model.env.venv.envs[i].last_dist_final != 0])
+        total_dist= np.mean([self.model.env.venv.envs[i].total_dist \
+                             for i in range(len(self.model.env.venv.envs))])
+        total_dist_final = np.mean([self.model.env.venv.envs[i].total_dist_final \
                                    for i in range(len(self.model.env.venv.envs))])
+        min_dist = np.mean([self.model.env.venv.envs[i].min_dist \
+                            for i in range(len(self.model.env.venv.envs))])
+        min_dist_final = np.mean([self.model.env.venv.envs[i].min_dist_final \
+                                  for i in range(len(self.model.env.venv.envs))])
         self.logger.record('reward/last_dist', last_dist)
         self.logger.record('reward/last_dist_final', last_dist_final)
+        self.logger.record('reward/total_dist', total_dist)
+        self.logger.record('reward/total_dist_final', total_dist_final)
+        self.logger.record('reward/min_dist', min_dist)
+        self.logger.record('reward/min_dist_final', min_dist_final)
         return True
 
 
@@ -52,10 +65,9 @@ if __name__ == "__main__":
     algorithm = 'ppo'
     path = logging(env_name, algorithm)
 
-    n_cpu = 8
+    n_cpu = 4
     env = DummyVecEnv(env_fns=[make_env(env_name, path, i) for i in range(n_cpu)])
     env = VecNormalize(env, norm_obs=True, norm_reward=True, clip_obs=10.)
-    # env.render("human")
     ALGOS = {
         'a2c': A2C,
         'dqn': DQN,
@@ -68,10 +80,10 @@ if __name__ == "__main__":
     ALGO = ALGOS[algorithm]
 
     model = ALGO(MlpPolicy, env, verbose=1,
-                # policy_kwargs=policy_kwargs,
                 tensorboard_log= path,
                 learning_rate=0.0001,
-                n_steps=2048)
+                batch_size = 700,
+                n_steps=3500)
     model.learn(total_timesteps=int(1.2e6),  callback=TensorboardCallback())  # , callback=TensorboardCallback())
 
     # save the model
