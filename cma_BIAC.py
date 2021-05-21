@@ -24,7 +24,7 @@ if __name__ == "__main__":
 
     params = np.zeros((1, dim))
     #params = np.pi * np.ones((1, dim))
-    # params = np.random.randn(1, dim)
+    #params = np.random.randn(1, dim)
     #params[0][-13] = 2 * np.pi
     #params[0][-14] = - 2 * np.pi / 3
     #params[0][-15] = - np.pi

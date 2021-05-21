@@ -1,6 +1,5 @@
 import gym
 import numpy as np
-import numpy as np
 import torch as th
 from gym import wrappers
 from stable_baselines3.common.callbacks import BaseCallback
