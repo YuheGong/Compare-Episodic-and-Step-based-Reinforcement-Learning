@@ -16,14 +16,13 @@ import numpy as np
 from stable_baselines3.common.callbacks import BaseCallback
 
 
-
-class TensorboardCallback(BaseCallback):
+class VevNormalizeCallback(BaseCallback):
     """
     Custom callback for plotting additional values in tensorboard.
     """
 
     def __init__(self, verbose=0):
-        super(TensorboardCallback, self).__init__(verbose)
+        super(VevNormalizeCallback, self).__init__(verbose)
 
     def _on_step(self) -> bool:
         last_dist = np.mean([self.model.env.venv.envs[i].last_dist \
@@ -49,8 +48,65 @@ class TensorboardCallback(BaseCallback):
         return True
 
 
+class DummyCallback(BaseCallback):
+    """
+    Custom callback for plotting additional values in tensorboard.
+    """
+
+    def __init__(self, verbose=0):
+        super(DummyCallback, self).__init__(verbose)
+
+    def _on_step(self) -> bool:
+        last_dist = np.mean([self.model.env.envs[i].last_dist \
+                             for i in range(len(self.model.env.envs))
+                             if self.model.env.envs[i].last_dist != 0])
+        last_dist_final = np.mean([self.model.env.envs[i].last_dist_final \
+                                   for i in range(len(self.model.env.envs))
+                                   if self.model.env.envs[i].last_dist_final != 0])
+        total_dist= np.mean([self.model.env.envs[i].total_dist \
+                             for i in range(len(self.model.env.envs))])
+        total_dist_final = np.mean([self.model.env.envs[i].total_dist_final \
+                                   for i in range(len(self.model.env.envs))])
+        min_dist = np.mean([self.model.env.envs[i].min_dist \
+                            for i in range(len(self.model.env.envs))])
+        min_dist_final = np.mean([self.model.env.envs[i].min_dist_final \
+                                  for i in range(len(self.model.env.envs))])
+        self.logger.record('reward/last_dist', last_dist)
+        self.logger.record('reward/last_dist_final', last_dist_final)
+        self.logger.record('reward/total_dist', total_dist)
+        self.logger.record('reward/total_dist_final', total_dist_final)
+        self.logger.record('reward/min_dist', min_dist)
+        self.logger.record('reward/min_dist_final', min_dist_final)
+        return True
+
+class NormalCallback(BaseCallback):
+    """
+    Custom callback for plotting additional values in tensorboard.
+    """
+
+    def __init__(self, verbose=0):
+        super(NormalCallback, self).__init__(verbose)
+
+    def _on_step(self) -> bool:
+        last_dist = self.model.env.last_dist
+        last_dist_final = self.model.env.last_dist_final
+        total_dist= self.model.env.total_dist
+        total_dist_final = self.model.env.total_dist_final
+        min_dist = self.model.env.min_dist
+        min_dist_final = self.model.env.min_dist_final
+        self.logger.record('reward/last_dist', last_dist)
+        self.logger.record('reward/last_dist_final', last_dist_final)
+        self.logger.record('reward/total_dist', total_dist)
+        self.logger.record('reward/total_dist_final', total_dist_final)
+        self.logger.record('reward/min_dist', min_dist)
+        self.logger.record('reward/min_dist_final', min_dist_final)
+        return True
+
+
 
 if __name__ == "__main__":
+
+    algorithm = 'ppo'
 
     def make_env(env_name,path, rank, seed=0):
 
@@ -62,12 +118,13 @@ if __name__ == "__main__":
         return _init
 
     env_name = 'alr_envs:ALRBallInACupSimpleDense-v0'
-    algorithm = 'ppo'
     path = logging(env_name, algorithm)
 
     n_cpu = 4
-    env = DummyVecEnv(env_fns=[make_env(env_name, path, i) for i in range(n_cpu)])
-    env = VecNormalize(env, norm_obs=True, norm_reward=True, clip_obs=10.)
+    #env = DummyVecEnv(env_fns=[make_env(env_name, path, i) for i in range(n_cpu)])
+    #env = VecNormalize(env, norm_obs=True, norm_reward=True, clip_obs=10.)
+    env = gym.make(env_name)
+
     ALGOS = {
         'a2c': A2C,
         'dqn': DQN,
@@ -81,13 +138,13 @@ if __name__ == "__main__":
 
     model = ALGO(MlpPolicy, env, verbose=1,
                 tensorboard_log= path,
-                learning_rate=0.0001,
-                batch_size = 700,
-                n_steps=3500)
-    model.learn(total_timesteps=int(1.2e6),  callback=TensorboardCallback())  # , callback=TensorboardCallback())
+                learning_rate=0.01,
+                batch_size = 50,
+                n_steps=2000)
+    model.learn(total_timesteps=int(5e6), callback=DummyCallback())  # , callback=TensorboardCallback())
 
     # save the model
     model_path = os.path.join(path, "PPO.zip")
     model.save(model_path)
-    stats_path = os.path.join(path, "PPO.pkl")
-    env.save(stats_path)
+    #stats_path = os.path.join(path, "PPO.pkl")
+    #env.save(stats_path)
