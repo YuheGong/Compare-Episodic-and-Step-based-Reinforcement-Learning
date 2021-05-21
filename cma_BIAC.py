@@ -19,7 +19,7 @@ if __name__ == "__main__":
     # dim = 35
     n_samples = 1
 
-    #sampler = AlrMpEnvSampler(env_name, num_envs=n_cpu, seed=5000)
+    sampler = AlrMpEnvSampler(env_name, num_envs=n_cpu, seed=5000)
     env = gym.make(env_name)
 
     params = np.zeros((1, dim))
@@ -29,7 +29,7 @@ if __name__ == "__main__":
     #params[0][-14] = - 2 * np.pi / 3
     #params[0][-15] = - np.pi
 
-    algo = cma.CMAEvolutionStrategy(x0=params, sigma0=1, inopts={"popsize": 14})
+    algo = cma.CMAEvolutionStrategy(x0=params, sigma0=0.1, inopts={"popsize": 14})
 
     # logging
     path = logging(env_name, algorithm)

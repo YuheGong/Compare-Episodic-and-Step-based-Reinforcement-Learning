@@ -110,8 +110,8 @@ if __name__ == "__main__":
     def make_env(env_name,path, rank, seed=0):
 
         def _init():
-            env = gym.make('alr_envs:ALRBallInACupSimpleDense-v0')
-            env = wrappers.Monitor(env, path, force=True)
+            env = gym.make(env_name)
+            #env = wrappers.Monitor(env, path, force=True)
             return env
 
         return _init
