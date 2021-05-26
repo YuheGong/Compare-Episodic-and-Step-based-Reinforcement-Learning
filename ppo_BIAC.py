@@ -14,7 +14,7 @@ if __name__ == "__main__":
 
     algorithm = 'ppo'
     timesteps = 5e6
-    learning_rate = 0.1
+    learning_rate = 0.0001
     batch_size = 50
     n_steps = 2000
 
@@ -22,13 +22,14 @@ if __name__ == "__main__":
     env_name = 'alr_envs:ALRBallInACupSimpleDense-v0'
     path = logging(env_name, algorithm)
 
-    n_cpu = 4
+    n_envs = 8
 
     data = {
         "algo": algorithm,
         "env_name" : env_name,
+        "n_envs" : 8,
         "path" : path,
-        "params": {
+        "algo": {
             "timesteps": timesteps,
             "learning_rate": learning_rate,
             "batch_size" : batch_size,
@@ -38,7 +39,7 @@ if __name__ == "__main__":
 
 
 
-    def make_env(env_name,path, rank, seed=0):
+    def make_env(env_name, path, rank, seed=0):
 
         def _init():
             env = gym.make(env_name)
@@ -47,9 +48,9 @@ if __name__ == "__main__":
 
         return _init
 
-    #env = DummyVecEnv(env_fns=[make_env(env_name, path, i) for i in range(n_cpu)])
-    #env = VecNormalize(env, norm_obs=True, norm_reward=True, clip_obs=10.)
-    env = gym.make(env_name)
+    env = DummyVecEnv(env_fns=[make_env(env_name, path, i) for i in range(n_envs)])
+    env = VecNormalize(env, norm_obs=True, norm_reward=True, clip_obs=10.)
+    #env = gym.make(env_name)
 
     ALGOS = {
         'a2c': A2C,
@@ -70,7 +71,7 @@ if __name__ == "__main__":
 
 
     try:
-        model.learn(total_timesteps=int(timesteps), callback=callback.DummyCallback())  # , callback=TensorboardCallback())
+        model.learn(total_timesteps=int(timesteps), callback=callback.VevNormalizeCallback())  # , callback=TensorboardCallback())
     except KeyboardInterrupt:
         data['num_timesteps'] = model.num_timesteps
         write_yaml(data)
