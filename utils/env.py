@@ -19,7 +19,6 @@ def env_maker(data: dict):
         env = gym.make(data["env_params"]['env_name'])
     return env
 
-
 def env_save(data: dict, model, env):
     model_path = os.path.join(data['path'], "PPO.zip")
     model.save(model_path)
