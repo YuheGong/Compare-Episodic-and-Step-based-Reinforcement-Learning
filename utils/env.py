@@ -25,3 +25,13 @@ def env_save(data: dict, model, env):
     if 'VecNormalize' in data['env_params']['wrapper']:
         stats_path = os.path.join(data['path'], "PPO.pkl")
         env.save(stats_path)
+
+
+def env_continue_load(data: dict):
+    if data["env_params"]['wrapper'] == "VecNormalize":
+        env = DummyVecEnv(env_fns=[make_env(data["env_params"]['env_name'], data['path'], i) for i in range(data["env_params"]['num_envs'])])
+        stats_path = os.path.join(data['continue_path'], data['algorithm'].upper() + '.pkl')
+        env = VecNormalize.load(stats_path, env)
+    else:
+        env = gym.make(data["env_params"]['env_name'])
+    return env
