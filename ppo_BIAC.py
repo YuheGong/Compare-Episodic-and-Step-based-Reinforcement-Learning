@@ -60,8 +60,7 @@ if __name__ == "__main__":
         # save the model
         data["algo_params"]['num_timesteps'] = model.num_timesteps
         write_yaml(data)
-        model_path = os.path.join(path, "PPO.zip")
-        model.save(model_path)
+        env_save(data, model, env)
         print('')
         print('training FINISH, save the model and config file')
 
