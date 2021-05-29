@@ -6,6 +6,7 @@ from utils.callback import VecNormalizeCallback, DummyCallback
 from utils.yaml import write_yaml, read_yaml
 from stable_baselines3 import PPO, A2C, DQN, HER, SAC, TD3, DDPG
 from stable_baselines3.ppo import MlpPolicy
+from utils.custom import CustomActorCriticPolicy, CustomGaussianDistribution
 
 
 if __name__ == "__main__":
@@ -43,7 +44,8 @@ if __name__ == "__main__":
     env = env_maker(data)
 
     # make the model and save the model
-    model = ALGO(MlpPolicy, env, verbose=1,
+    CustomPolicy = CustomActorCriticPolicy
+    model = ALGO(CustomPolicy, env, verbose=1,
                 tensorboard_log=data['path'],
                 learning_rate=data["algo_params"]['learning_rate'],
                 batch_size=data["algo_params"]['batch_size'],
@@ -55,12 +57,12 @@ if __name__ == "__main__":
         write_yaml(data)
         env_save(data, model, env)
         print('')
-        print('training interrupt, save the model and config file')
+        print('training interrupt, save the model and config file to '+ data["path"])
     else:
         # save the model
         data["algo_params"]['num_timesteps'] = model.num_timesteps
         write_yaml(data)
         env_save(data, model, env)
         print('')
-        print('training FINISH, save the model and config file')
+        print('training FINISH, save the model and config file to ' + data['path'])
 
