@@ -11,10 +11,10 @@ def make_env(env_name, path, rank, seed=0):
 
     return _init
 
-def env_maker(data: dict):
+def env_maker(data: dict, num_envs: int, training=True, norm_reward=True):
     if data["env_params"]['wrapper'] == "VecNormalize":
-        env = DummyVecEnv(env_fns=[make_env(data["env_params"]['env_name'], data['path'], i) for i in range(data["env_params"]['num_envs'])])
-        env = VecNormalize(env, norm_obs=True, norm_reward=True, clip_obs=10.)
+        env = DummyVecEnv(env_fns=[make_env(data["env_params"]['env_name'], data['path'], i) for i in range(num_envs)])
+        env = VecNormalize(env, training = training, norm_obs=True, norm_reward=norm_reward)
     else:
         env = gym.make(data["env_params"]['env_name'])
     return env

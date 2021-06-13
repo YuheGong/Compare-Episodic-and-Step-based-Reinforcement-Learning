@@ -42,17 +42,22 @@ if __name__ == "__main__":
 
 
     # make the environment
-    env = env_maker(data)
+    env = env_maker(data, num_envs=data["env_params"]['num_envs'])
+    test_env = env_maker(data, num_envs=1, training=False, norm_reward=False)
 
     # make the model and save the model
     CustomPolicy = CustomActorCriticPolicy
-    model = ALGO(CustomPolicy, env, verbose=1,
+    model = ALGO(CustomPolicy, env, verbose=1, create_eval_env=True,
                 tensorboard_log=data['path'],
+                seed=3,
                 learning_rate=data["algo_params"]['learning_rate'],
                 batch_size=data["algo_params"]['batch_size'],
                 n_steps=data["algo_params"]['n_steps'])
     try:
-        model.learn(total_timesteps=int(data['algo_params']['total_timesteps']), callback= CALLBACK())
+        test_env_path = data['path'] + "/eval/"
+        print("test_env_path",test_env_path)
+        model.learn(total_timesteps=int(data['algo_params']['total_timesteps']), callback= CALLBACK(), eval_freq = 2048, n_eval_episodes = 8,
+                    eval_log_path=test_env_path, eval_env=test_env)
     except KeyboardInterrupt:
         data["algo_params"]['num_timesteps'] = model.num_timesteps
         write_yaml(data)
