@@ -2,7 +2,7 @@ name: Ball_In_A_Cup + PPO
 algorithm: ppo
 algo_params:
   batch_size: 50
-  learning_rate: 0.0001
+  learning_rate: 0.001
   n_steps: 2000
   total_timesteps: 2.e+7
 env_params:
