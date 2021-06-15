@@ -108,7 +108,7 @@ class CustomGaussianDistribution(DiagGaussianDistribution):
         mean_actions = nn.Linear(latent_dim, self.action_dim)
 
         # TODO: allow action dependent std
-        log_std_init = [-5,-5,-5,-5,-5,-5,-5]
+        log_std_init = [-3,-3,-3,-3,-3,-3,-3]
         #print('log_std_init', log_std_init)
         #assert 1==0
         #log_std = th.ones(self.action_dim) * log_std_init
