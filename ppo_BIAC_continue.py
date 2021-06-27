@@ -17,7 +17,7 @@ if __name__ == "__main__":
     path = logging(data['env_params']['env_name'], data['algorithm'])
     data['path'] = path
     data["continue"] = True
-    data['continue_path'] = "logs/ppo/ALRBallInACupSimpleDense-v0_46"
+    data['continue_path'] = "logs/ppo/ALRBallInACupSimpleDense-v0_62"
 
     # choose the algorithm according to the config file
     ALGOS = {
@@ -47,18 +47,19 @@ if __name__ == "__main__":
     model = ALGO.load(model_path, tensorboard_log=data['path'])
     model.set_env(env)
     try:
-        model.learn(total_timesteps=int(data['algo_params']['total_timesteps']), callback= CALLBACK())
+        model.learn(total_timesteps=int(data['algo_params']['total_timesteps']), eval_freq=2048, n_eval_episodes=8,
+                    eval_log_path=test_env_path, eval_env=test_env)
     except KeyboardInterrupt:
         data["algo_params"]['num_timesteps'] = model.num_timesteps
         write_yaml(data)
         env_save(data, model, env)
         print('')
-        print('training interrupt, save the model and config file')
+        print('training interrupt, save the model and config file to ' + data["path"])
     else:
         # save the model
         data["algo_params"]['num_timesteps'] = model.num_timesteps
         write_yaml(data)
         env_save(data, model, env)
         print('')
-        print('training FINISH, save the model and config file')
+        print('training FINISH, save the model and config file to ' + data['path'])
 

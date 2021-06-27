@@ -5,7 +5,7 @@ import alr_envs
 from stable_baselines3.common.vec_env import DummyVecEnv, VecNormalize
 from stable_baselines3 import PPO, SAC
 
-path = "./logs/ppo/ALRBallInACupSimpleDense-v0_45"
+path = "./logs/ppo/ALRBallInACupSimpleDense-v0_1"
 
 def make_env(rank, seed=0):
     def _init():
@@ -26,7 +26,7 @@ model = PPO.load(model_path)
 
 obs = env.reset()
 
-for i in range(200):
+for i in range(1000):
     time.sleep(0.01)
     action, _states = model.predict(obs, deterministic = True)
     obs, rewards, dones, info = env.step(action)
