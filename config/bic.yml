@@ -1,0 +1,11 @@
+name: DeepMind_Ball_In_Cup + PPO
+algorithm: ppo
+algo_params:
+  batch_size: 50
+  learning_rate: 0.001
+  n_steps: 2000
+  total_timesteps: 2.e+7
+env_params:
+  env_name: alr_envs:DeepMindBallInDense-v0
+  num_envs: 8
+  wrapper: VecNormalize
