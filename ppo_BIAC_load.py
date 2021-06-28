@@ -5,7 +5,7 @@ import alr_envs
 from stable_baselines3.common.vec_env import DummyVecEnv, VecNormalize
 from stable_baselines3 import PPO, SAC
 
-path = "./logs/ppo/ALRBallInACupSimpleDense-v0_1"
+path = "./logs/ppo/ALRBallInACupSimpleDense-v0_72"
 
 def make_env(rank, seed=0):
     def _init():

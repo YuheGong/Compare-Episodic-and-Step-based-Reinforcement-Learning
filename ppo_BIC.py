@@ -6,7 +6,7 @@ from utils.callback import VecNormalizeCallback, DummyCallback
 from utils.yaml import write_yaml, read_yaml
 from stable_baselines3 import PPO, A2C, DQN, HER, SAC, TD3, DDPG
 from stable_baselines3.ppo import MlpPolicy
-from utils.custom import CustomActorCriticPolicy, CustomGaussianDistribution
+from utils.bic_policy import CustomActorCriticPolicy, CustomGaussianDistribution
 
 
 
@@ -48,8 +48,8 @@ if __name__ == "__main__":
 
     # make the model and save the model
     CustomPolicy = CustomActorCriticPolicy
-    #model = ALGO(CustomPolicy, env, verbose=1, create_eval_env=True,
-    model = ALGO(MlpPolicy, env, verbose=1, create_eval_env=True,
+    model = ALGO(CustomPolicy, env, verbose=1, create_eval_env=True,
+    #model = ALGO(MlpPolicy, env, verbose=1, create_eval_env=True,
                 tensorboard_log=data['path'],
                 seed=3,
                 learning_rate=data["algo_params"]['learning_rate'],
@@ -57,7 +57,7 @@ if __name__ == "__main__":
                 n_steps=data["algo_params"]['n_steps'])
     try:
         test_env_path = data['path'] + "/eval/"
-        print("test_env_path",test_env_path)
+        #print("test_env_path",test_env_path)
         model.learn(total_timesteps=int(data['algo_params']['total_timesteps']), eval_freq = 2048, n_eval_episodes = 8,
                     eval_log_path=test_env_path, eval_env=test_env)
     except KeyboardInterrupt:

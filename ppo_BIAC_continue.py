@@ -41,6 +41,8 @@ if __name__ == "__main__":
 
     # make the environment
     env = env_continue_load(data)
+    test_env = env_maker(data, num_envs=1, training=False, norm_reward=False)
+    test_env_path = data['path'] + "/eval/"
 
     # make the model and save the model
     model_path = os.path.join(data['continue_path'], data['algorithm'].upper() + '.zip')

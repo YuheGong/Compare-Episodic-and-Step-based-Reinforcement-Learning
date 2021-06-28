@@ -7,12 +7,14 @@ from stable_baselines3 import PPO, SAC
 from alr_envs.deep_mind.ball_in_cup.ball_in_cup import DeepMindBallInCup
 from alr_envs.deep_mind.env_wrapper import DMEnvWrapper
 import matplotlib.pyplot as plt
+from dm_control import suite
 
-path = "./logs/ppo/DeepMindBallInDense-v0_1"
+path = "./logs/ppo/DeepMindBallInDense-v0_39"
 
 def make_env(rank, seed=0):
     def _init():
-        base_env = DeepMindBallInCup()
+        env = suite.load(domain_name="ball_in_cup", task_name="catch")
+        base_env = DeepMindBallInCup(env)
         env = DMEnvWrapper(base_env, render_size=(480, 480))
         # env = wrappers.Monitor(env)#, path, force=True)
         return env
@@ -34,11 +36,16 @@ model = PPO.load(model_path)
 
 obs = env.reset()
 
-for i in range(90):
+for i in range(30):
     #time.sleep(0.01)
-    action, _states = model.predict(obs, deterministic = True)
+    action, _states = model.predict(obs)#, deterministic = True)
+    #print("predict_action", action)
+    #if i <= 15:
+        #action = -action
+
     obs, rewards, dones, info = env.step(action)
     #env.render(mode="rgb_array")
+    print("outside_action", action)
 
     video = env.render(mode="rgb_array")  # (height, width, camera_id=0)
     # for i in range(max_frame):

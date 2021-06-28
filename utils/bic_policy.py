@@ -82,12 +82,7 @@ class CustomGaussianDistribution(DiagGaussianDistribution):
         :param log_std:
         :return:
         """
-        #print("mean_actions",mean_actions)
-        #print("log_std",log_std)
-        #print("log_std",log_std)
-        action_std = th.ones_like(mean_actions)*log_std.exp()
-        #print("action_std",action_std)
-        mean_actions =  mean_actions
+        action_std = 10 * th.ones_like(mean_actions) * log_std.exp()
         self.distribution = Normal(mean_actions, action_std)
         return self
 
@@ -96,7 +91,6 @@ class CustomGaussianDistribution(DiagGaussianDistribution):
         actions = self.distribution.rsample()
         #print('aaaaa',actions)
         return actions
-
 
     def proba_distribution_net(self, latent_dim: int, log_std_init: float = 0.0) -> Tuple[nn.Module, nn.Parameter]:
         """
@@ -109,14 +103,8 @@ class CustomGaussianDistribution(DiagGaussianDistribution):
         :return:
         """
         mean_actions = nn.Linear(latent_dim, self.action_dim)
-
         # TODO: allow action dependent std
-        log_std_init = [-2,-2,-2,-2,-2,-2,-2]
-        #print('log_std_init', log_std_init)
-        #assert 1==0
-        #log_std = th.ones(self.action_dim) * log_std_init
-        log_std = th.Tensor(log_std_init)
-        log_std = nn.Parameter(log_std, requires_grad=True)
+        log_std = nn.Parameter(th.ones(self.action_dim) * log_std_init, requires_grad=True)
         return mean_actions, log_std
 
 
@@ -416,8 +404,7 @@ class CustomActorCriticPolicy(BasePolicy):
         """
         Orthogonal initialization (used in PPO and A2C)
         """
-
         if isinstance(module, (nn.Linear, nn.Conv2d)):
-            nn.init.orthogonal_(module.weight, gain=0.0005)
+            nn.init.orthogonal_(module.weight, gain=gain)
             if module.bias is not None:
                 module.bias.data.fill_(0.0)
