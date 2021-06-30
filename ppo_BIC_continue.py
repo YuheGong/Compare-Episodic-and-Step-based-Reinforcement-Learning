@@ -17,7 +17,7 @@ if __name__ == "__main__":
     path = logging(data['env_params']['env_name'], data['algorithm'])
     data['path'] = path
     data["continue"] = True
-    data['continue_path'] = "logs/ppo/DeepMindBallInDense-v0_35"
+    data['continue_path'] = "logs/ppo/DeepMindBallInCupDense-v0_9"
 
     # choose the algorithm according to the config file
     ALGOS = {

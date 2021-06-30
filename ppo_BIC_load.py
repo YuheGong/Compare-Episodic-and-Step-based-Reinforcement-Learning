@@ -9,7 +9,7 @@ from alr_envs.deep_mind.env_wrapper import DMEnvWrapper
 import matplotlib.pyplot as plt
 from dm_control import suite
 
-path = "./logs/ppo/DeepMindBallInDense-v0_39"
+path = "./logs/ppo/DeepMindBallInCupDense-v0_9"
 
 def make_env(rank, seed=0):
     def _init():
@@ -45,7 +45,7 @@ for i in range(30):
 
     obs, rewards, dones, info = env.step(action)
     #env.render(mode="rgb_array")
-    print("outside_action", action)
+    #print("outside_action", action)
 
     video = env.render(mode="rgb_array")  # (height, width, camera_id=0)
     # for i in range(max_frame):
