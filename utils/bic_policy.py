@@ -82,7 +82,7 @@ class CustomGaussianDistribution(DiagGaussianDistribution):
         :param log_std:
         :return:
         """
-        action_std = 10 * th.ones_like(mean_actions) * log_std.exp()
+        action_std = th.ones_like(mean_actions) * log_std.exp()
         self.distribution = Normal(mean_actions, action_std)
         return self
 
