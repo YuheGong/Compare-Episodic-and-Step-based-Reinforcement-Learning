@@ -36,7 +36,7 @@ model = PPO.load(model_path)
 
 obs = env.reset()
 
-for i in range(30):
+for i in range(220):
     #time.sleep(0.01)
     action, _states = model.predict(obs)#, deterministic = True)
     #print("predict_action", action)
@@ -54,3 +54,4 @@ for i in range(30):
     plt.draw()
 env.close()   
  
+

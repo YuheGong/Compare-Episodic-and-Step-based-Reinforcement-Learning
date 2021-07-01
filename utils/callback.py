@@ -9,13 +9,13 @@ def callback_function(data: dict):
         callback_class = 'DummyCallback'
     return callback_class
 
-class VecNormalizeCallback(BaseCallback):
+class ALRBallInACupCallback(BaseCallback):
     """
     Custom callback for plotting additional values in tensorboard.
     """
 
     def __init__(self, verbose=0):
-        super(VecNormalizeCallback, self).__init__(verbose)
+        super(ALRBallInACupCallback, self).__init__(verbose)
 
     def _on_step(self) -> bool:
         last_dist = np.mean([self.model.env.venv.envs[i].last_dist \

@@ -17,3 +17,6 @@ python HoleReacher+CW2/cma_main.py HoleReacher+CW2/cma_config.yml
 python cma_BIAC.py
 
 python ppo_BIAC.py
+
+# For DeepMindBallInCup
+python train.py --algo ppo --env_id DeepMindBallInCup-v0
