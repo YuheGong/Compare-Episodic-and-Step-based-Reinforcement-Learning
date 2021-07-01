@@ -42,7 +42,7 @@ def model_learn(data, model, test_env, test_env_path):
             'ALRBallInACupCallback': ALRBallInACupCallback()
         }
     if 'special_callback' in data['algo_params']:
-        callback = CALLBACKS[data['special_callback']]
+        callback = CALLBACKS[data['algo_params']['special_callback']]
     else:
         callback = None
 
