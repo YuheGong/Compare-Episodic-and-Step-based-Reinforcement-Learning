@@ -3,20 +3,11 @@
 Author: Gong, Yuhe
 
 
-
-## For HoleReacher + cw2:
-
-python HoleReacher+CW2/ppo_main.py HoleReacher+CW2/ppo_config.yml
-
-python HoleReacher+CW2/cma_main.py HoleReacher+CW2/cma_config.yml
-
-
-
 ## For BallInACup:
 
 python cma_BIAC.py
 
 python ppo_BIAC.py
 
-# For DeepMindBallInCup
+## For DeepMindBallInCup
 python train.py --algo ppo --env_id DeepMindBallInCup-v0
