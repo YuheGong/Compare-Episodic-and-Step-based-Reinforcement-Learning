@@ -3,14 +3,17 @@
 Author: Gong, Yuhe
 
 
-## For training a environment
+## For training environment
 
-python train.py --algo ppo --env_id DeepMindBallInCup-v0
+python train.py --algo ppo --env_id DeepMindBallInCupDense-v0
 
-python train.py --algo ppo --env_id HoleReacher-v0
+python train.py --algo ppo --env_id HoleReacherDense-v0
 
-python train.py --algo ppo --env_id ALRBallInACupSimple-v0
+python train.py --algo ppo --env_id ALRBallInACupSimpleDense-v0
 
+## For continue training
+
+python train_continue.py --algo ppo --env_id ALRBallInACupSimpleDense-v0 --model_id 1
 
 ## For enjoy a well-trained model:
 
