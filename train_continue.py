@@ -17,7 +17,7 @@ def step_based(algo: str, env_id: str, model_id: str):
     data["continue"] = True
     data['continue_path'] = "logs/ppo/" + env_id + "_" + model_id
 
-    # choose the algorithm according to the config file
+    # choose the algorithm according to the algo
     ALGOS = {
         'a2c': A2C,
         'dqn': DQN,
