@@ -8,7 +8,7 @@ from stable_baselines3 import PPO, A2C, DQN, HER, SAC, TD3, DDPG
 
 
 def step_based(algo: str, env_id: str, model_id: str):
-    file_name =  algo +".yml"
+    file_name = algo +".yml"
     data = read_yaml(file_name)[env_id]
 
     # create log folder
