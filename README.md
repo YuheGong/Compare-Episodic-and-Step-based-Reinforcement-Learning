@@ -21,7 +21,7 @@ python train_continue.py --algo ppo --env_id DeepMindBallInCupDense-v0 --model_i
 
 python enjoy.py --algo ppo --env_id ALRBallInACupSimpleDense-v0 --model_id 1 --step 1000
 
-python enjoy.py --algo ppo --env_id DeepMindBallInCupDense-v0 --model_id 17 --step 50
+python enjoy.py --algo ppo --env_id DeepMindBallInCupDense-v0 --model_id 18 --step 50
 
 python enjoy.py --algo ppo --env_id HoleReacherDense-v0 --model_id 1 --step 400
 
