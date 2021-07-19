@@ -1,0 +1,22 @@
+DeepMindBallInCupDMP-v0:
+  name: DeepMind_Ball_In_Cup + DMP
+  algorithm: cmaes
+  algo_params:
+    dimension: 12
+    sigma0: 0.1
+    popsize: 10
+    iteration: 1000
+  env_params:
+    env_name: f'dmc_ball_in_cup-catch_dmp-v0'
+
+
+DeepMindBallInCupProMP-v0:
+  name: DeepMind_Ball_In_Cup + ProMP
+  algorithm: cmaes
+  algo_params:
+    dimension: 10
+    sigma0: 0.1
+    popsize: 10
+    iteration: 1000
+  env_params:
+    env_name: f'dmc_ball_in_cup-catch_detpmp-v0'

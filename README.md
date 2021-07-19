@@ -5,11 +5,19 @@ Author: Gong, Yuhe
 
 ## For training environment
 
+#### Step-based algo
+
 python train.py --algo ppo --env_id ALRBallInACupSimpleDense-v0
 
 python train.py --algo ppo --env_id DeepMindBallInCupDense-v0
 
 python train.py --algo ppo --env_id HoleReacherDense-v0
+
+#### Episodic algo
+
+python train.py --algo cmaes --env_id DeepMindBallInCupDMP-v0
+
+python train.py --algo cmaes --env_id DeepMindBallInCupProMP-v0
 
 ## For continue training
 

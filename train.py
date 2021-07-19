@@ -3,6 +3,10 @@ from utils.env import env_maker, env_save
 from utils.logger import logging
 from utils.model import model_building, model_learn
 from utils.yaml import write_yaml, read_yaml
+import numpy as np
+import gym
+import cma
+from torch.utils.tensorboard import SummaryWriter
 from stable_baselines3 import PPO, A2C, DQN, HER, SAC, TD3, DDPG
 
 
@@ -38,8 +42,63 @@ def step_based(algo: str, env_id: str):
         print('')
         print('training FINISH, save the model and config file to ' + data['path'])
 
-def episodic():
-    pass
+def episodic(algo, env_id):
+    file_name = algo + ".yml"
+    data = read_yaml(file_name)[env_id]
+    env_name = data["env_params"]["env_name"]
+    print("env_name", env_name)
+    env = gym.make(env_name[2:-1])
+
+    params = np.zeros(data["algo_params"]["dimension"])
+    ALGOS = {
+        'cmaes': cma,
+    }
+    if algo == "cmaes":
+        algorithm = ALGOS[algo] .CMAEvolutionStrategy(x0=params, sigma0=data["algo_params"]["sigma0"], inopts={"popsize": data["algo_params"]["popsize"]})
+
+    # logging
+    path = "alr_envs:" + env_id
+    path = logging(path, algo)
+    log_writer = SummaryWriter(path)
+    env.reset()
+
+    t = 0
+    opt = -10
+    fitness = []
+
+    try:
+        while t < 1000:  # and opt < 3.2 :# and opt < -1:
+            print("----------iter {} -----------".format(t))
+            solutions = np.vstack(algorithm.ask())
+            for i in range(len(solutions)):
+                # print(i, solutions[i])
+                _, reward, __, ___ = env.step(solutions[i])
+                env.reset()
+                print('reward', -reward)
+                fitness.append(-reward)
+
+            algorithm.tell(solutions, fitness)
+            _, opt, __, ___ = env.step(algorithm.mean)
+            env.reset()
+            print("opt", -opt)
+
+            np.save(path + "/algo_mean.npy", algorithm.mean)
+            log_writer.add_scalar("iteration/reward", opt, t + 1)
+            log_writer.add_scalar("iteration/dist_entrance", env.env.dist_entrance, t + 1)
+            log_writer.add_scalar("iteration/dist_bottom", env.env.dist_bottom, t + 1)
+
+            fitness = []
+            t += 1
+
+    except KeyboardInterrupt:
+        np.save(path + "/algo_mean.npy", algorithm.mean)
+        print('')
+        print('training interrupt, save the model to ' + path)
+    else:
+        np.save(path + "/algo_mean.npy", algorithm.mean)
+        print('')
+        print('training Finish, save the model to ' + path)
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -58,7 +117,7 @@ if __name__ == '__main__':
     if algo in STEP_BASED:
         step_based(algo, env_id)
     elif algo in EPISODIC:
-        episodic()
+        episodic(algo, env_id)
     else:
         print("the algorithm (--algo) is false or not implemented")
 
