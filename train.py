@@ -7,7 +7,6 @@ import numpy as np
 import gym
 import cma
 from torch.utils.tensorboard import SummaryWriter
-from stable_baselines3 import PPO, A2C, DQN, HER, SAC, TD3, DDPG
 
 
 def step_based(algo: str, env_id: str):
@@ -46,7 +45,7 @@ def episodic(algo, env_id):
     file_name = algo + ".yml"
     data = read_yaml(file_name)[env_id]
     env_name = data["env_params"]["env_name"]
-    print("env_name", env_name)
+    #print("env_name", env_name)
     env = gym.make(env_name[2:-1])
 
     params = np.zeros(data["algo_params"]["dimension"])
@@ -54,7 +53,7 @@ def episodic(algo, env_id):
         'cmaes': cma,
     }
     if algo == "cmaes":
-        algorithm = ALGOS[algo] .CMAEvolutionStrategy(x0=params, sigma0=data["algo_params"]["sigma0"], inopts={"popsize": data["algo_params"]["popsize"]})
+        algorithm = ALGOS[algo].CMAEvolutionStrategy(x0=params, sigma0=data["algo_params"]["sigma0"], inopts={"popsize": data["algo_params"]["popsize"]})
 
     # logging
     path = "alr_envs:" + env_id
@@ -64,21 +63,34 @@ def episodic(algo, env_id):
 
     t = 0
     opt = -10
+    opts = []
+    opt_full = []
     fitness = []
+    success = False
+    success_mean = []
+    success_full = []
 
     try:
-        while t < 1000:  # and opt < 3.2 :# and opt < -1:
+        while t < 1000 and not success:#387 :# and opt < -1:
             print("----------iter {} -----------".format(t))
             solutions = np.vstack(algorithm.ask())
             for i in range(len(solutions)):
                 # print(i, solutions[i])
                 _, reward, __, ___ = env.step(solutions[i])
+                success_full.append(env.env.success)
                 env.reset()
                 print('reward', -reward)
+                opt_full.append(reward)
                 fitness.append(-reward)
 
             algorithm.tell(solutions, fitness)
             _, opt, __, ___ = env.step(algorithm.mean)
+
+
+            #print("success", env.env.success)
+            #assert 1==9
+            success = env.env.success
+            success_mean.append(env.env.success)
             env.reset()
             print("opt", -opt)
 
@@ -87,8 +99,35 @@ def episodic(algo, env_id):
             log_writer.add_scalar("iteration/dist_entrance", env.env.dist_entrance, t + 1)
             log_writer.add_scalar("iteration/dist_bottom", env.env.dist_bottom, t + 1)
 
+
+
             fitness = []
+            opts.append(opt)
+            #opt_full.append(reward)
             t += 1
+
+            if t % 1 == 0:
+                a = 0
+                b = 0
+
+                #print(len(opts))
+                for i in range(len(success_mean)):
+                    if success_mean[i]:
+                        a += 1
+                success_rate = a/len(success_mean)
+                #print(a)
+                success_mean = []
+                log_writer.add_scalar("iteration/success_rate", success_rate, t + 1)
+
+                for i in range(len(success_full)):
+                    if success_full[i]:
+                        b += 1
+                success_rate_full = b / len(success_full)
+                success_full = []
+                #print("success_full_rate", success_rate_full)
+                log_writer.add_scalar("iteration/success_rate_full", success_rate_full, t + 1)
+
+
 
     except KeyboardInterrupt:
         np.save(path + "/algo_mean.npy", algorithm.mean)
@@ -119,5 +158,5 @@ if __name__ == '__main__':
     elif algo in EPISODIC:
         episodic(algo, env_id)
     else:
-        print("the algorithm (--algo) is false or not implemented")
+        print("the algorithm" + algo + "is false or not implemented")
 

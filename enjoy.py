@@ -4,8 +4,9 @@ import os
 import time
 from stable_baselines3.common.vec_env import DummyVecEnv, VecNormalize
 from stable_baselines3 import PPO, A2C, DQN, HER, SAC, TD3, DDPG
-
+import numpy as np
 import matplotlib.pyplot as plt
+from utils.yaml import write_yaml, read_yaml
 
 
 
@@ -59,8 +60,23 @@ def step_based(algo: str, env_id: str, model_id: str, step: str):
             env.render()
         env.close()
 
-def episodic():
-    pass
+def episodic(algo: str, env_id: str, model_id: str, step: str):
+    file_name = algo + ".yml"
+    data = read_yaml(file_name)[env_id]
+    env_name = data["env_params"]["env_name"]
+    print(env_name[0])
+    a = str(env_name)
+    test_env = gym.make("alr_envs: f'dmc_ball_in_cup-catch_dense_detpmp-v0'")
+
+    path = "logs/" + algo + "/" + env_id + "_" + model_id + "/algo_mean.npy"
+    algorithm = np.load(path)
+
+
+    test_env.reset()
+    test_env.render("rgb_array")
+
+    test_env.step(algorithm)
+
 
 
 if __name__ == "__main__":
@@ -85,7 +101,7 @@ if __name__ == "__main__":
     if algo in STEP_BASED:
         step_based(algo, env_id, model_id, step)
     elif algo in EPISODIC:
-        episodic()
+        episodic(algo, env_id, model_id, step)
     else:
         print("the algorithm (--algo) is false or not implemented")
 
