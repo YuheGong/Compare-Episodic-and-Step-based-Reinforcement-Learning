@@ -12,8 +12,23 @@ ALRBallInACupSimpleDense-v0:
     env_name: alr_envs:ALRBallInACupSimpleDense-v0
     num_envs: 8
     wrapper: VecNormalize
-    
-    
+
+
+HoleReacherDense-v0:
+  name: HoleReacherDense + PPO
+  algorithm: ppo
+  algo_params:
+    batch_size: 50
+    learning_rate: 0.0001
+    n_steps: 2000
+    total_timesteps: 1.e+6
+    special_policy: MlpPolicy
+  env_params:
+    env_name: alr_envs:HoleReacherDense-v0
+    num_envs: 8
+    wrapper: VecNormalize
+
+
 DeepMindBallInCupDense-v0:
   name: DeepMind_Ball_In_Cup + PPO
   algorithm: ppo
@@ -29,8 +44,9 @@ DeepMindBallInCupDense-v0:
     wrapper: VecNormalize
 
 
-HoleReacherDense-v0:
-  name: HoleReacherDense + PPO
+
+DeepMindWalkerDense-v0:
+  name: DeepMind_Walker + PPO
   algorithm: ppo
   algo_params:
     batch_size: 50
@@ -39,6 +55,6 @@ HoleReacherDense-v0:
     total_timesteps: 1.e+6
     special_policy: MlpPolicy
   env_params:
-    env_name: alr_envs:HoleReacherDense-v0
+    env_name: alr_envs:DeepMindWalkerDense-v0
     num_envs: 8
     wrapper: VecNormalize

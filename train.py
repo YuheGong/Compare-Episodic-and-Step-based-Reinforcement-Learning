@@ -41,7 +41,7 @@ def step_based(algo: str, env_id: str):
         print('')
         print('training FINISH, save the model and config file to ' + data['path'])
 
-def episodic(algo, env_id):
+def episodic(algo, env_id, stop_cri):
     file_name = algo + ".yml"
     data = read_yaml(file_name)[env_id]
     env_name = data["env_params"]["env_name"]
@@ -71,62 +71,122 @@ def episodic(algo, env_id):
     success_full = []
 
     try:
-        while t < 1000 and not success:#387 :# and opt < -1:
-            print("----------iter {} -----------".format(t))
-            solutions = np.vstack(algorithm.ask())
-            for i in range(len(solutions)):
-                # print(i, solutions[i])
-                _, reward, __, ___ = env.step(solutions[i])
-                success_full.append(env.env.success)
+        if stop_cri:
+            while t < data["algo_params"]["iteration"] and not success :#387 :# and opt < -1:
+                print("----------iter {} -----------".format(t))
+                solutions = np.vstack(algorithm.ask())
+                for i in range(len(solutions)):
+                    # print(i, solutions[i])
+                    _, reward, __, ___ = env.step(solutions[i])
+                    success_full.append(env.env.success)
+                    env.reset()
+                    print('reward', -reward)
+                    opt_full.append(reward)
+                    fitness.append(-reward)
+
+                algorithm.tell(solutions, fitness)
+                _, opt, __, ___ = env.step(algorithm.mean)
+
+
+                #print("success", env.env.success)
+                #assert 1==9
+                success = True
+                #print("success", success)
+                success_mean.append(env.env.success)
                 env.reset()
-                print('reward', -reward)
-                opt_full.append(reward)
-                fitness.append(-reward)
+                print("opt", -opt)
 
-            algorithm.tell(solutions, fitness)
-            _, opt, __, ___ = env.step(algorithm.mean)
-
-
-            #print("success", env.env.success)
-            #assert 1==9
-            success = env.env.success
-            success_mean.append(env.env.success)
-            env.reset()
-            print("opt", -opt)
-
-            np.save(path + "/algo_mean.npy", algorithm.mean)
-            log_writer.add_scalar("iteration/reward", opt, t + 1)
-            log_writer.add_scalar("iteration/dist_entrance", env.env.dist_entrance, t + 1)
-            log_writer.add_scalar("iteration/dist_bottom", env.env.dist_bottom, t + 1)
+                np.save(path + "/algo_mean.npy", algorithm.mean)
+                log_writer.add_scalar("iteration/reward", opt, t + 1)
+                log_writer.add_scalar("iteration/dist_entrance", env.env.dist_entrance, t + 1)
+                log_writer.add_scalar("iteration/dist_bottom", env.env.dist_bottom, t + 1)
 
 
 
-            fitness = []
-            opts.append(opt)
-            #opt_full.append(reward)
-            t += 1
+                fitness = []
+                opts.append(opt)
+                #opt_full.append(reward)
+                t += 1
 
-            if t % 1 == 0:
-                a = 0
-                b = 0
+                if t % 10 == 0:
+                    a = 0
+                    b = 0
 
-                #print(len(opts))
-                for i in range(len(success_mean)):
-                    if success_mean[i]:
-                        a += 1
-                success_rate = a/len(success_mean)
-                #print(a)
-                success_mean = []
-                log_writer.add_scalar("iteration/success_rate", success_rate, t + 1)
 
-                for i in range(len(success_full)):
-                    if success_full[i]:
-                        b += 1
-                success_rate_full = b / len(success_full)
-                success_full = []
-                #print("success_full_rate", success_rate_full)
-                log_writer.add_scalar("iteration/success_rate_full", success_rate_full, t + 1)
+                    #print(len(opts))
+                    for i in range(len(success_mean)):
 
+                        if success_mean[i]:
+                            a += 1
+                    success_rate = a/len(success_mean)
+                    #print(a)
+                    success_mean = []
+                    log_writer.add_scalar("iteration/success_rate", success_rate, t + 1)
+
+                    for i in range(len(success_full)):
+                        if success_full[i]:
+                            b += 1
+                    success_rate_full = b / len(success_full)
+                    success_full = []
+                    #print("success_full_rate", success_rate_full)
+                    log_writer.add_scalar("iteration/success_rate_full", success_rate_full, t + 1)
+        else:
+            while t < data["algo_params"]["iteration"]:#387 :# and opt < -1:
+                print("----------iter {} -----------".format(t))
+                solutions = np.vstack(algorithm.ask())
+                for i in range(len(solutions)):
+                    # print(i, solutions[i])
+                    _, reward, __, ___ = env.step(solutions[i])
+                    success_full.append(env.env.success)
+                    env.reset()
+                    print('reward', -reward)
+                    opt_full.append(reward)
+                    fitness.append(-reward)
+
+                algorithm.tell(solutions, fitness)
+                _, opt, __, ___ = env.step(algorithm.mean)
+
+
+                #print("success", env.env.success)
+                #assert 1==9
+                success = env.env.success
+                success_mean.append(env.env.success)
+                env.reset()
+                print("opt", -opt)
+
+                np.save(path + "/algo_mean.npy", algorithm.mean)
+                log_writer.add_scalar("iteration/reward", opt, t + 1)
+                log_writer.add_scalar("iteration/dist_entrance", env.env.dist_entrance, t + 1)
+                log_writer.add_scalar("iteration/dist_bottom", env.env.dist_bottom, t + 1)
+
+
+
+                fitness = []
+                opts.append(opt)
+                #opt_full.append(reward)
+                t += 1
+
+                if t % 10 == 0:
+                    a = 0
+                    b = 0
+
+
+                    #print(len(opts))
+                    for i in range(len(success_mean)):
+                        if success_mean[i]:
+                            a += 1
+                    success_rate = a/len(success_mean)
+                    #print(a)
+                    success_mean = []
+                    log_writer.add_scalar("iteration/success_rate", success_rate, t + 1)
+
+                    for i in range(len(success_full)):
+                        if success_full[i]:
+                            b += 1
+                    success_rate_full = b / len(success_full)
+                    success_full = []
+                    #print("success_full_rate", success_rate_full)
+                    log_writer.add_scalar("iteration/success_rate_full", success_rate_full, t + 1)
 
 
     except KeyboardInterrupt:
@@ -143,6 +203,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--algo", type=str, help="the algorithm")
     parser.add_argument("--env_id", type=str, help="the environment")
+    parser.add_argument("--stop_cri", type=str, help="whether you set up stop criterion or not")
     args = parser.parse_args()
 
     if not args.algo and not args.env_id:
@@ -150,13 +211,14 @@ if __name__ == '__main__':
 
     algo = args.algo
     env_id = args.env_id
+    stop_cri = args.stop_cri
 
     STEP_BASED = ["ppo", "sac"]
     EPISODIC = ["cmaes"]
     if algo in STEP_BASED:
         step_based(algo, env_id)
     elif algo in EPISODIC:
-        episodic(algo, env_id)
+        episodic(algo, env_id, stop_cri)
     else:
         print("the algorithm" + algo + "is false or not implemented")
 

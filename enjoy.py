@@ -7,7 +7,7 @@ from stable_baselines3 import PPO, A2C, DQN, HER, SAC, TD3, DDPG
 import numpy as np
 import matplotlib.pyplot as plt
 from utils.yaml import write_yaml, read_yaml
-
+import alr_envs
 
 
 def make_env(env_id, rank):
@@ -60,18 +60,16 @@ def step_based(algo: str, env_id: str, model_id: str, step: str):
             env.render()
         env.close()
 
-def episodic(algo: str, env_id: str, model_id: str, step: str):
+def episodic(algo: str, env_id, model_id: str, step: str):
     file_name = algo + ".yml"
     data = read_yaml(file_name)[env_id]
     env_name = data["env_params"]["env_name"]
-    print(env_name[0])
-    a = str(env_name)
-    test_env = gym.make("alr_envs: f'dmc_ball_in_cup-catch_dense_detpmp-v0'")
+    #env_name = "f'dmc_ball_in_cup-catch_dense_detpmp-v0'"
 
     path = "logs/" + algo + "/" + env_id + "_" + model_id + "/algo_mean.npy"
     algorithm = np.load(path)
 
-
+    test_env = gym.make(env_name[2:-1])
     test_env.reset()
     test_env.render("rgb_array")
 
@@ -98,6 +96,9 @@ if __name__ == "__main__":
 
     STEP_BASED = ["ppo", "sac"]
     EPISODIC = ["cmaes"]
+
+
+
     if algo in STEP_BASED:
         step_based(algo, env_id, model_id, step)
     elif algo in EPISODIC:

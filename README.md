@@ -15,11 +15,14 @@ python train.py --algo ppo --env_id HoleReacherDense-v0
 
 #### Episodic algo
 
-python train.py --algo cmaes --env_id DeepMindBallInCupDMP-v0
+python train.py --algo cmaes --env_id DeepMindBallInCupDMP-v0 --stop_cri True
+
+python train.py --algo cmaes --env_id DeepMindBallInCupDenseDMP-v0
 
 python train.py --algo cmaes --env_id DeepMindBallInCupProMP-v0
 
 python train.py --algo cmaes --env_id DeepMindBallInCupDenseProMP-v0
+
 
 ## For continue training
 
