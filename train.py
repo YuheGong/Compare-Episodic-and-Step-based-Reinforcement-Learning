@@ -97,9 +97,9 @@ def episodic(algo, env_id, stop_cri):
                 print("opt", -opt)
 
                 np.save(path + "/algo_mean.npy", algorithm.mean)
-                log_writer.add_scalar("iteration/reward", opt, t + 1)
-                log_writer.add_scalar("iteration/dist_entrance", env.env.dist_entrance, t + 1)
-                log_writer.add_scalar("iteration/dist_bottom", env.env.dist_bottom, t + 1)
+                log_writer.add_scalar("iteration/reward", opt, (t+1)*10*250)
+                log_writer.add_scalar("iteration/dist_entrance", env.env.dist_entrance, (t+1)*10*250)
+                log_writer.add_scalar("iteration/dist_bottom", env.env.dist_bottom, (t+1)*10*250)
 
 
 
@@ -121,7 +121,7 @@ def episodic(algo, env_id, stop_cri):
                     success_rate = a/len(success_mean)
                     #print(a)
                     success_mean = []
-                    log_writer.add_scalar("iteration/success_rate", success_rate, t + 1)
+                    log_writer.add_scalar("iteration/success_rate", success_rate, (t+1)*10*250)
 
                     for i in range(len(success_full)):
                         if success_full[i]:
@@ -129,7 +129,7 @@ def episodic(algo, env_id, stop_cri):
                     success_rate_full = b / len(success_full)
                     success_full = []
                     #print("success_full_rate", success_rate_full)
-                    log_writer.add_scalar("iteration/success_rate_full", success_rate_full, t + 1)
+                    log_writer.add_scalar("iteration/success_rate_full", success_rate_full, (t+1)*10*250)
         else:
             while t < data["algo_params"]["iteration"]:#387 :# and opt < -1:
                 print("----------iter {} -----------".format(t))
@@ -155,9 +155,9 @@ def episodic(algo, env_id, stop_cri):
                 print("opt", -opt)
 
                 np.save(path + "/algo_mean.npy", algorithm.mean)
-                log_writer.add_scalar("iteration/reward", opt, t + 1)
-                log_writer.add_scalar("iteration/dist_entrance", env.env.dist_entrance, t + 1)
-                log_writer.add_scalar("iteration/dist_bottom", env.env.dist_bottom, t + 1)
+                log_writer.add_scalar("iteration/reward", opt, (t+1)*10*250)
+                log_writer.add_scalar("iteration/dist_entrance", env.env.dist_entrance, (t+1)*10*250)
+                log_writer.add_scalar("iteration/dist_bottom", env.env.dist_bottom, (t+1)*10*250)
 
 
 
@@ -178,7 +178,7 @@ def episodic(algo, env_id, stop_cri):
                     success_rate = a/len(success_mean)
                     #print(a)
                     success_mean = []
-                    log_writer.add_scalar("iteration/success_rate", success_rate, t + 1)
+                    log_writer.add_scalar("iteration/success_rate", success_rate, (t+1)*10*250)
 
                     for i in range(len(success_full)):
                         if success_full[i]:
@@ -186,7 +186,7 @@ def episodic(algo, env_id, stop_cri):
                     success_rate_full = b / len(success_full)
                     success_full = []
                     #print("success_full_rate", success_rate_full)
-                    log_writer.add_scalar("iteration/success_rate_full", success_rate_full, t + 1)
+                    log_writer.add_scalar("iteration/success_rate_full", success_rate_full, (t+1)*10*250)
 
 
     except KeyboardInterrupt:
