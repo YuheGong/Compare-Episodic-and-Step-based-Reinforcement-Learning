@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/alr-envs" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/alr-envs/alr_envs" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/alr-envs_1" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/alr-envs_before" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/alr-envs_no" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/alr_envs" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/cw2" vcs="Git" />
+  </component>
+</project>

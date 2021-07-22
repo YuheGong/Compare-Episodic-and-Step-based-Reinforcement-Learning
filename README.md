@@ -19,9 +19,9 @@ We use different reward function to compare the performance in each environment:
 
 |Name (env_id)| PPO|SAC|DMP|ProMP
 |---|---|---|---|---|
-|`ALR HoleReacher`|HoleReacherDense-v0|  |  | 
-|`ALR Ball In A Cup`|ALRBallInACupSimpleDense-v0|  |  | 
-|`DeepMind Ball In Cup`|DeepMindBallInCupDense-v0|  | DeepMindBallInCupDenseDMP-v0 | DeepMindBallInCupDenseProMP-v0
+|`ALR HoleReacher`|:heavy_check_mark:|  |  | 
+|`ALR Ball In A Cup`|:heavy_check_mark:|  |  | 
+|`DeepMind Ball In Cup`|:heavy_check_mark:|  | :heavy_check_mark:| :heavy_check_mark:
 
 # Training with sparse reward
 
