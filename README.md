@@ -15,28 +15,22 @@ We use different reward function to compare the performance in each environment:
 - Sparse reward function: in one episode, only one step has the reward according to the task, other steps' rewards is 0.
 - Dense reward function: in one episode, every step has the reward according to the task.
 
-FixedTargetReacherEnv Highly
-configurable modification of the MuJoCo Reacher-v2 environment.
+# Training with dense reward
 
+|Name (env_id)| PPO|SAC|DMP|ProMP
+|---|---|---|---|---|
+|`ALR HoleReacher`|HoleReacherDense-v0|  |  | 
+|`ALR Ball In A Cup`|ALRBallInACupSimpleDense-v0|  |  | 
+|`DeepMind Ball In Cup`|DeepMindBallInCupDense-v0|  | DeepMindBallInCupDenseDMP-v0 | DeepMindBallInCupDenseProMP-v0
 
+# Training with sparse reward
 
-Training
-In order to train an agent, you need a config file. Several are provided in ./configs.
-For example, to solve the MuJoCo Reacher with CMA-ES, run:
-python -m t5 -c configs/reacher_cma.yml
-After training is done, all training output plus the configuration file are saved in
-the experiments directory, under a timestamped name. You can change output path in the
-config file.
+|Name (env_id)| PPO|SAC|DMP|ProMP
+|---|---|---|---|---|
+|`ALR HoleReacher`||  |  | 
+|`ALR Ball In A Cup`||  |  | 
+|`DeepMind Ball In Cup`||  | DeepMindBallInCupDMP-v0 | DeepMindBallInCupProMP-v0
 
-Testing
-After training, the learned policy is evaluated on a single episode and rendered
-automatically. If you want to evaluate a trained policy separately, you can run:
-python -m t5 -m experiments/cma-reacher20210228-105448
-
-TODOs
-
-Saving videos
-Decouple reward function from environment, set in config file
 
 
 
@@ -76,7 +70,7 @@ python train_continue.py --algo ppo --env_id DeepMindBallInCupDense-v0 --model_i
 
 ## For enjoy a well-trained model:
 
-python enjoy.py --algo ppo --env_id ALRBallInACupSimpleDense-v0 --model_id 18 --step 1000
+python enjoy.py --algo ppo --env_id ALRBallInACupSimpleDense-v0 --model_id 20 --step 300
 
 python enjoy.py --algo ppo --env_id DeepMindBallInCupDense-v0 --model_id 2 --step 300
 
