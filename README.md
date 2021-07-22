@@ -17,29 +17,31 @@ We use different reward function to compare the performance in each environment:
 
 # Training with dense reward
 
-|Name (env_id)| PPO|SAC|DMP|ProMP
+|Name| PPO|SAC|DMP|ProMP
 |---|---|---|---|---|
-|`ALR HoleReacher`|:heavy_check_mark:|  |  | 
-|`ALR Ball In A Cup`|:heavy_check_mark:|  |  | 
-|`DeepMind Ball In Cup`|:heavy_check_mark:|  | :heavy_check_mark:| :heavy_check_mark:
+|`ALRHoleReacher`|:heavy_check_mark:|  |  | 
+|`ALRBallInACup`|:heavy_check_mark:|  |  | 
+|`DeepMindBallInCup`|:heavy_check_mark:|  | :heavy_check_mark:| :heavy_check_mark:
 
 # Training with sparse reward
 
-|Name (env_id)| PPO|SAC|DMP|ProMP
+|Name| PPO|SAC|DMP|ProMP
 |---|---|---|---|---|
-|`ALR HoleReacher`||  |  | 
-|`ALR Ball In A Cup`||  |  | 
-|`DeepMind Ball In Cup`||  | DeepMindBallInCupDMP-v0 | DeepMindBallInCupProMP-v0
+|`ALRHoleReacher`||  |  | 
+|`ALRBallInACup`||  |  | 
+|`DeepMindBallInCup`||  | :heavy_check_mark: | :heavy_check_mark:
 
-For training environment
-Step-based algo
+# Command
+## For training environment
+####Step-based algo
 
 python train.py --algo ppo --env_id ALRBallInACupSimpleDense-v0
 
 python train.py --algo ppo --env_id DeepMindBallInCupDense-v0
 
 python train.py --algo ppo --env_id HoleReacherDense-v0
-Episodic algo
+
+####Episodic algo
 
 python train.py --algo cmaes --env_id DeepMindBallInCupDMP-v0 --stop_cri True
 
@@ -48,12 +50,14 @@ python train.py --algo cmaes --env_id DeepMindBallInCupDenseDMP-v0
 python train.py --algo cmaes --env_id DeepMindBallInCupProMP-v0
 
 python train.py --algo cmaes --env_id DeepMindBallInCupDenseProMP-v0
-For continue training
+
+###For continue training
 
 python train_continue.py --algo ppo --env_id ALRBallInACupSimpleDense-v0 --model_id 1
 
 python train_continue.py --algo ppo --env_id DeepMindBallInCupDense-v0 --model_id 1
-For enjoy a well-trained model:
+
+###For enjoy a well-trained model:
 
 python enjoy.py --algo ppo --env_id ALRBallInACupSimpleDense-v0 --model_id 20 --step 300
 
