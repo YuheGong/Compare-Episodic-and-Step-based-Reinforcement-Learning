@@ -43,6 +43,7 @@ def step_based(algo: str, env_id: str, model_id: str, step: str):
 
     obs = env.reset()
     if "DeepMind" in env_id:
+        '''
         for i in range(int(step)):
             action, _states = model.predict(obs)
             obs, rewards, dones, info = env.step(action)
@@ -50,6 +51,14 @@ def step_based(algo: str, env_id: str, model_id: str, step: str):
             plt.imshow(vedio)
             plt.pause(0.01)
             plt.draw()
+        env.close()
+        '''
+
+        for i in range(int(step)):
+            time.sleep(0.01)
+            action, _states = model.predict(obs, deterministic=True)
+            obs, rewards, dones, info = env.step(action)
+            env.render()
         env.close()
 
     else:
@@ -74,6 +83,7 @@ def episodic(algo: str, env_id, model_id: str, step: str):
     test_env.render("rgb_array")
 
     test_env.step(algorithm)
+    test_env.render("rgb_array")
 
 
 
