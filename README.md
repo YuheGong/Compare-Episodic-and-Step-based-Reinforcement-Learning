@@ -2,7 +2,7 @@
 
 Author: Gong, Yuhe
 
-#Overview
+# Overview
 
 This repository builds a framework to easily compare episodic and step-based reinforcement learning with several environments (DeepMind Control Suite , ALR environments, OpenAI environment).
 
