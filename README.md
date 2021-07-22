@@ -33,7 +33,7 @@ We use different reward function to compare the performance in each environment:
 
 # Command
 ## For training environment
-####Step-based algo
+- Step-based algo
 
 python train.py --algo ppo --env_id ALRBallInACupSimpleDense-v0
 
@@ -41,7 +41,7 @@ python train.py --algo ppo --env_id DeepMindBallInCupDense-v0
 
 python train.py --algo ppo --env_id HoleReacherDense-v0
 
-####Episodic algo
+- Episodic algo
 
 python train.py --algo cmaes --env_id DeepMindBallInCupDMP-v0 --stop_cri True
 
@@ -51,13 +51,13 @@ python train.py --algo cmaes --env_id DeepMindBallInCupProMP-v0
 
 python train.py --algo cmaes --env_id DeepMindBallInCupDenseProMP-v0
 
-###For continue training
+## For continue training
 
 python train_continue.py --algo ppo --env_id ALRBallInACupSimpleDense-v0 --model_id 1
 
 python train_continue.py --algo ppo --env_id DeepMindBallInCupDense-v0 --model_id 1
 
-###For enjoy a well-trained model:
+## For enjoy a well-trained model:
 
 python enjoy.py --algo ppo --env_id ALRBallInACupSimpleDense-v0 --model_id 20 --step 300
 
