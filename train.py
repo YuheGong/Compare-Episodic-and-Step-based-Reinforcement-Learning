@@ -187,6 +187,7 @@ def episodic(algo, env_id, stop_cri):
                     success_full = []
                     #print("success_full_rate", success_rate_full)
                     log_writer.add_scalar("iteration/success_rate_full", success_rate_full, (t+1)*10*250)
+                    log_writer.add_scalar("iteration/success_rate_full_2", success_rate_full, t + 1 )
 
 
     except KeyboardInterrupt:

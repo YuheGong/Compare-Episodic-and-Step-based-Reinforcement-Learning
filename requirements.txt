@@ -1,4 +1,5 @@
 -e git+https://github.com/YuheGong/alr_envs.git@master#egg=alr_envs
+-e git+https://github.com/ALRhub/cw2.git@master#egg=cw2
 cma
 pyyaml
 mujoco_py
