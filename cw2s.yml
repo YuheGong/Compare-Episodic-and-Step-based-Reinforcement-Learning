@@ -37,7 +37,12 @@ params:
   env_name: f'dmc_ball_in_cup-catch_dmp-v2'
 
 ---
-name: "rosenbrock"
+#name: 'DeepMindBallInCupDenseDMP-v0'
+#name: 'DeepMindBallInCupDMP-v0'
+#name: 'DeepMindBallInCupDenseDMP-v1'
+#name: 'DeepMindBallInCupDMP-v1'
+#name: 'DeepMindBallInCupDenseDMP-v2'
+name: 'DeepMindBallInCupDMP-v2'
 path: "/home/yre/Desktop/KIT/masterthesis/Compare-Episodic-and-Step-based-Reinforcement-Learning/"
 params:
   problem:

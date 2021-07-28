@@ -40,6 +40,11 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
 
         self.env.reset()
 
+        self.success_mean = []
+        self.success_full = []
+        self.success_rate = 0
+        self.success_rate_full = 0
+
 
 
     def iterate(self, config: dict, rep: int, n: int) -> dict:
@@ -48,10 +53,7 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
         opt_full = []
         fitness = []
         success = False
-        success_mean = []
-        success_full = []
-        success_rate = 0
-        success_rate_full = 0
+        
 
 
         
@@ -60,7 +62,7 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
         for i in range(len(solutions)):
             # print(i, solutions[i])
             _, reward, __, ___ = self.env.step(solutions[i])
-            success_full.append(self.env.success)
+            self.success_full.append(self.env.success)
             self.env.reset()
             print('reward', -reward)
             opt_full.append(reward)
@@ -73,7 +75,7 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
         # assert 1==9
         success = True
         # print("success", success)
-        success_mean.append(self.env.env.success)
+        self.success_mean.append(self.env.env.success)
         self.env.reset()
         print("opt", -opt)
 
@@ -92,20 +94,20 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
             b = 0
 
             # print(len(opts))
-            for i in range(len(success_mean)):
+            for i in range(len(self.success_mean)):
 
-                if success_mean[i]:
+                if self.success_mean[i]:
                     a += 1
-            success_rate = a / len(success_mean)
+            self.success_rate = a / len(self.success_mean)
             # print(a)
-            success_mean = []
+            self.success_mean = []
             #log_writer.add_scalar("iteration/success_rate", success_rate, (n + 1) * 10 * 250)
 
-            for i in range(len(success_full)):
-                if success_full[i]:
+            for i in range(len(self.success_full)):
+                if self.success_full[i]:
                     b += 1
-            success_rate_full = b / len(success_full)
-            #success_full = []
+            self.success_rate_full = b / len(self.success_full)
+            self.success_full = []
             # print("success_full_rate", success_rate_full)
 
         
@@ -115,8 +117,8 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
         results_dict = {"reward": opt,
                         "dist_entrance": self.env.env.dist_entrance,
                         "dist_bottom": self.env.env.dist_bottom,
-                        "success_rate": success_rate,
-                        "success_rate_full": success_rate_full,
+                        "success_rate": self.success_rate,
+                        "success_rate_full": self.success_rate_full,
                         "total_samples": (n + 1) * config.params.optim_params.n_samples
                         }
 
