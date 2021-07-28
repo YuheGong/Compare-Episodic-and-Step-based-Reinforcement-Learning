@@ -54,9 +54,6 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
         fitness = []
         success = False
         
-
-
-        
         print("----------iter {} -----------".format(n))
         solutions = np.vstack(self.algorithm.ask())
         for i in range(len(solutions)):
@@ -89,7 +86,7 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
         # opt_full.append(reward)
         n += 1
 
-        if n % 10 == 0:
+        if n % 1 == 0:
             a = 0
             b = 0
 
