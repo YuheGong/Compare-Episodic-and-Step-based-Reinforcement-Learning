@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 
 
 
-df_1 = pd.read_csv('/home/yre/Desktop/KIT/masterthesis/Compare-Episodic-and-Step-based-Reinforcement-Learning/rosenbrock/log/rep_00/rep_0.csv')
-df_2 = pd.read_csv('/home/yre/Desktop/KIT/masterthesis/Compare-Episodic-and-Step-based-Reinforcement-Learning/rosenbrock/log/rep_00/rep_1.csv')
+df_1 = pd.read_csv('/home/yre/Desktop/KIT/masterthesis/Compare-Episodic-and-Step-based-Reinforcement-Learning/cw_log/rosenbrock/log/rep_00/rep_0.csv')
+df_2 = pd.read_csv('/home/yre/Desktop/KIT/masterthesis/Compare-Episodic-and-Step-based-Reinforcement-Learning/cw_log/rosenbrock/log/rep_01/rep_1.csv')
 #df_3 = pd.read_csv('/home/yre/Desktop/KIT/masterthesis/Compare-Episodic-and-Step-based-Reinforcement-Learning/rosenbrock/log/rep_00/rep_2.csv')
 #df_4 = pd.read_csv('/home/yre/Desktop/KIT/masterthesis/Compare-Episodic-and-Step-based-Reinforcement-Learning/rosenbrock/log/rep_00/rep_0.csv')
 

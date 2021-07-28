@@ -50,7 +50,10 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
         success = False
         success_mean = []
         success_full = []
-        
+        success_rate = 0
+        success_rate_full = 0
+
+
         
         print("----------iter {} -----------".format(n))
         solutions = np.vstack(self.algorithm.ask())
@@ -112,8 +115,8 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
         results_dict = {"reward": opt,
                         "dist_entrance": self.env.env.dist_entrance,
                         "dist_bottom": self.env.env.dist_bottom,
-                        "success_rate": success_mean,
-                        "success_rate_full": success_full,
+                        "success_rate": success_rate,
+                        "success_rate_full": success_rate_full,
                         "total_samples": (n + 1) * config.params.optim_params.n_samples
                         }
 
