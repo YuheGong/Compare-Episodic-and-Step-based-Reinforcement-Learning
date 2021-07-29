@@ -101,9 +101,11 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
             #log_writer.add_scalar("iteration/success_rate", success_rate, (n + 1) * 10 * 250)
 
             for i in range(len(self.success_full)):
-                if self.success_full[i]:
-                    b += 1
+                #if self.success_full[i]:
+                b += 1
+            print("b", b)
             self.success_rate_full = b / len(self.success_full)
+            print("len(self.success_full)",len(self.success_full))
             self.success_full = []
             # print("success_full_rate", success_rate_full)
 
