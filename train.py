@@ -23,7 +23,6 @@ def step_based(algo: str, env_id: str):
 
     # make the model and save the model
     model = model_building(data, env)
-
     try:
         test_env_path = data['path'] + "/eval/"
         model_learn(data, model, test_env, test_env_path)
@@ -72,14 +71,14 @@ def episodic(algo, env_id, stop_cri):
 
     try:
         if stop_cri:
-            while t < data["algo_params"]["iteration"] and not success :#387 :# and opt < -1:
+            while t < data["algo_params"]["iteration"] and not success:#387 :# and opt < -1:
                 print("----------iter {} -----------".format(t))
                 solutions = np.vstack(algorithm.ask())
                 for i in range(len(solutions)):
                     # print(i, solutions[i])
                     _, reward, __, ___ = env.step(solutions[i])
                     success_full.append(env.env.success)
-                    env.reset()
+                    #env.reset()
                     print('reward', -reward)
                     opt_full.append(reward)
                     fitness.append(-reward)
@@ -137,6 +136,8 @@ def episodic(algo, env_id, stop_cri):
                 for i in range(len(solutions)):
                     # print(i, solutions[i])
                     _, reward, __, ___ = env.step(solutions[i])
+
+
                     success_full.append(env.env.success)
                     env.reset()
                     print('reward', -reward)
@@ -145,7 +146,7 @@ def episodic(algo, env_id, stop_cri):
 
                 algorithm.tell(solutions, fitness)
                 _, opt, __, ___ = env.step(algorithm.mean)
-
+                np.save(path + "/solution.npy",solutions[0])
 
                 #print("success", env.env.success)
                 #assert 1==9

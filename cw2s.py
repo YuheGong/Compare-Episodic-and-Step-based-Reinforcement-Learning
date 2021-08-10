@@ -76,7 +76,7 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
         self.env.reset()
         print("opt", -opt)
 
-        #np.save(path + "/algo_mean.npy", self.algorithm.mean)
+        np.save(config.path + "/algo_mean.npy", self.algorithm.mean)
         #log_writer.add_scalar("iteration/reward", opt, (t + 1) * 10 * 250)
         #log_writer.add_scalar("iteration/dist_entrance", env.env.dist_entrance, (t + 1) * 10 * 250)
         #log_writer.add_scalar("iteration/dist_bottom", env.env.dist_bottom, (t + 1) * 10 * 250)
@@ -101,11 +101,13 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
             #log_writer.add_scalar("iteration/success_rate", success_rate, (n + 1) * 10 * 250)
 
             for i in range(len(self.success_full)):
-                #if self.success_full[i]:
-                b += 1
-            print("b", b)
+                if self.success_full[i]:
+                    b += 1
+            #print("b", b)
             self.success_rate_full = b / len(self.success_full)
-            print("len(self.success_full)",len(self.success_full))
+            #print("self.success_full",self.success_full)
+            #assert 1==9
+            #print("len(self.success_full)",len(self.success_full))
             self.success_full = []
             # print("success_full_rate", success_rate_full)
 

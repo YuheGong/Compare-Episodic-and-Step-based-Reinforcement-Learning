@@ -5,7 +5,7 @@ DeepMindBallInCupDMP-v0:
     dimension: 12
     sigma0: 0.1
     popsize: 10
-    iteration: 1000
+    iteration: 500
     stop_criterion: opt < 3.2
   env_params:
     env_name: f'dmc_ball_in_cup-catch_dmp-v0'

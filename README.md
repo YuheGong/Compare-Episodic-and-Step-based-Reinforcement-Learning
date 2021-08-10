@@ -61,7 +61,7 @@ python train_continue.py --algo ppo --env_id DeepMindBallInCupDense-v0 --model_i
 
 python enjoy.py --algo ppo --env_id ALRBallInACupSimpleDense-v0 --model_id 20 --step 300
 
-python enjoy.py --algo ppo --env_id DeepMindBallInCupDense-v0 --model_id 2 --step 300
+python enjoy.py --algo cmaes --env_id DeepMindBallInCupDenseDMP-v0 --model_id 2 --step 300
 
 python enjoy.py --algo cmaes --env_id DeepMindBallInCupDenseProMP-v0 --model_id 4 --step 300
 
