@@ -1,9 +1,18 @@
 import os
 
 
+
+
 run = 20
-for i in range(run):
-    os.system(f'python train.py --algo ppo --env_id DeepMindBallInCup-v2 --seed {i}')
+for env_id in range(3):
+    env_name = f"DeepMindBallInCup-v{env_id}"
+    for i in range(run):
+        str = 'python train.py --algo ppo --env_id ' + env_name + f' --seed {i}'
+        os.system(str)
+    env_name = f"DeepMindBallInCupDense-v{env_id}"
+    for i in range(run):
+        str = 'python train.py --algo ppo --env_id ' + env_name + f' --seed {i}'
+        os.system(str)
 
 """
 str=('python train.py --algo ppo --env_id DeepMindBallInCupDense-v0')
