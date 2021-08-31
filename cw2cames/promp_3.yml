@@ -1,0 +1,54 @@
+# Slurm config
+name: "SLURM"
+partition: "gpu_8"
+account: ""  # important for HHLR cluster
+job-name: "Compare Episodic and Step-based Reinforcement Learning"  # this will be the experiment's name in slurm
+#experiment_copy_dst: "/home/max_li/exp_code"
+num_parallel_jobs: 1  # max number of jobs executed in parallel
+ntasks: 1   #  leave that like it is
+cpus-per-task: 1   # there are 5 cores for each GPU on the gpu_8 queue and 10 per GPU on the gpu_4 queue. Never use 5! don't ask why!
+time: 300   # in minutes
+sbatch_args:   # gpus need to be explicitly requested using this
+  gres: "gpu:1" #and this
+---
+# DEFAULT
+name: "DEFAULT"
+repetitions: 20  # number of times one set of parameters is run
+iterations: 2000  # number of iterations per repetition
+path: "cmaes"
+gui: false
+params:
+  stop_at_target: False
+  target_fitness: 1.0e-5
+  stop_at_divergence: False
+  divergence_fitness: 1.0e+12
+  optim_params:
+    max_samples: 0
+    x_init: 1
+    init_sigma: 1
+    dim: 10
+    n_samples: 10
+  #env_name: f'dmc_ball_in_cup-catch_dense_detpmp-v0'
+  #env_name: f'dmc_ball_in_cup-catch_detpmp-v0'
+  #env_name: f'dmc_ball_in_cup-catch_dense_detpmp-v1'
+  env_name: f'dmc_ball_in_cup-catch_detpmp-v1'
+  #env_name: f'dmc_ball_in_cup-catch_dense_detpmp-v2'
+  #env_name: f'dmc_ball_in_cup-catch_detpmp-v2'
+
+---
+#name: 'DeepMindBallInCupDenseProMP-v0'
+#name: 'DeepMindBallInCupProMP-v0'
+#name: 'DeepMindBallInCupDenseProMP-v1'
+name: 'DeepMindBallInCupProMP-v1'
+#name: 'DeepMindBallInCupDenseProMP-v2'
+#name: 'DeepMindBallInCupProMP-v2'
+path:  "/home/yre/Desktop/KIT/masterthesis/Compare-Episodic-and-Step-based-Reinforcement-Learning/sixweek/"
+params:
+  problem:
+    #name: 'DeepMindBallInCupDenseProMP-v0'
+    #name: 'DeepMindBallInCupProMP-v0'
+    #name: 'DeepMindBallInCupDenseProMP-v1'
+    name: 'DeepMindBallInCupProMP-v1'
+    #name: 'DeepMindBallInCupDenseProMP-v2'
+    #name: 'DeepMindBallInCupProMP-v2'
+
