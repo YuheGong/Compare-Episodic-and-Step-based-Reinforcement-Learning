@@ -22,13 +22,15 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
         super().__init__()
         self.env = None
         self.algorithm = None
+        self.seed = None
 
     def initialize(self, config: dict, rep: int, logger: cw_logging.AbstractLogger) -> None:
+        self.seed = rep
 
         dim = config.params.optim_params.dim
         x_start = config.params.optim_params.x_init * np.random.randn(dim)
         init_sigma = config.params.optim_params.init_sigma
-        self.env = gym.make(config.params.env_name[2:-1])
+        self.env = gym.make(config.params.env_name[2:-1], seed=self.seed)
 
         self.algorithm  = cma.CMAEvolutionStrategy(
             x0=x_start,
@@ -44,6 +46,7 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
         self.success_full = []
         self.success_rate = 0
         self.success_rate_full = 0
+
 
 
 
@@ -76,7 +79,13 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
         self.env.reset()
         print("opt", -opt)
 
-        np.save(config.path + "/algo_mean.npy", self.algorithm.mean)
+        if rep < 10:
+            rep = "0" + str(rep)
+        else:
+            rep = str(rep)
+        #print("rep", rep)
+        np.save(config.path + "/log/rep_" + rep + "/algo_mean.npy", self.algorithm.mean)
+        #np.save(config.path + "/log/rep_" + rep + "/algo_mean.npy", self.algorithm.act)
         #log_writer.add_scalar("iteration/reward", opt, (t + 1) * 10 * 250)
         #log_writer.add_scalar("iteration/dist_entrance", env.env.dist_entrance, (t + 1) * 10 * 250)
         #log_writer.add_scalar("iteration/dist_bottom", env.env.dist_bottom, (t + 1) * 10 * 250)
@@ -120,7 +129,8 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
                         "dist_bottom": self.env.env.dist_bottom,
                         "success_rate": self.success_rate,
                         "success_rate_full": self.success_rate_full,
-                        "total_samples": (n + 1) * config.params.optim_params.n_samples
+                        "total_samples": (n + 1) * config.params.optim_params.n_samples,
+                        "seed": self.seed
                         }
 
         return results_dict

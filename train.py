@@ -62,14 +62,14 @@ def step_based(algo: str, env_id: str, seed=None):
         print('')
         print('training FINISH, save the model and config file to ' + data['path'])
 
-def episodic(algo, env_id, stop_cri):
+def episodic(algo, env_id, stop_cri, seed=None):
     file_name = algo + ".yml"
     data = read_yaml(file_name)[env_id]
     env_name = data["env_params"]["env_name"]
     #print("env_name", env_name)
-    env = gym.make(env_name[2:-1])
+    env = gym.make(env_name[2:-1], seed=seed)
 
-    params = np.zeros(data["algo_params"]["dimension"])
+    params = np.random.rand(data["algo_params"]["dimension"])
     ALGOS = {
         'cmaes': cma,
     }
@@ -238,7 +238,6 @@ if __name__ == '__main__':
     algo = args.algo
     env_id = args.env_id
     stop_cri = args.stop_cri
-    print("seed", args.seed)
     STEP_BASED = ["ppo", "sac"]
     EPISODIC = ["cmaes"]
     if algo in STEP_BASED:
