@@ -9,20 +9,21 @@ import cma
 from torch.utils.tensorboard import SummaryWriter
 
 
-def step_based(algo: str, env_id: str):
+def step_based(algo: str, env_id: str, seed=None):
     file_name = algo +".yml"
     data = read_yaml(file_name)[env_id]
 
     # create log folder
     path = logging(data['env_params']['env_name'], data['algorithm'])
     data['path'] = path
+    data['seed'] = seed
 
     # make the environment
     env = env_maker(data, num_envs=data["env_params"]['num_envs'])
     test_env = env_maker(data, num_envs=1, training=False, norm_reward=False)
 
     # make the model and save the model
-    model = model_building(data, env)
+    model = model_building(data, env, seed)
     try:
         test_env_path = data['path'] + "/eval/"
         model_learn(data, model, test_env, test_env_path)
@@ -206,6 +207,8 @@ if __name__ == '__main__':
     parser.add_argument("--algo", type=str, help="the algorithm")
     parser.add_argument("--env_id", type=str, help="the environment")
     parser.add_argument("--stop_cri", type=str, help="whether you set up stop criterion or not")
+    parser.add_argument("--seed", type=int, help="seed for training")
+
     args = parser.parse_args()
 
     if not args.algo and not args.env_id:
@@ -214,11 +217,11 @@ if __name__ == '__main__':
     algo = args.algo
     env_id = args.env_id
     stop_cri = args.stop_cri
-
+    print("seed", args.seed)
     STEP_BASED = ["ppo", "sac"]
     EPISODIC = ["cmaes"]
     if algo in STEP_BASED:
-        step_based(algo, env_id)
+        step_based(algo, env_id, args.seed)
     elif algo in EPISODIC:
         episodic(algo, env_id, stop_cri)
     else:

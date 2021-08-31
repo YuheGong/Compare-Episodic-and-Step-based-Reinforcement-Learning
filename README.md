@@ -39,6 +39,8 @@ python train.py --algo ppo --env_id ALRBallInACupSimpleDense-v0
 
 python train.py --algo ppo --env_id DeepMindBallInCupDense-v0
 
+python train.py --algo ppo --env_id DeepMindBallInCup-v0
+
 python train.py --algo ppo --env_id HoleReacherDense-v0
 
 - Episodic algo

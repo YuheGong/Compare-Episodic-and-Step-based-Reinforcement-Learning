@@ -29,6 +29,54 @@ HoleReacherDense-v0:
     wrapper: VecNormalize
 
 
+DeepMindBallInCup-v0:
+  name: DeepMind_Ball_In_Cup + PPO
+  algorithm: ppo
+  algo_params:
+    batch_size: 50
+    learning_rate: 0.0001
+    n_steps: 2000
+    total_timesteps: 2.e+6
+    special_policy: MlpPolicy
+    special_callback: DMbicCallback
+  env_params:
+    env_name: alr_envs:DeepMindBallInCup-v0
+    num_envs: 10
+    wrapper: VecNormalize
+
+
+DeepMindBallInCup-v1:
+  name: DeepMind_Ball_In_Cup + PPO
+  algorithm: ppo
+  algo_params:
+    batch_size: 50
+    learning_rate: 0.0001
+    n_steps: 2000
+    total_timesteps: 2.e+6
+    special_policy: MlpPolicy
+    special_callback: DMbicCallback
+  env_params:
+    env_name: alr_envs:DeepMindBallInCup-v1
+    num_envs: 10
+    wrapper: VecNormalize
+
+
+DeepMindBallInCup-v2:
+  name: DeepMind_Ball_In_Cup + PPO
+  algorithm: ppo
+  algo_params:
+    batch_size: 50
+    learning_rate: 0.0001
+    n_steps: 2000
+    total_timesteps: 2.e+6
+    special_policy: MlpPolicy
+    special_callback: DMbicCallback
+  env_params:
+    env_name: alr_envs:DeepMindBallInCup-v2
+    num_envs: 10
+    wrapper: VecNormalize
+
+
 DeepMindBallInCupDense-v0:
   name: DeepMind_Ball_In_Cup + PPO
   algorithm: ppo
@@ -38,10 +86,43 @@ DeepMindBallInCupDense-v0:
     n_steps: 2000
     total_timesteps: 2.e+6
     special_policy: MlpPolicy
+    special_callback: DMbicCallback
   env_params:
     env_name: alr_envs:DeepMindBallInCupDense-v0
-    num_envs: 8
+    num_envs: 10
     wrapper: VecNormalize
+
+
+DeepMindBallInCupDense-v1:
+  name: DeepMind_Ball_In_Cup + PPO
+  algorithm: ppo
+  algo_params:
+    batch_size: 50
+    learning_rate: 0.0001
+    n_steps: 2000
+    total_timesteps: 2.e+6
+    special_policy: MlpPolicy
+    special_callback: DMbicCallback
+  env_params:
+    env_name: alr_envs:DeepMindBallInCupDense-v1
+    num_envs: 10
+    wrapper: VecNormalize
+
+DeepMindBallInCupDense-v2:
+  name: DeepMind_Ball_In_Cup + PPO
+  algorithm: ppo
+  algo_params:
+    batch_size: 50
+    learning_rate: 0.0001
+    n_steps: 2000
+    total_timesteps: 2.e+6
+    special_policy: MlpPolicy
+    special_callback: DMbicCallback
+  env_params:
+    env_name: alr_envs:DeepMindBallInCupDense-v2
+    num_envs: 10
+    wrapper: VecNormalize
+
 
 
 
@@ -52,7 +133,7 @@ DeepMindWalkerDense-v0:
     batch_size: 50
     learning_rate: 0.0001
     n_steps: 2000
-    total_timesteps: 1.e+6
+    total_timesteps: 2.e+6
     special_policy: MlpPolicy
   env_params:
     env_name: alr_envs:DeepMindWalkerDense-v0

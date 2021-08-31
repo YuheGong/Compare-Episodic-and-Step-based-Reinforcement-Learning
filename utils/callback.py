@@ -43,6 +43,36 @@ class ALRBallInACupCallback(BaseCallback):
         self.logger.record('reward/min_dist_final', min_dist_final)
         return True
 
+class DMbicCallback(BaseCallback):
+    """
+    Custom callback for plotting additional values in tensorboard.
+    """
+
+    def __init__(self, verbose=0):
+        super(DMbicCallback, self).__init__(verbose)
+        self.success_rate = 0
+        
+    def reset(self):
+        self.success_rate = 0
+        return super().reset()
+
+    def _on_step(self) -> bool:
+
+        success_rate = 0
+        for i in range(len(self.model.env.venv.envs)):
+            #print(self.model.env.venv.envs[i].success_final)
+            success_rate += int(self.model.env.venv.envs[i].success)
+            #print("callback", i, self.model.env.venv.envs[i].success)
+            #print("success_rate", success_rate)
+            #if self.model.env.venv.envs[i].success_final:
+            #    self.success_rate += 1
+            #    print("success_rate", self.success_rate)
+
+        success_rate = success_rate / len(self.model.env.venv.envs)
+        #success_rates.append(success_rate)
+        self.logger.record('reward/success_rate', success_rate)
+        return True
+
 
 class DummyCallback(BaseCallback):
     """
