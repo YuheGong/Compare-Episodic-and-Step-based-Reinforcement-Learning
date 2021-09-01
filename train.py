@@ -1,15 +1,13 @@
 import argparse
 from utils.env import env_maker, env_save
 from utils.logger import logging
-from utils.model import model_building, model_learn
+from utils.model import model_building, model_learn, cmaes_model_training
 from utils.yaml import write_yaml, read_yaml
 import numpy as np
 import gym
 import cma
 from torch.utils.tensorboard import SummaryWriter
-from tensorboard.backend.event_processing import event_accumulator
-import pandas as pd
-from tqdm import tqdm
+from utils.csv import csv_save
 
 
 def step_based(algo: str, env_id: str, seed=None):
@@ -27,38 +25,26 @@ def step_based(algo: str, env_id: str, seed=None):
 
     # make the model and save the model
     model = model_building(data, env, seed)
+
+    # csv file path
+    data["path_in"] = data["path"] + '/PPO_1'
+    data["path_out"] = data["path"] + '/data.csv'
+
     try:
         test_env_path = data['path'] + "/eval/"
         model_learn(data, model, test_env, test_env_path)
-
     except KeyboardInterrupt:
         data["algo_params"]['num_timesteps'] = model.num_timesteps
         write_yaml(data)
         env_save(data, model, env)
-
-
-        #save csv file
-        in_path =  data["path"] + '/PPO_1'
-        ex_path =  data["path"] + '/data.csv'
-        event_data = event_accumulator.EventAccumulator(in_path)  # a python interface for loading Event data
-        event_data.Reload()  # synchronously loads all of the data written so far b
-        # print(event_data.Tags())  # print all tags
-        keys = event_data.scalars.Keys()  # get all tags,save in a list
-        # print(keys)
-        df = pd.DataFrame(columns=keys[0:])  # my first column is training loss per iteration, so I abandon it
-        for key in tqdm(keys):
-            # print(key)
-            df[key] = pd.DataFrame(event_data.Scalars(key)).value
-        df.to_csv(ex_path)
-
-        print("Tensorboard data exported successfully")
-
+        csv_save(data)
         print('')
         print('training interrupt, save the model and config file to ' + data["path"])
     else:
         data["algo_params"]['num_timesteps'] = model.num_timesteps
         write_yaml(data)
         env_save(data, model, env)
+        csv_save(data)
         print('')
         print('training FINISH, save the model and config file to ' + data['path'])
 
@@ -69,7 +55,8 @@ def episodic(algo, env_id, stop_cri, seed=None):
     #print("env_name", env_name)
     env = gym.make(env_name[2:-1], seed=seed)
 
-    params = np.random.rand(data["algo_params"]["dimension"])
+    params = data["algo_params"]['x_init'] * np.random.rand(data["algo_params"]["dimension"])
+    #params = np.zeros(data["algo_params"]["dimension"])
     ALGOS = {
         'cmaes': cma,
     }
@@ -83,7 +70,6 @@ def episodic(algo, env_id, stop_cri, seed=None):
     env.reset()
 
     t = 0
-    opt = -10
     opts = []
     opt_full = []
     fitness = []
@@ -93,131 +79,26 @@ def episodic(algo, env_id, stop_cri, seed=None):
 
     try:
         if stop_cri:
-            while t < data["algo_params"]["iteration"] and not success:#387 :# and opt < -1:
-                print("----------iter {} -----------".format(t))
-                solutions = np.vstack(algorithm.ask())
-                for i in range(len(solutions)):
-                    # print(i, solutions[i])
-                    _, reward, __, ___ = env.step(solutions[i])
-                    success_full.append(env.env.success)
-                    #env.reset()
-                    print('reward', -reward)
-                    opt_full.append(reward)
-                    fitness.append(-reward)
-
-                algorithm.tell(solutions, fitness)
-                _, opt, __, ___ = env.step(algorithm.mean)
-
-
-                #print("success", env.env.success)
-                #assert 1==9
-                success = True
-                #print("success", success)
-                success_mean.append(env.env.success)
-                env.reset()
-                print("opt", -opt)
-
-                np.save(path + "/algo_mean.npy", algorithm.mean)
-                log_writer.add_scalar("iteration/reward", opt, (t+1)*10*250)
-                log_writer.add_scalar("iteration/dist_entrance", env.env.dist_entrance, (t+1)*10*250)
-                log_writer.add_scalar("iteration/dist_bottom", env.env.dist_bottom, (t+1)*10*250)
-
-
-
-                fitness = []
-                opts.append(opt)
-                #opt_full.append(reward)
-                t += 1
-
-                if t % 10 == 0:
-                    a = 0
-                    b = 0
-
-
-                    #print(len(opts))
-                    for i in range(len(success_mean)):
-
-                        if success_mean[i]:
-                            a += 1
-                    success_rate = a/len(success_mean)
-                    #print(a)
-                    success_mean = []
-                    log_writer.add_scalar("iteration/success_rate", success_rate, (t+1)*10*250)
-
-                    for i in range(len(success_full)):
-                        if success_full[i]:
-                            b += 1
-                    success_rate_full = b / len(success_full)
-                    success_full = []
-                    #print("success_full_rate", success_rate_full)
-                    log_writer.add_scalar("iteration/success_rate_full", success_rate_full, (t+1)*10*250)
+            while t < data["algo_params"]["iteration"] and not success:
+                algorithm, env, success_full, success_mean, opt_full, fitness, path, log_writer, opts, t = \
+                    cmaes_model_training(algorithm, env, success_full, success_mean, opt_full, fitness, path,
+                                         log_writer, opts, t)
         else:
-            while t < data["algo_params"]["iteration"]:#387 :# and opt < -1:
-                print("----------iter {} -----------".format(t))
-                solutions = np.vstack(algorithm.ask())
-                for i in range(len(solutions)):
-                    # print(i, solutions[i])
-                    _, reward, __, ___ = env.step(solutions[i])
-
-
-                    success_full.append(env.env.success)
-                    env.reset()
-                    print('reward', -reward)
-                    opt_full.append(reward)
-                    fitness.append(-reward)
-
-                algorithm.tell(solutions, fitness)
-                _, opt, __, ___ = env.step(algorithm.mean)
-                np.save(path + "/solution.npy",solutions[0])
-
-                #print("success", env.env.success)
-                #assert 1==9
-                success = env.env.success
-                success_mean.append(env.env.success)
-                env.reset()
-                print("opt", -opt)
-
-                np.save(path + "/algo_mean.npy", algorithm.mean)
-                log_writer.add_scalar("iteration/reward", opt, (t+1)*10*250)
-                log_writer.add_scalar("iteration/dist_entrance", env.env.dist_entrance, (t+1)*10*250)
-                log_writer.add_scalar("iteration/dist_bottom", env.env.dist_bottom, (t+1)*10*250)
-
-
-
-                fitness = []
-                opts.append(opt)
-                #opt_full.append(reward)
-                t += 1
-
-                if t % 10 == 0:
-                    a = 0
-                    b = 0
-
-
-                    #print(len(opts))
-                    for i in range(len(success_mean)):
-                        if success_mean[i]:
-                            a += 1
-                    success_rate = a/len(success_mean)
-                    #print(a)
-                    success_mean = []
-                    log_writer.add_scalar("iteration/success_rate", success_rate, (t+1)*10*250)
-
-                    for i in range(len(success_full)):
-                        if success_full[i]:
-                            b += 1
-                    success_rate_full = b / len(success_full)
-                    success_full = []
-                    #print("success_full_rate", success_rate_full)
-                    log_writer.add_scalar("iteration/success_rate_full", success_rate_full, (t+1)*10*250)
-                    log_writer.add_scalar("iteration/success_rate_full_2", success_rate_full, t + 1 )
-
-
+            while t < data["algo_params"]["iteration"]:
+                algorithm, env, success_full, success_mean, opt_full, fitness, path, log_writer, opts, t = \
+                    cmaes_model_training(algorithm, env, success_full, success_mean, opt_full, fitness, path,
+                                         log_writer, opts, t)
     except KeyboardInterrupt:
+        data["path_in"] = path
+        data["path_out"] = path + '/data.csv'
+        csv_save(data)
         np.save(path + "/algo_mean.npy", algorithm.mean)
         print('')
         print('training interrupt, save the model to ' + path)
     else:
+        data["path_in"] = path
+        data["path_out"] = path + '/data.csv'
+        csv_save(data)
         np.save(path + "/algo_mean.npy", algorithm.mean)
         print('')
         print('training Finish, save the model to ' + path)
@@ -241,9 +122,9 @@ if __name__ == '__main__':
     STEP_BASED = ["ppo", "sac"]
     EPISODIC = ["cmaes"]
     if algo in STEP_BASED:
-        step_based(algo, env_id, args.seed)
+        step_based(algo, env_id, seed=args.seed)
     elif algo in EPISODIC:
-        episodic(algo, env_id, stop_cri)
+        episodic(algo, env_id, stop_cri, seed=args.seed)
     else:
         print("the algorithm" + algo + "is false or not implemented")
 

@@ -1,4 +1,4 @@
-
+import numpy as np
 from utils.callback import ALRBallInACupCallback,DMbicCallback
 from utils.custom import CustomActorCriticPolicy
 from stable_baselines3 import PPO, A2C, DQN, HER, SAC, TD3, DDPG
@@ -53,5 +53,59 @@ def model_learn(data, model, test_env, test_env_path):
                                  deterministic=False, render=False)
 
     model.learn(total_timesteps=int(data['algo_params']['total_timesteps']), callback=eval_callback)
-
                 #, eval_freq=500, n_eval_episodes=10, eval_log_path=test_env_path, eval_env=test_env)
+
+
+def cmaes_model_training(algorithm, env, success_full, success_mean, opt_full, fitness, path, log_writer, opts, t):
+    print("----------iter {} -----------".format(t))
+    solutions = np.vstack(algorithm.ask())
+    for i in range(len(solutions)):
+        # print(i, solutions[i])
+        _, reward, __, ___ = env.step(solutions[i])
+        success_full.append(env.env.success)
+        # env.reset()
+        print('reward', -reward)
+        opt_full.append(reward)
+        fitness.append(-reward)
+        env.reset()
+
+    algorithm.tell(solutions, fitness)
+    _, opt, __, ___ = env.step(algorithm.mean)
+
+    success_mean.append(env.env.success)
+    if success_mean:
+        success = True
+    env.reset()
+    print("opt", -opt)
+
+    np.save(path + "/algo_mean.npy", algorithm.mean)
+    log_writer.add_scalar("iteration/reward", opt, t)
+    log_writer.add_scalar("iteration/dist_entrance", env.env.dist_entrance, t)
+    log_writer.add_scalar("iteration/dist_bottom", env.env.dist_bottom, t)
+
+    fitness = []
+    opts.append(opt)
+    # opt_full.append(reward)
+    t += 1
+
+    if t % 1 == 0:
+        a = 0
+        b = 0
+
+        # print(len(opts))
+        for i in range(len(success_mean)):
+
+            if success_mean[i]:
+                a += 1
+        success_rate = a / len(success_mean)
+        success_mean = []
+        for i in range(len(success_full)):
+            if success_full[i]:
+                b += 1
+        success_rate_full = b / len(success_full)
+        success_full = []
+
+        # print("success_full_rate", success_rate_full)
+        log_writer.add_scalar("iteration/success_rate_full", success_rate_full, t)
+        log_writer.add_scalar("iteration/success_rate", success_rate, t)
+    return algorithm, env, success_full, success_mean, opt_full, fitness, path, log_writer, opts, t
