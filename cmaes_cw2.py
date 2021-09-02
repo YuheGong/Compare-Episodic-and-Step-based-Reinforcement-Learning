@@ -26,6 +26,7 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
 
     def initialize(self, config: dict, rep: int, logger: cw_logging.AbstractLogger) -> None:
         self.seed = rep
+        print(self.seed)
 
         dim = config.params.optim_params.dim
         x_start = config.params.optim_params.x_init * np.random.randn(dim)
