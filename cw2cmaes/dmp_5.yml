@@ -13,7 +13,7 @@ time: 2:00:00
 # DEFAULT
 name: "DEFAULT"
 repetitions: 20  # number of times one set of parameters is run
-iterations: 2000  # number of iterations per repetition
+iterations:  800   # number of iterations per repetition
 path: "cmaes"
 gui: false
 params:

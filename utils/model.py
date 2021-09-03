@@ -48,8 +48,8 @@ def model_learn(data, model, test_env, test_env_path):
         callback = None
 
     from stable_baselines3.common.callbacks import EvalCallback
-    eval_callback = EvalCallback(test_env, best_model_save_path=test_env_path,  n_eval_episodes=10,
-                                 log_path=test_env_path, eval_freq=500,
+    eval_callback = EvalCallback(test_env, best_model_save_path=test_env_path,  n_eval_episodes=data['eval_env']['n_eval_episode'],
+                                 log_path=test_env_path, eval_freq=data['eval_env']['eval_freq'],
                                  deterministic=False, render=False)
 
     model.learn(total_timesteps=int(data['algo_params']['total_timesteps']), callback=eval_callback)
@@ -61,27 +61,39 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, opt_full, f
     solutions = np.vstack(algorithm.ask())
     for i in range(len(solutions)):
         # print(i, solutions[i])
-        _, reward, __, ___ = env.step(solutions[i])
+        #print(env.step)
+        #assert 1==238
+        env.reset()
+        _, reward, done, ___ = env.step(solutions[i])
+        #print("done_in_model", done)
         success_full.append(env.env.success)
         # env.reset()
         print('reward', -reward)
+
         opt_full.append(reward)
         fitness.append(-reward)
-        env.reset()
-
+        #env.reset()
+    #print("self.sp.cmean", algorithm.C)
+    #assert 1==237
     algorithm.tell(solutions, fitness)
+    #print("mean2", algorithm.C)
     _, opt, __, ___ = env.step(algorithm.mean)
+
 
     success_mean.append(env.env.success)
     if success_mean:
         success = True
     env.reset()
-    print("opt", -opt)
 
     np.save(path + "/algo_mean.npy", algorithm.mean)
     log_writer.add_scalar("iteration/reward", opt, t)
     log_writer.add_scalar("iteration/dist_entrance", env.env.dist_entrance, t)
     log_writer.add_scalar("iteration/dist_bottom", env.env.dist_bottom, t)
+    for i in range(len(algorithm.mean)):
+        log_writer.add_scalar(f"algorithm_params/mean[{i}]", algorithm.mean[i], t)
+        #print(i, algorithm.C[i])
+        log_writer.add_scalar(f"algorithm_params/covariance_matrix_mean[{i}]", np.mean(algorithm.C[i]), t)
+        log_writer.add_scalar(f"algorithm_params/covariance_matrix_variance[{i}]", np.var(algorithm.C[i]), t)
 
     fitness = []
     opts.append(opt)

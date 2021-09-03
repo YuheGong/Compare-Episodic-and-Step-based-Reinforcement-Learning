@@ -67,7 +67,7 @@ def episodic(algo, env_id, stop_cri, seed=None):
     path = "alr_envs:" + env_id
     path = logging(path, algo)
     log_writer = SummaryWriter(path)
-    env.reset()
+    #env.reset()
 
     t = 0
     opts = []

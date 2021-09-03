@@ -27,6 +27,9 @@ HoleReacherDense-v0:
     env_name: alr_envs:HoleReacherDense-v0
     num_envs: 8
     wrapper: VecNormalize
+  eval_env:
+    n_eval_episode: 10
+    eval_freq: 500
 
 
 DeepMindBallInCup-v0:
@@ -43,6 +46,9 @@ DeepMindBallInCup-v0:
     env_name: alr_envs:DeepMindBallInCup-v0
     num_envs: 10
     wrapper: VecNormalize
+  eval_env:
+    n_eval_episode: 10
+    eval_freq: 500
 
 
 DeepMindBallInCup-v1:
@@ -59,6 +65,9 @@ DeepMindBallInCup-v1:
     env_name: alr_envs:DeepMindBallInCup-v1
     num_envs: 10
     wrapper: VecNormalize
+  eval_env:
+    n_eval_episode: 10
+    eval_freq: 500
 
 
 DeepMindBallInCup-v2:
@@ -75,6 +84,9 @@ DeepMindBallInCup-v2:
     env_name: alr_envs:DeepMindBallInCup-v2
     num_envs: 10
     wrapper: VecNormalize
+  eval_env:
+    n_eval_episode: 10
+    eval_freq: 500
 
 
 DeepMindBallInCupDense-v0:
@@ -91,6 +103,9 @@ DeepMindBallInCupDense-v0:
     env_name: alr_envs:DeepMindBallInCupDense-v0
     num_envs: 10
     wrapper: VecNormalize
+  eval_env:
+    n_eval_episode: 10
+    eval_freq: 500
 
 
 DeepMindBallInCupDense-v1:
@@ -107,6 +122,9 @@ DeepMindBallInCupDense-v1:
     env_name: alr_envs:DeepMindBallInCupDense-v1
     num_envs: 10
     wrapper: VecNormalize
+  eval_env:
+    n_eval_episode: 10
+    eval_freq: 500
 
 DeepMindBallInCupDense-v2:
   name: DeepMind_Ball_In_Cup + PPO
@@ -122,9 +140,41 @@ DeepMindBallInCupDense-v2:
     env_name: alr_envs:DeepMindBallInCupDense-v2
     num_envs: 10
     wrapper: VecNormalize
+  eval_env:
+    n_eval_episode: 10
+    eval_freq: 500
 
+ALRReacher-v0:
+  algorithm: ppo
+  algo_params:
+    batch_size: 64
+    learning_rate: 0.0001
+    n_steps:  16384
+    total_timesteps: 2.e+6
+    special_policy: MlpPolicy
+  env_params:
+    env_name: alr_envs:ALRReacher-v0
+    num_envs: 10
+    wrapper: VecNormalize
+  eval_env:
+    n_eval_episode: 10
+    eval_freq: 1000
 
-
+ALRLongReacher-v0:
+  algorithm: ppo
+  algo_params:
+    batch_size: 64
+    learning_rate: 0.0001
+    n_steps:  16384
+    total_timesteps: 2.e+6
+    special_policy: MlpPolicy
+  env_params:
+    env_name: alr_envs:ALRLongReacher-v0
+    num_envs: 10
+    wrapper: VecNormalize
+  eval_env:
+    n_eval_episode: 10
+    eval_freq: 1000
 
 DeepMindWalkerDense-v0:
   name: DeepMind_Walker + PPO

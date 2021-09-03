@@ -66,7 +66,7 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
             self.success_full.append(self.env.success)
             self.env.reset()
             print('reward', -reward)
-            opt_full.append(reward)
+            opt_full.append(-reward)
             fitness.append(-reward)
 
         self.algorithm.tell(solutions, fitness)
@@ -92,7 +92,7 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
         #log_writer.add_scalar("iteration/dist_bottom", env.env.dist_bottom, (t + 1) * 10 * 250)
 
         fitness = []
-        opts.append(opt)
+        #opts.append(opt)
         # opt_full.append(reward)
         n += 1
 
@@ -126,6 +126,7 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
         
 
         results_dict = {"reward": opt,
+                        "reward_samples": opt_full,
                         "dist_entrance": self.env.env.dist_entrance,
                         "dist_bottom": self.env.env.dist_bottom,
                         "success_rate": self.success_rate,
