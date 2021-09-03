@@ -21,18 +21,27 @@ def model_building(data, env, seed=None):
         'MlpPolicy': MlpPolicy,
         'CustomActorCriticPolicy': CustomActorCriticPolicy
     }
-    if "special_policy" in data['algo_params']:
+    if data['algorithm'] == "ppo":
         policy = POLICY[data['algo_params']['special_policy']]
     else:
         policy = data['algo_params']['policy']
 
-    model = ALGO(policy, env, verbose=1, create_eval_env=True,
-                 # model = ALGO(MlpPolicy, env, verbose=1, create_eval_env=True,
-                 tensorboard_log=data['path'],
-                 seed=seed,
-                 learning_rate=data["algo_params"]['learning_rate'],
-                 batch_size=data["algo_params"]['batch_size'],
-                 n_steps=data["algo_params"]['n_steps'])
+    if data['algorithm'] == "ppo":
+        model = ALGO(policy, env, verbose=1, create_eval_env=True,
+                     tensorboard_log=data['path'],
+                     seed=seed,
+                     learning_rate=data["algo_params"]['learning_rate'],
+                     batch_size=data["algo_params"]['batch_size'],
+                     n_steps=data["algo_params"]['n_steps'])
+    elif data['algorithm'] == "sac":
+        model = ALGO(policy, env, verbose=1, create_eval_env=True,
+                     tensorboard_log=data['path'],
+                     seed=seed,
+                     learning_rate=data["algo_params"]['learning_rate'],
+                     batch_size=data["algo_params"]['batch_size'])
+    else:
+        print("the model initialization function for " + data['algorithm'] + " is still not implemented.")
+
     return model
 
 
@@ -54,7 +63,6 @@ def model_learn(data, model, test_env, test_env_path):
 
     model.learn(total_timesteps=int(data['algo_params']['total_timesteps']), callback=eval_callback)
                 #, eval_freq=500, n_eval_episodes=10, eval_log_path=test_env_path, eval_env=test_env)
-
 
 def cmaes_model_training(algorithm, env, success_full, success_mean, opt_full, fitness, path, log_writer, opts, t):
     print("----------iter {} -----------".format(t))

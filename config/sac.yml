@@ -1,6 +1,6 @@
 ALRBallInACupSimpleDense-v0:
-  name: Ball_In_A_Cup + PPO
-  algorithm: ppo
+  name: Ball_In_A_Cup + SAC
+  algorithm: sac
   algo_params:
     batch_size: 50
     learning_rate: 0.0001
@@ -15,8 +15,8 @@ ALRBallInACupSimpleDense-v0:
 
 
 HoleReacherDense-v0:
-  name: HoleReacherDense + PPO
-  algorithm: ppo
+  name: HoleReacherDense + SAC
+  algorithm: sac
   algo_params:
     batch_size: 50
     learning_rate: 0.0001
@@ -33,113 +33,114 @@ HoleReacherDense-v0:
 
 
 DeepMindBallInCup-v0:
-  name: DeepMind_Ball_In_Cup + PPO
-  algorithm: ppo
+  name: DeepMind_Ball_In_Cup + SAC
+  algorithm: sac
   algo_params:
     batch_size: 50
     learning_rate: 0.0001
     n_steps: 2000
     total_timesteps: 2.e+6
-    special_policy: MlpPolicy
+    policy: MlpPolicy
     special_callback: DMbicCallback
   env_params:
     env_name: alr_envs:DeepMindBallInCup-v0
-    num_envs: 10
-    wrapper: VecNormalize
+    num_envs: 1
+    wrapper: None
   eval_env:
     n_eval_episode: 10
     eval_freq: 500
 
 
 DeepMindBallInCup-v1:
-  name: DeepMind_Ball_In_Cup + PPO
-  algorithm: ppo
+  name: DeepMind_Ball_In_Cup + SAC
+  algorithm: sac
   algo_params:
     batch_size: 50
     learning_rate: 0.0001
     n_steps: 2000
     total_timesteps: 2.e+6
-    special_policy: MlpPolicy
+    policy: MlpPolicy
     special_callback: DMbicCallback
   env_params:
     env_name: alr_envs:DeepMindBallInCup-v1
-    num_envs: 10
-    wrapper: VecNormalize
+    num_envs: 1
+    wrapper: None
   eval_env:
     n_eval_episode: 10
     eval_freq: 500
 
 
 DeepMindBallInCup-v2:
-  name: DeepMind_Ball_In_Cup + PPO
-  algorithm: ppo
+  name: DeepMind_Ball_In_Cup + SAC
+  algorithm: sac
   algo_params:
     batch_size: 50
     learning_rate: 0.0001
     n_steps: 2000
     total_timesteps: 2.e+6
-    special_policy: MlpPolicy
+    policy: MlpPolicy
     special_callback: DMbicCallback
   env_params:
     env_name: alr_envs:DeepMindBallInCup-v2
-    num_envs: 10
-    wrapper: VecNormalize
+    num_envs: 1
+    wrapper: None
   eval_env:
     n_eval_episode: 10
     eval_freq: 500
 
 
 DeepMindBallInCupDense-v0:
-  name: DeepMind_Ball_In_Cup + PPO
-  algorithm: ppo
+  name: DeepMind_Ball_In_Cup + SAC
+  algorithm: sac
   algo_params:
     batch_size: 50
     learning_rate: 0.0001
     n_steps: 2000
     total_timesteps: 2.e+6
-    special_policy: MlpPolicy
+    policy: MlpPolicy
     special_callback: DMbicCallback
   env_params:
     env_name: alr_envs:DeepMindBallInCupDense-v0
-    num_envs: 10
-    wrapper: VecNormalize
+    num_envs: 1
+    wrapper: None
   eval_env:
     n_eval_episode: 10
     eval_freq: 500
 
 
 DeepMindBallInCupDense-v1:
-  name: DeepMind_Ball_In_Cup + PPO
-  algorithm: ppo
+  name: DeepMind_Ball_In_Cup + SAC
+  algorithm: sac
   algo_params:
     batch_size: 50
     learning_rate: 0.0001
     n_steps: 2000
     total_timesteps: 2.e+6
-    special_policy: MlpPolicy
+    policy: MlpPolicy
     special_callback: DMbicCallback
   env_params:
     env_name: alr_envs:DeepMindBallInCupDense-v1
-    num_envs: 10
-    wrapper: VecNormalize
+    num_envs: 1
+    wrapper: None
   eval_env:
     n_eval_episode: 10
     eval_freq: 500
 
+
 DeepMindBallInCupDense-v2:
-  name: DeepMind_Ball_In_Cup + PPO
-  algorithm: ppo
+  name: DeepMind_Ball_In_Cup + SAC
+  algorithm: sac
   algo_params:
     batch_size: 50
     learning_rate: 0.0001
     n_steps: 2000
     total_timesteps: 2.e+6
-    special_policy: MlpPolicy
+    policy: MlpPolicy
     special_callback: DMbicCallback
   env_params:
     env_name: alr_envs:DeepMindBallInCupDense-v2
-    num_envs: 10
-    wrapper: VecNormalize
+    num_envs: 1
+    wrapper: None
   eval_env:
     n_eval_episode: 10
     eval_freq: 500
