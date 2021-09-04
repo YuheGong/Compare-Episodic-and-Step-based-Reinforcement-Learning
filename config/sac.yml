@@ -4,7 +4,7 @@ ALRBallInACupSimpleDense-v0:
   algo_params:
     batch_size: 50
     learning_rate: 0.0001
-    n_steps: 2000
+    n_steps: 20000
     total_timesteps: 5.e+7
     special_policy: CustomActorCriticPolicy
     special_callback: ALRBallInACupCallback
@@ -20,7 +20,7 @@ HoleReacherDense-v0:
   algo_params:
     batch_size: 50
     learning_rate: 0.0001
-    n_steps: 2000
+    n_steps: 20000
     total_timesteps: 1.e+6
     special_policy: MlpPolicy
   env_params:
@@ -36,9 +36,9 @@ DeepMindBallInCup-v0:
   name: DeepMind_Ball_In_Cup + SAC
   algorithm: sac
   algo_params:
-    batch_size: 50
+    batch_size: 256
     learning_rate: 0.0001
-    n_steps: 2000
+    n_steps: 16384
     total_timesteps: 2.e+6
     policy: MlpPolicy
     special_callback: DMbicCallback
@@ -57,7 +57,7 @@ DeepMindBallInCup-v1:
   algo_params:
     batch_size: 50
     learning_rate: 0.0001
-    n_steps: 2000
+    n_steps: 20000
     total_timesteps: 2.e+6
     policy: MlpPolicy
     special_callback: DMbicCallback
@@ -76,7 +76,7 @@ DeepMindBallInCup-v2:
   algo_params:
     batch_size: 50
     learning_rate: 0.0001
-    n_steps: 2000
+    n_steps: 20000
     total_timesteps: 2.e+6
     policy: MlpPolicy
     special_callback: DMbicCallback
@@ -95,7 +95,7 @@ DeepMindBallInCupDense-v0:
   algo_params:
     batch_size: 50
     learning_rate: 0.0001
-    n_steps: 2000
+    n_steps: 20000
     total_timesteps: 2.e+6
     policy: MlpPolicy
     special_callback: DMbicCallback
@@ -114,7 +114,7 @@ DeepMindBallInCupDense-v1:
   algo_params:
     batch_size: 50
     learning_rate: 0.0001
-    n_steps: 2000
+    n_steps: 20000
     total_timesteps: 2.e+6
     policy: MlpPolicy
     special_callback: DMbicCallback
@@ -133,7 +133,7 @@ DeepMindBallInCupDense-v2:
   algo_params:
     batch_size: 50
     learning_rate: 0.0001
-    n_steps: 2000
+    n_steps: 20000
     total_timesteps: 2.e+6
     policy: MlpPolicy
     special_callback: DMbicCallback

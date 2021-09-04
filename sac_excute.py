@@ -3,7 +3,7 @@ import os
 
 
 
-run = 20
+run = 3
 for env_id in range(3):
     env_name = f"DeepMindBallInCup-v{env_id}"
     for i in range(run):
