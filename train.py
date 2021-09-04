@@ -27,7 +27,7 @@ def step_based(algo: str, env_id: str, seed=None):
     model = model_building(data, env, seed)
 
     # csv file path
-    data["path_in"] = data["path"] + '/PPO_1'
+    data["path_in"] = data["path"] + '/' + data['algorithm'].upper() + '_1'
     data["path_out"] = data["path"] + '/data.csv'
 
     try:

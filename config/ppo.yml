@@ -166,7 +166,7 @@ ALRLongReacher-v0:
     batch_size: 64
     learning_rate: 0.0001
     n_steps:  16384
-    total_timesteps: 2.e+6
+    total_timesteps: 1.e+7
     special_policy: MlpPolicy
   env_params:
     env_name: alr_envs:ALRLongReacher-v0
