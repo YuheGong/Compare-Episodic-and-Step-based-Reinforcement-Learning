@@ -3,14 +3,14 @@ import os
 
 
 
-run = 3
+run = [0,5, 10, 15, 20]
 for env_id in range(3):
     env_name = f"DeepMindBallInCup-v{env_id}"
-    for i in range(run):
+    for i in run:
         str = 'python train.py --algo sac --env_id ' + env_name + f' --seed {i}'
         os.system(str)
     env_name = f"DeepMindBallInCupDense-v{env_id}"
-    for i in range(run):
+    for i in run:
         str = 'python train.py --algo sac --env_id ' + env_name + f' --seed {i}'
         os.system(str)
 
