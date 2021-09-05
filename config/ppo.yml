@@ -39,7 +39,7 @@ DeepMindBallInCup-v0:
     batch_size: 50
     learning_rate: 0.0001
     n_steps: 2000
-    total_timesteps: 2.e+6
+    total_timesteps: 1.e+6
     special_policy: MlpPolicy
     special_callback: DMbicCallback
   env_params:
@@ -58,7 +58,7 @@ DeepMindBallInCup-v1:
     batch_size: 50
     learning_rate: 0.0001
     n_steps: 2000
-    total_timesteps: 2.e+6
+    total_timesteps: 1.e+6
     special_policy: MlpPolicy
     special_callback: DMbicCallback
   env_params:
@@ -77,7 +77,7 @@ DeepMindBallInCup-v2:
     batch_size: 50
     learning_rate: 0.0001
     n_steps: 2000
-    total_timesteps: 2.e+6
+    total_timesteps: 1.e+6
     special_policy: MlpPolicy
     special_callback: DMbicCallback
   env_params:
@@ -96,12 +96,12 @@ DeepMindBallInCupDense-v0:
     batch_size: 50
     learning_rate: 0.0001
     n_steps: 2000
-    total_timesteps: 2.e+6
+    total_timesteps: 1.e+6
     special_policy: MlpPolicy
     special_callback: DMbicCallback
   env_params:
     env_name: alr_envs:DeepMindBallInCupDense-v0
-    num_envs: 10
+    num_envs: 1
     wrapper: VecNormalize
   eval_env:
     n_eval_episode: 10
@@ -115,12 +115,12 @@ DeepMindBallInCupDense-v1:
     batch_size: 50
     learning_rate: 0.0001
     n_steps: 2000
-    total_timesteps: 2.e+6
+    total_timesteps: 1.e+6
     special_policy: MlpPolicy
     special_callback: DMbicCallback
   env_params:
     env_name: alr_envs:DeepMindBallInCupDense-v1
-    num_envs: 10
+    num_envs: 1
     wrapper: VecNormalize
   eval_env:
     n_eval_episode: 10
@@ -133,12 +133,12 @@ DeepMindBallInCupDense-v2:
     batch_size: 50
     learning_rate: 0.0001
     n_steps: 2000
-    total_timesteps: 2.e+6
+    total_timesteps: 1.e+6
     special_policy: MlpPolicy
     special_callback: DMbicCallback
   env_params:
     env_name: alr_envs:DeepMindBallInCupDense-v2
-    num_envs: 10
+    num_envs: 1
     wrapper: VecNormalize
   eval_env:
     n_eval_episode: 10
@@ -150,11 +150,11 @@ ALRReacher-v0:
     batch_size: 64
     learning_rate: 0.0001
     n_steps:  16384
-    total_timesteps: 5.e+6
+    total_timesteps: 1.e+6
     special_policy: MlpPolicy
   env_params:
     env_name: alr_envs:ALRReacher-v0
-    num_envs: 10
+    num_envs: 1
     wrapper: VecNormalize
   eval_env:
     n_eval_episode: 10
@@ -170,7 +170,7 @@ ALRLongReacher-v0:
     special_policy: MlpPolicy
   env_params:
     env_name: alr_envs:ALRLongReacher-v0
-    num_envs: 10
+    num_envs: 1
     wrapper: VecNormalize
   eval_env:
     n_eval_episode: 10

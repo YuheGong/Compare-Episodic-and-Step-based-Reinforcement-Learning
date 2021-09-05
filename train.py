@@ -30,6 +30,8 @@ def step_based(algo: str, env_id: str, seed=None):
     data["path_in"] = data["path"] + '/' + data['algorithm'].upper() + '_1'
     data["path_out"] = data["path"] + '/data.csv'
 
+
+
     try:
         test_env_path = data['path'] + "/eval/"
         model_learn(data, model, test_env, test_env_path)
@@ -119,12 +121,13 @@ if __name__ == '__main__':
     algo = args.algo
     env_id = args.env_id
     stop_cri = args.stop_cri
-    STEP_BASED = ["ppo", "sac"]
+    STEP_BASED = ["ppo", "sac", "ddpg"]
+    print("algo", algo)
     EPISODIC = ["cmaes"]
     if algo in STEP_BASED:
         step_based(algo, env_id, seed=args.seed)
     elif algo in EPISODIC:
         episodic(algo, env_id, stop_cri, seed=args.seed)
     else:
-        print("the algorithm" + algo + "is false or not implemented")
+        print("the algorithm " + algo + " is false or not implemented")
 

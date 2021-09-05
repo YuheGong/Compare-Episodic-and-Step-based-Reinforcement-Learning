@@ -3,7 +3,7 @@ from utils.callback import ALRBallInACupCallback,DMbicCallback
 from utils.custom import CustomActorCriticPolicy
 from stable_baselines3 import PPO, A2C, DQN, HER, SAC, TD3, DDPG
 from stable_baselines3.ppo import MlpPolicy
-
+import torch as th
 
 def model_building(data, env, seed=None):
     ALGOS = {
@@ -21,19 +21,28 @@ def model_building(data, env, seed=None):
         'MlpPolicy': MlpPolicy,
         'CustomActorCriticPolicy': CustomActorCriticPolicy
     }
+
+    policy_kwargs = dict(activation_fn=th.nn.Tanh)
+
     if data['algorithm'] == "ppo":
         policy = POLICY[data['algo_params']['special_policy']]
     else:
         policy = data['algo_params']['policy']
 
     if data['algorithm'] == "ppo":
-        model = ALGO(policy, env, verbose=1, create_eval_env=True,
+        model = ALGO(policy, env, policy_kwargs=policy_kwargs, verbose=1, create_eval_env=True,
                      tensorboard_log=data['path'],
                      seed=seed,
                      learning_rate=data["algo_params"]['learning_rate'],
                      batch_size=data["algo_params"]['batch_size'],
                      n_steps=data["algo_params"]['n_steps'])
     elif data['algorithm'] == "sac":
+        model = ALGO(policy, env, verbose=1, create_eval_env=True,
+                     tensorboard_log=data['path'],
+                     seed=seed,
+                     learning_rate=data["algo_params"]['learning_rate'],
+                     batch_size=data["algo_params"]['batch_size'])
+    elif data['algorithm'] == "ddpg":
         model = ALGO(policy, env, verbose=1, create_eval_env=True,
                      tensorboard_log=data['path'],
                      seed=seed,

@@ -58,7 +58,7 @@ DeepMindBallInCup-v1:
     batch_size: 50
     learning_rate: 0.0001
     n_steps: 20000
-    total_timesteps: .e+6
+    total_timesteps: 1.e+6
     policy: MlpPolicy
     special_callback: DMbicCallback
   env_params:
@@ -82,7 +82,7 @@ DeepMindBallInCup-v2:
     special_callback: DMbicCallback
   env_params:
     env_name: alr_envs:DeepMindBallInCup-v2
-    num_envs: 1
+    num_envs: 10
     wrapper: VecNormalize
   eval_env:
     n_eval_episode: 10
@@ -90,8 +90,8 @@ DeepMindBallInCup-v2:
 
 
 DeepMindBallInCupDense-v0:
-  name: DeepMind_Ball_In_Cup + SAC
-  algorithm: sac
+  name: DeepMind_Ball_In_Cup + DDPG
+  algorithm: ddpg
   algo_params:
     batch_size: 50
     learning_rate: 0.0001
