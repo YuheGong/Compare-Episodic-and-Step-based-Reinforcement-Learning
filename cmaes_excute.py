@@ -2,11 +2,11 @@ import os
 
 
 run = 1
-for i in range(3,4):
-    str = f'python cmaes_cw2.py cw2cmaes/dmp_{i}.yml -o'
+for i in range(3):
+    str = f'python cmaes_cw2.py cw2cmaes/dmp_dense_{i}.yml -o'
     os.system(str)
-    str = f'python cmaes_cw2.py cw2cmaes/promp_{i}.yml'
-    #os.system(str)
+    str = f'python cmaes_cw2.py cw2cmaes/promp_dense_{i}.yml'
+    os.system(str)
 
 '''
 run = 1
