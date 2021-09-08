@@ -1,15 +1,15 @@
 # Slurm config
 name: "SLURM"
 partition: "gpu_8"
-account: ""  # important for HHLR cluster
-job-name: "Compare Episodic and Step-based Reinforcement Learning"  # this will be the experiment's name in slurm
+job-name: "cma"  # this will be the experiment's name in slurm
 #experiment_copy_dst: "/home/max_li/exp_code"
-num_parallel_jobs: 1  # max number of jobs executed in parallel
-ntasks: 1   #  leave that like it is
-cpus-per-task: 1   # there are 5 cores for each GPU on the gpu_8 queue and 10 per GPU on the gpu_4 queue. Never use 5! don't ask why!
-time: 300   # in minutes
-sbatch_args:   # gpus need to be explicitly requested using this
-  gres: "gpu:1" #and this
+num_parallel_jobs: 10
+ntasks: 1
+cpus-per-task: 1
+time: 120
+sbatch_args:
+  gres: "gpu:1"
+
 ---
 # DEFAULT
 name: "DEFAULT"

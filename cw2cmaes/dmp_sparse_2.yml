@@ -1,13 +1,14 @@
 # Slurm config
 name: "SLURM"
-partition: "dev"
-account: ""  # important for HHLR cluster
+partition: "gpu_8"
 job-name: "cma"  # this will be the experiment's name in slurm
 #experiment_copy_dst: "/home/max_li/exp_code"
-num_parallel_jobs: 120
+num_parallel_jobs: 10
 ntasks: 1
 cpus-per-task: 1
-time: 2:00:00
+time: 120
+sbatch_args:
+  gres: "gpu:1"
 
 ---
 # DEFAULT
