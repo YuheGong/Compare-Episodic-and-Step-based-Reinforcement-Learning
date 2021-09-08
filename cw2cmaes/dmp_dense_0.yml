@@ -41,7 +41,7 @@ name: 'DeepMindBallInCupDenseDMP-v0'
 #name: 'DeepMindBallInCupDMP-v1'
 #name: 'DeepMindBallInCupDenseDMP-v2'
 #name: 'DeepMindBallInCupDMP-v2'
-path: "/home/yre/Desktop/KIT/masterthesis/Compare-Episodic-and-Step-based-Reinforcement-Learning/sixweek/"
+path: "./slurm/"
 params:
   problem:
     name: 'DeepMindBallInCupDenseDMP-v0'

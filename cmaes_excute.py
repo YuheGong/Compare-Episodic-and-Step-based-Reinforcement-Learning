@@ -3,9 +3,9 @@ import os
 
 run = 1
 for i in range(3):
-    str = f'python cmaes_cw2.py cw2cmaes/dmp_dense_{i}.yml -o'
+    str = f'python cmaes_cw2.py cw2cmaes/dmp_dense_{i}.yml -s'
     os.system(str)
-    str = f'python cmaes_cw2.py cw2cmaes/promp_dense_{i}.yml'
+    str = f'python cmaes_cw2.py cw2cmaes/promp_dense_{i}.yml -s'
     os.system(str)
 
 '''
