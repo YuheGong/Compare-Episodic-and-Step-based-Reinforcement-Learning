@@ -4,7 +4,7 @@ ALRBallInACupSimpleDense-v0:
   algo_params:
     batch_size: 50
     learning_rate: 0.0001
-    n_steps: 2000
+    n_steps: 400
     total_timesteps: 5.e+7
     special_policy: CustomActorCriticPolicy
     special_callback: ALRBallInACupCallback
@@ -20,12 +20,12 @@ HoleReacherDense-v0:
   algo_params:
     batch_size: 50
     learning_rate: 0.0001
-    n_steps: 2000
+    n_steps: 300
     total_timesteps: 1.e+6
     special_policy: MlpPolicy
   env_params:
     env_name: alr_envs:HoleReacherDense-v0
-    num_envs: 8
+    num_envs: 1
     wrapper: VecNormalize
   eval_env:
     n_eval_episode: 10
@@ -150,15 +150,32 @@ ALRReacher-v0:
     batch_size: 64
     learning_rate: 0.0001
     n_steps:  16384
-    total_timesteps: 1.e+6
+    total_timesteps: 1.5e+7
     special_policy: MlpPolicy
   env_params:
     env_name: alr_envs:ALRReacher-v0
-    num_envs: 1
+    num_envs: 8
     wrapper: VecNormalize
   eval_env:
-    n_eval_episode: 10
-    eval_freq: 1000
+    n_eval_episode: 1
+    eval_freq: 20000
+
+
+ALRReacherBalance-v0:
+  algorithm: ppo
+  algo_params:
+    batch_size: 64
+    learning_rate: 0.0001
+    n_steps:  16384
+    total_timesteps: 1.e+7
+    special_policy: MlpPolicy
+  env_params:
+    env_name: alr_envs:ALRReacherBalance-v0
+    num_envs: 8
+    wrapper: VecNormalize
+  eval_env:
+    n_eval_episode: 1
+    eval_freq: 16384
 
 ALRLongReacher-v0:
   algorithm: ppo
