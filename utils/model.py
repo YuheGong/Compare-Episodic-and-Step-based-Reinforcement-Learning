@@ -76,6 +76,8 @@ def model_learn(data, model, test_env, test_env_path):
 def cmaes_model_training(algorithm, env, success_full, success_mean, opt_full, fitness, path, log_writer, opts, t):
     print("----------iter {} -----------".format(t))
     solutions = np.vstack(algorithm.ask())
+    #print("solution", solutions.shape)
+    #assert 12==32
     for i in range(len(solutions)):
         # print(i, solutions[i])
         #print(env.step)

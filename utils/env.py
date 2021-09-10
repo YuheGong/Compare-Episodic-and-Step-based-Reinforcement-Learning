@@ -19,19 +19,27 @@ def env_maker(data: dict, num_envs: int, training=True, norm_reward=True):
         env = gym.make(data["env_params"]['env_name'])
     return env
 
-def env_save(data: dict, model, env):
-    model_path = os.path.join(data['path'], "PPO.zip")
+def env_save(data: dict, model, env, test_env):
+    model_path = os.path.join(data['path'],  data['algorithm'] + ".zip")
+    #model_path = os.path.join(data['path'], "PPO.zip")
     model.save(model_path)
     if 'VecNormalize' in data['env_params']['wrapper']:
-        stats_path = os.path.join(data['path'], "PPO.pkl")
+        stats_path = os.path.join(data['path'], "env_normalize.pkl")
         env.save(stats_path)
+        stats_path_test = os.path.join(data['path'], "test_env_normalize.pkl")
+        test_env.save(stats_path_test)
 
 
 def env_continue_load(data: dict):
     if data["env_params"]['wrapper'] == "VecNormalize":
         env = DummyVecEnv(env_fns=[make_env(data["env_params"]['env_name'], data['path'], i) for i in range(data["env_params"]['num_envs'])])
-        stats_path = os.path.join(data['continue_path'], data['algorithm'].upper() + '.pkl')
+        stats_path = os.path.join(data['continue_path'], 'env_normalize.pkl')
         env = VecNormalize.load(stats_path, env)
+
+        test_env = DummyVecEnv(env_fns=[make_env(data["env_params"]['env_name'], data['path'], i) for i in
+                                   range(1)])
+        stats_path_test = os.path.join(data['continue_path'], "test_env_normalize.pkl")
+        test_env = VecNormalize.load(stats_path_test, test_env)
     else:
         env = gym.make(data["env_params"]['env_name'])
-    return env
+    return env, test_env

@@ -31,8 +31,8 @@ def step_based(algo: str, env_id: str, model_id: str):
 
 
     # make the environment
-    env = env_continue_load(data)
-    test_env = env_maker(data, num_envs=1, training=False, norm_reward=False)
+    env, test_env = env_continue_load(data)
+    #test_env = env_maker(data, num_envs=1, training=False, norm_reward=False)
 
     # make the model and save the model
     model_path = os.path.join(data['continue_path'], data['algorithm'].upper() + '.zip')
@@ -45,13 +45,14 @@ def step_based(algo: str, env_id: str, model_id: str):
     except KeyboardInterrupt:
         data["algo_params"]['num_timesteps'] = model.num_timesteps
         write_yaml(data)
-        env_save(data, model, env)
+        env_save(data, model, env, test_env)
+
         print('')
         print('continune-training interrupt, save the model and config file to ' + data["path"])
     else:
         data["algo_params"]['num_timesteps'] = model.num_timesteps
         write_yaml(data)
-        env_save(data, model, env)
+        env_save(data, model, env, test_env)
         print('')
         print('continue-training FINISH, save the model and config file to ' + data['path'])
 

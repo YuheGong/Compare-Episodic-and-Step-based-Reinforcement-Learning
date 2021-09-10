@@ -38,14 +38,14 @@ def step_based(algo: str, env_id: str, seed=None):
     except KeyboardInterrupt:
         data["algo_params"]['num_timesteps'] = model.num_timesteps
         write_yaml(data)
-        env_save(data, model, env)
+        env_save(data, model, env, test_env)
         csv_save(data)
         print('')
         print('training interrupt, save the model and config file to ' + data["path"])
     else:
         data["algo_params"]['num_timesteps'] = model.num_timesteps
         write_yaml(data)
-        env_save(data, model, env)
+        env_save(data, model, env, test_env)
         csv_save(data)
         print('')
         print('training FINISH, save the model and config file to ' + data['path'])
@@ -122,7 +122,7 @@ if __name__ == '__main__':
     env_id = args.env_id
     stop_cri = args.stop_cri
     STEP_BASED = ["ppo", "sac", "ddpg"]
-    print("algo", algo)
+    #print("algo", algo)
     EPISODIC = ["cmaes"]
     if algo in STEP_BASED:
         step_based(algo, env_id, seed=args.seed)
