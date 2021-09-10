@@ -1,7 +1,7 @@
 # Slurm config
 name: "SLURM"
 partition: "gpu_8"
-job-name: "dmp_dense1"  # this will be the experiment's name in slurm
+job-name: "dde1"  # this will be the experiment's name in slurm
 #experiment_copy_dst: "/home/max_li/exp_code"
 num_parallel_jobs: 10
 ntasks: 1
@@ -13,8 +13,8 @@ sbatch_args:
 ---
 # DEFAULT
 name: "DEFAULT"
-repetitions: 20  # number of times one set of parameters is run
-iterations:  800  # number of iterations per repetition
+repetitions: 5  # number of times one set of parameters is run
+iterations:  500  # number of iterations per repetition
 path: "./slurm/slurm_dmp_dense_1/"
 gui: false
 params:
