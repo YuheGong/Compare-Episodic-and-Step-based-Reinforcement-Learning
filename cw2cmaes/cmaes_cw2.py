@@ -41,10 +41,6 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
             }
         )
 
-        self.success_mean = []
-        self.success_full = []
-        self.success_rate = 0
-        self.success_rate_full = 0
 
 
 
@@ -55,6 +51,10 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
         opt_full = []
         fitness = []
         success = False
+        self.success_mean = []
+        self.success_full = []
+        self.success_rate = 0
+        self.success_rate_full = 0
         
         print("----------iter {} -----------".format(n))
         solutions = np.vstack(self.algorithm.ask())
@@ -72,7 +72,7 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
 
         # print("success", env.env.success)
         # assert 1==9
-        success = True
+        #success = True
         # print("success", success)
         self.success_mean.append(self.env.env.success)
         self.env.reset()
@@ -96,9 +96,14 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
 
         if n % 1 == 0:
             a = 0
-            b = 0
 
             # print(len(opts))
+            if self.success_mean[-1]:
+                self.success_rate = 1
+            else:
+                self.success_rate = 0
+            #log_writer.add_scalar("iteration/success_rate", success_rate, (n + 1) * 10 * 250)
+            '''
             for i in range(len(self.success_mean)):
 
                 if self.success_mean[i]:
@@ -107,7 +112,11 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
             # print(a)
             self.success_mean = []
             #log_writer.add_scalar("iteration/success_rate", success_rate, (n + 1) * 10 * 250)
+            '''
 
+
+        if n % 1 == 0:
+            b = 0
             for i in range(len(self.success_full)):
                 if self.success_full[i]:
                     b += 1
@@ -125,8 +134,8 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
 
         results_dict = {"reward": opt,
                         "reward_samples": opt_full,
-                        "dist_entrance": self.env.env.dist_entrance,
-                        "dist_bottom": self.env.env.dist_bottom,
+                        #"dist_entrance": self.env.env.dist_entrance,
+                        #"dist_bottom": self.env.env.dist_bottom,
                         "success_rate": self.success_rate,
                         "success_rate_full": self.success_rate_full,
                         "total_samples": (n + 1) * config.params.optim_params.n_samples,
