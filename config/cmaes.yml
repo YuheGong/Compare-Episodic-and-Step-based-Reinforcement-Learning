@@ -35,7 +35,7 @@ DeepMindBallInCupDMP-v0:
     dimension: 12
     sigma0: 1
     popsize: 10
-    iteration: 800
+    iteration: 200
     stop_criterion: opt < 3.2
   env_params:
     env_name: f'dmc_ball_in_cup-catch_dmp-v0'
@@ -46,9 +46,9 @@ DeepMindBallInCupDenseDMP-v0:
   algo_params:
     x_init: 1
     dimension: 12
-    sigma0: 0.1
+    sigma0: 1
     popsize: 10
-    iteration: 800
+    iteration: 200
   env_params:
     env_name: f'dmc_ball_in_cup-catch_dense_dmp-v0'
 
@@ -59,9 +59,9 @@ DeepMindBallInCupProMP-v0:
   algo_params:
     x_init: 1
     dimension: 10
-    sigma0: 0.1
+    sigma0: 1
     popsize: 10
-    iteration: 800
+    iteration: 2
   env_params:
     env_name: f'dmc_ball_in_cup-catch_detpmp-v0'
 
@@ -72,9 +72,9 @@ DeepMindBallInCupDenseProMP-v0:
   algo_params:
     x_init: 1
     dimension: 10
-    sigma0: 0.1
+    sigma0: 1
     popsize: 10
-    iteration: 800
+    iteration: 200
   env_params:
     env_name: f'dmc_ball_in_cup-catch_dense_detpmp-v0'
 
@@ -88,7 +88,7 @@ DeepMindBallInCupDMP-v1:
     dimension: 12
     sigma0: 1
     popsize: 10
-    iteration: 800
+    iteration: 200
     stop_criterion: opt < 3.2
   env_params:
     env_name: f'dmc_ball_in_cup-catch_dmp-v1'
@@ -100,9 +100,9 @@ DeepMindBallInCupDenseDMP-v1:
   algo_params:
     x_init: 1
     dimension: 12
-    sigma0: 0.1
+    sigma0: 1
     popsize: 10
-    iteration: 800
+    iteration: 200
   env_params:
     env_name: f'dmc_ball_in_cup-catch_dense_dmp-v1'
 
@@ -112,9 +112,9 @@ DeepMindBallInCupProMP-v1:
   algo_params:
     x_init: 1
     dimension: 10
-    sigma0: 0.1
+    sigma0: 1
     popsize: 10
-    iteration: 800
+    iteration: 200
   env_params:
     env_name: f'dmc_ball_in_cup-catch_detpmp-v1'
 
@@ -125,9 +125,9 @@ DeepMindBallInCupDenseProMP-v1:
   algo_params:
     x_init: 1
     dimension: 10
-    sigma0: 0.1
+    sigma0: 1
     popsize: 10
-    iteration: 800
+    iteration: 200
   env_params:
     env_name: f'dmc_ball_in_cup-catch_dense_detpmp-v1'
 
@@ -140,7 +140,7 @@ DeepMindBallInCupDMP-v2:
     dimension: 12
     sigma0: 1
     popsize: 10
-    iteration: 800
+    iteration: 200
     stop_criterion: opt < 3.2
   env_params:
     env_name: f'dmc_ball_in_cup-catch_dmp-v2'
@@ -152,9 +152,9 @@ DeepMindBallInCupDenseDMP-v2:
   algo_params:
     x_init: 1
     dimension: 12
-    sigma0: 0.1
+    sigma0: 1
     popsize: 10
-    iteration: 800
+    iteration: 200
   env_params:
     env_name: f'dmc_ball_in_cup-catch_dense_dmp-v2'
 
@@ -165,9 +165,9 @@ DeepMindBallInCupProMP-v2:
   algo_params:
     x_init: 1
     dimension: 10
-    sigma0: 0.1
+    sigma0: 1
     popsize: 10
-    iteration: 800
+    iteration: 200
   env_params:
     env_name: f'dmc_ball_in_cup-catch_detpmp-v2'
 
@@ -178,9 +178,9 @@ DeepMindBallInCupDenseProMP-v2:
   algo_params:
     x_init: 1
     dimension: 10
-    sigma0: 0.1
+    sigma0: 1
     popsize: 10
-    iteration: 800
+    iteration: 200
   env_params:
     env_name: f'dmc_ball_in_cup-catch_dense_detpmp-v2'
 

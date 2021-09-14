@@ -41,8 +41,6 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
             }
         )
 
-        self.env.reset()
-
         self.success_mean = []
         self.success_full = []
         self.success_rate = 0
@@ -62,9 +60,9 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
         solutions = np.vstack(self.algorithm.ask())
         for i in range(len(solutions)):
             # print(i, solutions[i])
+            self.env.reset()
             _, reward, __, ___ = self.env.step(solutions[i])
             self.success_full.append(self.env.success)
-            self.env.reset()
             print('reward', -reward)
             opt_full.append(-reward)
             fitness.append(-reward)

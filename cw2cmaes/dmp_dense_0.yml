@@ -14,8 +14,7 @@ sbatch_args:
 # DEFAULT
 name: "DEFAULT"
 repetitions: 5  # number of times one set of parameters is run
-iterations: 500  # number of iterations per repetition
-path: "./slurm/slurm_dmp_dense_0/"
+iterations: 300  # number of iterations per repetition
 gui: false
 params:
   stop_at_target: False
