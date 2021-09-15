@@ -12,6 +12,20 @@ ALRReacherSparseDMP-v0:
     env_name: f'ALRReacherSparseDMP-v0'
 
 
+ALRReacherBalanceDMP-v0:
+  name: ALRReacher + DMP
+  algorithm: cmaes
+  algo_params:
+    x_init: 1
+    dimension: 30
+    sigma0: 1
+    popsize: 10
+    iteration: 800
+    stop_criterion: opt < 3.2
+  env_params:
+    env_name: f'ALRReacherBalanceDMP-v0'
+
+
 ALRReacherBalanceSparseDMP-v0:
   name: ALRReacher + DMP
   algorithm: cmaes
