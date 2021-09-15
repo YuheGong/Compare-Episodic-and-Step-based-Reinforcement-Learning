@@ -108,7 +108,7 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, opt_full, f
     log_writer.add_scalar("iteration/reward", opt, t)
     log_writer.add_scalar("iteration/dist_entrance", env.env.dist_entrance, t)
     log_writer.add_scalar("iteration/dist_bottom", env.env.dist_bottom, t)
-    log_writer.add_scalar("iteration/dist_vec", env.env.np.linalg.norm(vec), t)
+    log_writer.add_scalar("iteration/dist_vec", env.env.dist_vec, t)
     for i in range(len(algorithm.mean)):
         log_writer.add_scalar(f"algorithm_params/mean[{i}]", algorithm.mean[i], t)
         #print(i, algorithm.C[i])
