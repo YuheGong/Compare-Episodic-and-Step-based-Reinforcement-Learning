@@ -20,7 +20,7 @@ ALRReacherBalanceDMP-v0:
     dimension: 30
     sigma0: 1
     popsize: 10
-    iteration: 800
+    iteration: 5000
     stop_criterion: opt < 3.2
   env_params:
     env_name: f'ALRReacherBalanceDMP-v0'
