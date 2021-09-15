@@ -102,12 +102,13 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, opt_full, f
     success_mean.append(env.env.success)
     if success_mean:
         success = True
-    env.reset()
+
 
     np.save(path + "/algo_mean.npy", algorithm.mean)
     log_writer.add_scalar("iteration/reward", opt, t)
     log_writer.add_scalar("iteration/dist_entrance", env.env.dist_entrance, t)
     log_writer.add_scalar("iteration/dist_bottom", env.env.dist_bottom, t)
+    log_writer.add_scalar("iteration/dist_vec", env.env.np.linalg.norm(vec), t)
     for i in range(len(algorithm.mean)):
         log_writer.add_scalar(f"algorithm_params/mean[{i}]", algorithm.mean[i], t)
         #print(i, algorithm.C[i])
@@ -139,4 +140,5 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, opt_full, f
         # print("success_full_rate", success_rate_full)
         log_writer.add_scalar("iteration/success_rate_full", success_rate_full, t)
         log_writer.add_scalar("iteration/success_rate", success_rate, t)
+    env.reset()
     return algorithm, env, success_full, success_mean, opt_full, fitness, path, log_writer, opts, t
