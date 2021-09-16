@@ -75,7 +75,9 @@ def model_learn(data, model, test_env, test_env_path):
 
 def cmaes_model_training(algorithm, env, success_full, success_mean, opt_full, fitness, path, log_writer, opts, t):
     print("----------iter {} -----------".format(t))
+    #algorithm.mean = np.ones(30) * 100
     solutions = np.vstack(algorithm.ask())
+    print("solution", solutions)
     #print("solution", solutions.shape)
     #assert 12==32
     for i in range(len(solutions)):
@@ -94,7 +96,9 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, opt_full, f
         #env.reset()
     #print("self.sp.cmean", algorithm.C)
     #assert 1==237
+    env.reset()
     algorithm.tell(solutions, fitness)
+    print("mean", algorithm.mean)
     #print("mean2", algorithm.C)
     _, opt, __, ___ = env.step(algorithm.mean)
 
@@ -105,10 +109,12 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, opt_full, f
 
 
     np.save(path + "/algo_mean.npy", algorithm.mean)
+    print("opt", opt)
+    assert 1==238
     log_writer.add_scalar("iteration/reward", opt, t)
     log_writer.add_scalar("iteration/dist_entrance", env.env.dist_entrance, t)
     log_writer.add_scalar("iteration/dist_bottom", env.env.dist_bottom, t)
-    log_writer.add_scalar("iteration/dist_vec", env.env.dist_vec, t)
+    #log_writer.add_scalar("iteration/dist_vec", env.env.dist_vec, t)
     for i in range(len(algorithm.mean)):
         log_writer.add_scalar(f"algorithm_params/mean[{i}]", algorithm.mean[i], t)
         #print(i, algorithm.C[i])
@@ -140,5 +146,4 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, opt_full, f
         # print("success_full_rate", success_rate_full)
         log_writer.add_scalar("iteration/success_rate_full", success_rate_full, t)
         log_writer.add_scalar("iteration/success_rate", success_rate, t)
-    env.reset()
     return algorithm, env, success_full, success_mean, opt_full, fitness, path, log_writer, opts, t
