@@ -41,7 +41,7 @@ name: 'DeepMindBallInCupDenseProMP-v0'
 #name: 'DeepMindBallInCupProMP-v1'
 #name: 'DeepMindBallInCupDenseProMP-v2'
 #name: 'DeepMindBallInCupProMP-v2'
-path:  "./slurm/"
+path:  "./cw2cmaes/slurm/"
 params:
   problem:
     name: 'DeepMindBallInCupDenseProMP-v0'

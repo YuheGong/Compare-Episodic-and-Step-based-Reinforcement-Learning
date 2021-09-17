@@ -40,6 +40,7 @@ def model_building(data, env, seed=None):
         model = ALGO(policy, env, verbose=1, create_eval_env=True,
                      tensorboard_log=data['path'],
                      seed=seed,
+                     train_freq=data["algo_params"]["train_freq"],
                      learning_rate=data["algo_params"]['learning_rate'],
                      batch_size=data["algo_params"]['batch_size'])
     elif data['algorithm'] == "ddpg":
@@ -73,77 +74,47 @@ def model_learn(data, model, test_env, test_env_path):
     model.learn(total_timesteps=int(data['algo_params']['total_timesteps']), callback=eval_callback)
                 #, eval_freq=500, n_eval_episodes=10, eval_log_path=test_env_path, eval_env=test_env)
 
-def cmaes_model_training(algorithm, env, success_full, success_mean, opt_full, fitness, path, log_writer, opts, t):
+def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_writer, opts, t):
+    fitness = []
     print("----------iter {} -----------".format(t))
-    #algorithm.mean = np.ones(30) * 100
     solutions = np.vstack(algorithm.ask())
-    #print("solution", solutions)
-    #print("solution", solutions.shape)
-    #assert 12==32
     for i in range(len(solutions)):
-        # print(i, solutions[i])
-        #print(env.step)
-        #assert 1==238
         env.reset()
         _, reward, done, ___ = env.step(solutions[i])
-        #print("done_in_model", done)
         success_full.append(env.env.success)
-        # env.reset()
         print('reward', -reward)
-
-        opt_full.append(reward)
         fitness.append(-reward)
-        #env.reset()
-    #print("self.sp.cmean", algorithm.C)
-    #assert 1==237
     env.reset()
     algorithm.tell(solutions, fitness)
-    #print("mean", algorithm.mean)
-    #print("mean2", algorithm.C)
     _, opt, __, ___ = env.step(algorithm.mean)
-
-
-    success_mean.append(env.env.success)
-    if success_mean:
-        success = True
-
 
     np.save(path + "/algo_mean.npy", algorithm.mean)
     print("opt", -opt)
-    #assert 1==238
+    opts.append(opt)
+    t += 1
+
+    success_mean.append(env.env.success)
+    if success_mean[-1]:
+        success_rate = 1
+    else:
+        success_rate = 0
+
+    b = 0
+    for i in range(len(success_full)):
+        if success_full[i]:
+            b += 1
+    success_rate_full = b / len(success_full)
+    success_full = []
+
+    log_writer.add_scalar("iteration/success_rate_full", success_rate_full, t)
+    log_writer.add_scalar("iteration/success_rate", success_rate, t)
     log_writer.add_scalar("iteration/reward", opt, t)
     log_writer.add_scalar("iteration/dist_entrance", env.env.dist_entrance, t)
     log_writer.add_scalar("iteration/dist_bottom", env.env.dist_bottom, t)
     log_writer.add_scalar("iteration/dist_vec", env.env.dist_vec, t)
     for i in range(len(algorithm.mean)):
         log_writer.add_scalar(f"algorithm_params/mean[{i}]", algorithm.mean[i], t)
-        #print(i, algorithm.C[i])
         log_writer.add_scalar(f"algorithm_params/covariance_matrix_mean[{i}]", np.mean(algorithm.C[i]), t)
         log_writer.add_scalar(f"algorithm_params/covariance_matrix_variance[{i}]", np.var(algorithm.C[i]), t)
 
-    fitness = []
-    opts.append(opt)
-    # opt_full.append(reward)
-    t += 1
-
-    if t % 1 == 0:
-        a = 0
-        b = 0
-
-        # print(len(opts))
-        for i in range(len(success_mean)):
-
-            if success_mean[i]:
-                a += 1
-        success_rate = a / len(success_mean)
-        success_mean = []
-        for i in range(len(success_full)):
-            if success_full[i]:
-                b += 1
-        success_rate_full = b / len(success_full)
-        success_full = []
-
-        # print("success_full_rate", success_rate_full)
-        log_writer.add_scalar("iteration/success_rate_full", success_rate_full, t)
-        log_writer.add_scalar("iteration/success_rate", success_rate, t)
-    return algorithm, env, success_full, success_mean, opt_full, fitness, path, log_writer, opts, t
+    return algorithm, env, success_full, success_mean, path, log_writer, opts, t

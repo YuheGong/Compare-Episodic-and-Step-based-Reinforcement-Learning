@@ -1,0 +1,121 @@
+
+
+
+### DeepMind Ball In Cup ENV with different reward function
+DeepMindBallInCupProMP-v0:
+  name: DeepMind_Ball_In_Cup + ProMP
+  algorithm: cmaes
+  algo_params:
+    x_init: 1
+    dimension: 10
+    sigma0: 1
+    popsize: 10
+    iteration: 300
+  env_params:
+    env_name: f'dmc_ball_in_cup-catch_detpmp-v0'
+
+DeepMindBallInCupDenseProMP-v0:
+  name: DeepMind_Ball_In_Cup + ProMP
+  algorithm: cmaes
+  algo_params:
+    x_init: 1
+    dimension: 10
+    sigma0: 1
+    popsize: 10
+    iteration: 300
+  env_params:
+    env_name: f'dmc_ball_in_cup-catch_dense_detpmp-v0'
+
+DeepMindBallInCupProMP-v1:
+  name: DeepMind_Ball_In_Cup + ProMP
+  algorithm: cmaes
+  algo_params:
+    x_init: 1
+    dimension: 10
+    sigma0: 1
+    popsize: 10
+    iteration: 300
+  env_params:
+    env_name: f'dmc_ball_in_cup-catch_detpmp-v1'
+
+DeepMindBallInCupDenseProMP-v1:
+  name: DeepMind_Ball_In_Cup + ProMP
+  algorithm: cmaes
+  algo_params:
+    x_init: 1
+    dimension: 10
+    sigma0: 1
+    popsize: 10
+    iteration: 300
+  env_params:
+    env_name: f'dmc_ball_in_cup-catch_dense_detpmp-v1'
+
+DeepMindBallInCupProMP-v2:
+  name: DeepMind_Ball_In_Cup + ProMP
+  algorithm: cmaes
+  algo_params:
+    x_init: 1
+    dimension: 10
+    sigma0: 1
+    popsize: 10
+    iteration: 300
+  env_params:
+    env_name: f'dmc_ball_in_cup-catch_detpmp-v2'
+
+DeepMindBallInCupDenseProMP-v2:
+  name: DeepMind_Ball_In_Cup + ProMP
+  algorithm: cmaes
+  algo_params:
+    x_init: 1
+    dimension: 10
+    sigma0: 1
+    popsize: 10
+    iteration: 300
+  env_params:
+    env_name: f'dmc_ball_in_cup-catch_dense_detpmp-v2'
+
+
+### ALR Reacher with different goal
+ALRReacherBalanceProMP-v0:
+  name: ALRReacher + DMP
+  algorithm: cmaes
+  algo_params:
+    x_init: 0
+    dimension: 30
+    sigma0: 1
+    popsize: 5
+    iteration: 13000
+    stop_criterion: opt < 3.2
+  env_params:
+    env_name: f'ALRReacherBalanceDMP-v0'
+
+ALRReacherBalanceProMP-v1:
+  name: ALRReacher + DMP
+  algorithm: cmaes
+  algo_params:
+    x_init: 0
+    dimension: 30
+    sigma0: 1
+    popsize: 5
+    iteration: 13000
+    stop_criterion: opt < 3.2
+  env_params:
+    env_name: f'ALRReacherBalanceDMP-v1'
+
+ALRReacherBalanceProMP-v2:
+  name: ALRReacher + DMP
+  algorithm: cmaes
+  algo_params:
+    x_init: 0
+    dimension: 30
+    sigma0: 1
+    popsize: 5
+    iteration: 13000
+    stop_criterion: opt < 3.2
+  env_params:
+    env_name: f'ALRReacherBalanceDMP-v2'
+
+
+
+
+

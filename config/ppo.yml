@@ -1,37 +1,4 @@
-ALRBallInACupSimpleDense-v0:
-  name: Ball_In_A_Cup + PPO
-  algorithm: ppo
-  algo_params:
-    batch_size: 50
-    learning_rate: 0.0001
-    n_steps: 400
-    total_timesteps: 5.e+7
-    special_policy: CustomActorCriticPolicy
-    special_callback: ALRBallInACupCallback
-  env_params:
-    env_name: alr_envs:ALRBallInACupSimpleDense-v0
-    num_envs: 8
-    wrapper: VecNormalize
-
-
-HoleReacherDense-v0:
-  name: HoleReacherDense + PPO
-  algorithm: ppo
-  algo_params:
-    batch_size: 50
-    learning_rate: 0.0001
-    n_steps: 300
-    total_timesteps: 1.e+6
-    special_policy: MlpPolicy
-  env_params:
-    env_name: alr_envs:HoleReacherDense-v0
-    num_envs: 1
-    wrapper: VecNormalize
-  eval_env:
-    n_eval_episode: 10
-    eval_freq: 500
-
-
+### DeepMind Ball In Cup ENV with different reward function
 DeepMindBallInCup-v0:
   name: DeepMind_Ball_In_Cup + PPO
   algorithm: ppo
@@ -49,7 +16,6 @@ DeepMindBallInCup-v0:
   eval_env:
     n_eval_episode: 10
     eval_freq: 500
-
 
 DeepMindBallInCup-v1:
   name: DeepMind_Ball_In_Cup + PPO
@@ -69,7 +35,6 @@ DeepMindBallInCup-v1:
     n_eval_episode: 10
     eval_freq: 500
 
-
 DeepMindBallInCup-v2:
   name: DeepMind_Ball_In_Cup + PPO
   algorithm: ppo
@@ -88,7 +53,6 @@ DeepMindBallInCup-v2:
     n_eval_episode: 10
     eval_freq: 500
 
-
 DeepMindBallInCupDense-v0:
   name: DeepMind_Ball_In_Cup + PPO
   algorithm: ppo
@@ -106,7 +70,6 @@ DeepMindBallInCupDense-v0:
   eval_env:
     n_eval_episode: 10
     eval_freq: 500
-
 
 DeepMindBallInCupDense-v1:
   name: DeepMind_Ball_In_Cup + PPO
@@ -144,29 +107,13 @@ DeepMindBallInCupDense-v2:
     n_eval_episode: 10
     eval_freq: 500
 
-ALRReacher-v0:
-  algorithm: ppo
-  algo_params:
-    batch_size: 64
-    learning_rate: 0.0001
-    n_steps:  16384
-    total_timesteps: 1.5e+7
-    special_policy: MlpPolicy
-  env_params:
-    env_name: alr_envs:ALRReacher-v0
-    num_envs: 8
-    wrapper: VecNormalize
-  eval_env:
-    n_eval_episode: 1
-    eval_freq: 20000
-
-
+### ALR Reacher ENV with different goal
 ALRReacherBalance-v0:
   algorithm: ppo
   algo_params:
-    batch_size: 64
+    batch_size: 200
     learning_rate: 0.0001
-    n_steps:  16384
+    n_steps:  20000
     total_timesteps: 1.e+7
     special_policy: MlpPolicy
   env_params:
@@ -177,21 +124,73 @@ ALRReacherBalance-v0:
     n_eval_episode: 1
     eval_freq: 16384
 
-ALRLongReacher-v0:
+ALRReacherBalance-v1:
   algorithm: ppo
   algo_params:
-    batch_size: 64
+    batch_size: 200
     learning_rate: 0.0001
-    n_steps:  16384
+    n_steps:  20000
     total_timesteps: 1.e+7
     special_policy: MlpPolicy
   env_params:
-    env_name: alr_envs:ALRLongReacher-v0
+    env_name: alr_envs:ALRReacherBalance-v1
+    num_envs: 8
+    wrapper: VecNormalize
+  eval_env:
+    n_eval_episode: 1
+    eval_freq: 16384
+
+ALRReacherBalance-v2:
+  algorithm: ppo
+  algo_params:
+    batch_size: 200
+    learning_rate: 0.0001
+    n_steps:  20000
+    total_timesteps: 1.e+7
+    special_policy: MlpPolicy
+  env_params:
+    env_name: alr_envs:ALRReacherBalance-v2
+    num_envs: 8
+    wrapper: VecNormalize
+  eval_env:
+    n_eval_episode: 1
+    eval_freq: 16384
+
+
+### other ENVs
+ALRBallInACupSimpleDense-v0:
+  name: Ball_In_A_Cup + PPO
+  algorithm: ppo
+  algo_params:
+    batch_size: 50
+    learning_rate: 0.0001
+    n_steps: 400
+    total_timesteps: 5.e+7
+    special_policy: CustomActorCriticPolicy
+    special_callback: ALRBallInACupCallback
+  env_params:
+    env_name: alr_envs:ALRBallInACupSimpleDense-v0
+    num_envs: 8
+    wrapper: VecNormalize
+
+
+HoleReacherDense-v0:
+  name: HoleReacherDense + PPO
+  algorithm: ppo
+  algo_params:
+    batch_size: 50
+    learning_rate: 0.0001
+    n_steps: 300
+    total_timesteps: 1.e+6
+    special_policy: MlpPolicy
+  env_params:
+    env_name: alr_envs:HoleReacherDense-v0
     num_envs: 1
     wrapper: VecNormalize
   eval_env:
     n_eval_episode: 10
-    eval_freq: 1000
+    eval_freq: 500
+
 
 DeepMindWalkerDense-v0:
   name: DeepMind_Walker + PPO

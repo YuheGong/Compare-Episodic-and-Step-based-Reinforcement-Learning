@@ -15,11 +15,18 @@ import alr_envs
 
 
 def logging(env_name, algorithm):
+
+    init_folder = os.listdir("./logs")
+
+    if algorithm not in init_folder:
+        os.makedirs('./logs/' + algorithm)
+
     env_log_index = env_name.index(':')
     env_log_name = env_name[env_log_index + 1:]
     path = "logs/" + algorithm + '/'
     folders = os.listdir(path)
     folders = [folder for folder in folders if env_log_name in folder]
+
 
     if folders == []:
         path = path + env_log_name + "_1"

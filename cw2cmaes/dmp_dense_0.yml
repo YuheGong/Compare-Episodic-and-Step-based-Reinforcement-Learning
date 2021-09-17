@@ -41,7 +41,7 @@ name: 'DeepMindBallInCupDenseDMP-v0'
 #name: 'DeepMindBallInCupDMP-v1'
 #name: 'DeepMindBallInCupDenseDMP-v2'
 #name: 'DeepMindBallInCupDMP-v2'
-path: "./slurm/"
+path: "./cw2cmaes/slurm/"
 params:
   problem:
     name: 'DeepMindBallInCupDenseDMP-v0'

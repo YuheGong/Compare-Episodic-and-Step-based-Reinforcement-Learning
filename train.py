@@ -21,7 +21,7 @@ def step_based(algo: str, env_id: str, seed=None):
 
     # make the environment
     env = env_maker(data, num_envs=data["env_params"]['num_envs'])
-    test_env = env_maker(data, num_envs=1, training=False, norm_reward=False)
+    eval_env = env_maker(data, num_envs=1, training=False, norm_reward=False)
 
     # make the model and save the model
     model = model_building(data, env, seed)
@@ -30,22 +30,20 @@ def step_based(algo: str, env_id: str, seed=None):
     data["path_in"] = data["path"] + '/' + data['algorithm'].upper() + '_1'
     data["path_out"] = data["path"] + '/data.csv'
 
-
-
     try:
-        test_env_path = data['path'] + "/eval/"
-        model_learn(data, model, test_env, test_env_path)
+        eval_env_path = data['path'] + "/eval/"
+        model_learn(data, model, eval_env, eval_env_path)
     except KeyboardInterrupt:
         data["algo_params"]['num_timesteps'] = model.num_timesteps
         write_yaml(data)
-        env_save(data, model, env, test_env)
+        env_save(data, model, env, eval_env)
         csv_save(data)
         print('')
         print('training interrupt, save the model and config file to ' + data["path"])
     else:
         data["algo_params"]['num_timesteps'] = model.num_timesteps
         write_yaml(data)
-        env_save(data, model, env, test_env)
+        env_save(data, model, env, eval_env)
         csv_save(data)
         print('')
         print('training FINISH, save the model and config file to ' + data['path'])
@@ -54,31 +52,22 @@ def episodic(algo, env_id, stop_cri, seed=None):
     file_name = algo + ".yml"
     data = read_yaml(file_name)[env_id]
     env_name = data["env_params"]["env_name"]
-    #print("env_name", env_name)
     env = gym.make(env_name[2:-1], seed=seed)
 
-    #path = logging(data['env_params']['env_name'], data['algorithm'])
-    #data['path'] = path
-    #env = env_maker(data, num_envs=1)
-
     params = data["algo_params"]['x_init'] * np.random.rand(data["algo_params"]["dimension"])
-    #params = np.zeros(data["algo_params"]["dimension"])
     ALGOS = {
         'cmaes': cma,
     }
-    if algo == "cmaes":
-        algorithm = ALGOS[algo].CMAEvolutionStrategy(x0=params, sigma0=data["algo_params"]["sigma0"], inopts={"popsize": data["algo_params"]["popsize"]})
+    if data["algorithm"] == "cmaes":
+        algorithm = ALGOS[data["algorithm"]].CMAEvolutionStrategy(x0=params, sigma0=data["algo_params"]["sigma0"], inopts={"popsize": data["algo_params"]["popsize"]})
 
     # logging
     path = "alr_envs:" + env_id
     path = logging(path, algo)
     log_writer = SummaryWriter(path)
-    #env.reset()
 
     t = 0
     opts = []
-    opt_full = []
-    fitness = []
     success = False
     success_mean = []
     success_full = []
@@ -86,14 +75,12 @@ def episodic(algo, env_id, stop_cri, seed=None):
     try:
         if stop_cri:
             while t < data["algo_params"]["iteration"] and not success:
-                algorithm, env, success_full, success_mean, opt_full, fitness, path, log_writer, opts, t = \
-                    cmaes_model_training(algorithm, env, success_full, success_mean, opt_full, fitness, path,
-                                         log_writer, opts, t)
+                algorithm, env, success_full, success_mean, path, log_writer, opts, t = \
+                    cmaes_model_training(algorithm, env, success_full, success_mean, path, log_writer, opts, t)
         else:
             while t < data["algo_params"]["iteration"]:
-                algorithm, env, success_full, success_mean, opt_full, fitness, path, log_writer, opts, t = \
-                    cmaes_model_training(algorithm, env, success_full, success_mean, opt_full, fitness, path,
-                                         log_writer, opts, t)
+                algorithm, env, success_full, success_mean, path, log_writer, opts, t = \
+                    cmaes_model_training(algorithm, env, success_full, success_mean, path, log_writer, opts, t)
     except KeyboardInterrupt:
         data["path_in"] = path
         data["path_out"] = path + '/data.csv'
@@ -127,7 +114,7 @@ if __name__ == '__main__':
     stop_cri = args.stop_cri
     STEP_BASED = ["ppo", "sac", "ddpg"]
     #print("algo", algo)
-    EPISODIC = ["cmaes"]
+    EPISODIC = ["dmp", "promp"]
     if algo in STEP_BASED:
         step_based(algo, env_id, seed=args.seed)
     elif algo in EPISODIC:
