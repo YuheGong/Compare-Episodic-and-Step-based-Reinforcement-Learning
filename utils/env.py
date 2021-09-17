@@ -18,7 +18,7 @@ def env_maker(data: dict, num_envs: int, training=True, norm_reward=True):
     return env
 
 def env_save(data: dict, model, env, eval_env):
-    model_path = os.path.join(data['path'],  data['algorithm'] + ".zip")
+    model_path = os.path.join(data['path'],  "model.zip")
     model.save(model_path)
     if 'VecNormalize' in data['env_params']['wrapper']:
         # save env
