@@ -16,11 +16,11 @@ ALRReacherBalanceDMP-v0:
   name: ALRReacher + DMP
   algorithm: cmaes
   algo_params:
-    x_init: 1
+    x_init: 0
     dimension: 30
     sigma0: 1
-    popsize: 10
-    iteration: 5000
+    popsize: 5
+    iteration: 13000
     stop_criterion: opt < 3.2
   env_params:
     env_name: f'ALRReacherBalanceDMP-v0'

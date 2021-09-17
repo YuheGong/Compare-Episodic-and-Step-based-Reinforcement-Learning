@@ -68,6 +68,7 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
             fitness.append(-reward)
 
         self.algorithm.tell(solutions, fitness)
+        self.env.reset()
         _, opt, __, ___ = self.env.step(self.algorithm.mean)
 
         # print("success", env.env.success)
@@ -75,7 +76,7 @@ class CWCMA(cw2.experiment.AbstractIterativeExperiment):
         #success = True
         # print("success", success)
         self.success_mean.append(self.env.env.success)
-        self.env.reset()
+        #self.env.reset()
         print("opt", -opt)
 
         if rep < 10:

@@ -57,6 +57,10 @@ def episodic(algo, env_id, stop_cri, seed=None):
     #print("env_name", env_name)
     env = gym.make(env_name[2:-1], seed=seed)
 
+    #path = logging(data['env_params']['env_name'], data['algorithm'])
+    #data['path'] = path
+    #env = env_maker(data, num_envs=1)
+
     params = data["algo_params"]['x_init'] * np.random.rand(data["algo_params"]["dimension"])
     #params = np.zeros(data["algo_params"]["dimension"])
     ALGOS = {

@@ -24,14 +24,14 @@ def step_based(algo: str, env_id: str, model_id: str, step: str):
     #path = "./sixweek/" + env_id + "/log/rep_0" + model_id
     n_cpu = 1
 
-    stats_file = "PPO.pkl"#'env_normalize.pkl'#"PPO.pkl" #algo.upper() + '.pkl'#'env_normalize.pkl'
+    stats_file = 'env_normalize.pkl'#"PPO.pkl"#'env_normalize.pkl'#"PPO.pkl" #algo.upper() + '.pkl'#'env_normalize.pkl'
     #stats_file = 'test_env_normalize.pkl'
     stats_path = os.path.join(path, stats_file)
     #print("path",path)
     env = DummyVecEnv(env_fns=[make_env(env_id, i) for i in range(n_cpu)])
     env = VecNormalize.load(stats_path, env)
 
-    model_file = algo.upper()#"PPO"  #algo.upper() + '.zip'
+    model_file = algo#.upper()#"PPO"  #algo.upper() + '.zip'
     model_path = os.path.join(path, model_file)
 
     ALGOS = {
@@ -86,10 +86,10 @@ def episodic(algo: str, env_id, model_id: str, step: str):
 
     test_env = gym.make(env_name[2:-1])
     test_env.reset()
-    test_env.render("rgb_array")
+    test_env.render()#("rgb_array")
 
     test_env.step(algorithm)
-    test_env.render("rgb_array")
+    test_env.render()#("rgb_array")
 
 
 
