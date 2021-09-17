@@ -18,21 +18,14 @@ def make_env(env_id, rank):
 
 
 def step_based(algo: str, env_id: str, model_id: str, step: str):
-    #path = "./logs/" + "ppo/"+ algo + "/" + env_id + "_" + model_id
     path = "./logs/" + algo + "/" + env_id + "_" + model_id
-
-    #path = "./sixweek/" + env_id + "/log/rep_0" + model_id
-    n_cpu = 1
-
-    stats_file = 'env_normalize.pkl'#"PPO.pkl"#'env_normalize.pkl'#"PPO.pkl" #algo.upper() + '.pkl'#'env_normalize.pkl'
-    #stats_file = 'test_env_normalize.pkl'
+    num_envs = 1
+    stats_file = 'env_normalize.pkl'
     stats_path = os.path.join(path, stats_file)
-    #print("path",path)
-    env = DummyVecEnv(env_fns=[make_env(env_id, i) for i in range(n_cpu)])
+    env = DummyVecEnv(env_fns=[make_env(env_id, i) for i in range(num_envs)])
     env = VecNormalize.load(stats_path, env)
 
-    model_file = algo#.upper()#"PPO"  #algo.upper() + '.zip'
-    model_path = os.path.join(path, model_file)
+    model_path = os.path.join(path, "eval/best_model.zip")
 
     ALGOS = {
         'a2c': A2C,
@@ -48,25 +41,12 @@ def step_based(algo: str, env_id: str, model_id: str, step: str):
 
     obs = env.reset()
     if "DeepMind" in env_id:
-        '''
-        for i in range(int(step)):
-            action, _states = model.predict(obs)
-            obs, rewards, dones, info = env.step(action)
-            vedio = env.render(mode="rgb_array")
-            plt.imshow(vedio)
-            plt.pause(0.01)
-            plt.draw()
-        env.close()
-        '''
-
         for i in range(int(step)):
             time.sleep(0.01)
             action, _states = model.predict(obs, deterministic=True)
             obs, rewards, dones, info = env.step(action)
             env.render(mode="rgb_array")
         env.close()
-
-
     else:
         for i in range(int(step)):
             time.sleep(0.01)
@@ -79,17 +59,20 @@ def episodic(algo: str, env_id, model_id: str, step: str):
     file_name = algo + ".yml"
     data = read_yaml(file_name)[env_id]
     env_name = data["env_params"]["env_name"]
-    #env_name = "f'dmc_ball_in_cup-catch_dense_detpmp-v0'"
 
     path = "logs/" + algo + "/" + env_id + "_" + model_id + "/algo_mean.npy"
     algorithm = np.load(path)
 
-    test_env = gym.make(env_name[2:-1])
-    test_env.reset()
-    test_env.render()#("rgb_array")
+    env = gym.make(env_name[2:-1])
+    env.reset()
 
-    test_env.step(algorithm)
-    test_env.render()#("rgb_array")
+    if "DeepMind" in env_id:
+        env.render("rgb_array")
+        env.step(algorithm)
+    else:
+        env.render()
+        env.step(algorithm)
+    #env.render()
 
 
 
@@ -111,7 +94,7 @@ if __name__ == "__main__":
     step = args.step
 
     STEP_BASED = ["ppo", "sac"]
-    EPISODIC = ["cmaes"]
+    EPISODIC = ["dmp", "promp"]
 
 
 

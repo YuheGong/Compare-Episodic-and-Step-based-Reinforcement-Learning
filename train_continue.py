@@ -31,28 +31,27 @@ def step_based(algo: str, env_id: str, model_id: str):
 
 
     # make the environment
-    env, test_env = env_continue_load(data)
+    env, eval_env = env_continue_load(data)
     #test_env = env_maker(data, num_envs=1, training=False, norm_reward=False)
 
     # make the model and save the model
-    model_path = os.path.join(data['continue_path'], data['algorithm'].upper() + '.zip')
+    model_path = os.path.join(data['continue_path'], 'model.zip')
     model = ALGO.load(model_path, tensorboard_log=data['path'])
     model.set_env(env)
 
     try:
         test_env_path = data['path'] + "/eval/"
-        model_learn(data, model, test_env, test_env_path)
+        model_learn(data, model, eval_env, test_env_path)
     except KeyboardInterrupt:
         data["algo_params"]['num_timesteps'] = model.num_timesteps
         write_yaml(data)
-        env_save(data, model, env, test_env)
-
+        env_save(data, model, env, eval_env)
         print('')
         print('continune-training interrupt, save the model and config file to ' + data["path"])
     else:
         data["algo_params"]['num_timesteps'] = model.num_timesteps
         write_yaml(data)
-        env_save(data, model, env, test_env)
+        env_save(data, model, env, eval_env)
         print('')
         print('continue-training FINISH, save the model and config file to ' + data['path'])
 
@@ -74,7 +73,7 @@ if __name__ == '__main__':
     model_id = args.model_id
 
     STEP_BASED = ["ppo", "sac"]
-    EPISODIC = ["cmaes"]
+    EPISODIC = ["dmp", "promp"]
     if algo in STEP_BASED:
         step_based(algo, env_id, model_id)
     elif algo in EPISODIC:
