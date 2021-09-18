@@ -2,7 +2,6 @@ import numpy as np
 from utils.callback import ALRBallInACupCallback,DMbicCallback
 from utils.custom import CustomActorCriticPolicy
 from stable_baselines3 import PPO, A2C, DQN, HER, SAC, TD3, DDPG
-from stable_baselines3.ppo import MlpPolicy
 import torch as th
 
 def model_building(data, env, seed=None):
@@ -18,13 +17,15 @@ def model_building(data, env, seed=None):
     ALGO = ALGOS[data['algorithm']]
 
     POLICY = {
-        'MlpPolicy': MlpPolicy,
         'CustomActorCriticPolicy': CustomActorCriticPolicy
     }
 
-    policy_kwargs = dict(activation_fn=th.nn.Tanh, net_arch=dict(pi=[256, 256], qf=[256, 256]))
+    if "policy_kwargs" in data["algo_params"]:
+        policy_kwargs = policy_kwargs_building(data)
+    else:
+        policy_kwargs = None
 
-    if data['algorithm'] == "ppo":
+    if "special_policy" in data['algo_params']:
         policy = POLICY[data['algo_params']['special_policy']]
     else:
         policy = data['algo_params']['policy']
@@ -118,3 +119,19 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_w
         log_writer.add_scalar(f"algorithm_params/covariance_matrix_variance[{i}]", np.var(algorithm.C[i]), t)
 
     return algorithm, env, success_full, success_mean, path, log_writer, opts, t
+
+
+def policy_kwargs_building(data):
+    net_arch = {}
+    if data["algo_params"]["policy_type"] == "on_policy":
+        net_arch["pi"] = data["algo_params"]["policy_kwargs"]["pi"]
+        net_arch["vf"] = data["algo_params"]["policy_kwargs"]["vf"]
+    elif data["algo_params"]["policy_type"] == "off_policy":
+        net_arch["pi"] = data["algo_params"]["policy_kwargs"]["pi"]
+        net_arch["qf"] = data["algo_params"]["policy_kwargs"]["qf"]
+
+    if data["algo_params"]["policy_kwargs"]["activation_fn"] == "tanh":
+        activation_fn = th.nn.Tanh
+    else:
+        activation_fn = None
+    return dict(activation_fn=activation_fn, net_arch=net_arch)

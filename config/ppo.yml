@@ -7,8 +7,13 @@ DeepMindBallInCup-v0:
     learning_rate: 0.0001
     n_steps: 20000
     total_timesteps: 1.e+6
-    special_policy: MlpPolicy
+    policy: MlpPolicy
+    policy_type: on_policy
     special_callback: DMbicCallback
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      vf: 256
   env_params:
     env_name: alr_envs:DeepMindBallInCup-v0
     num_envs: 1
@@ -25,8 +30,13 @@ DeepMindBallInCup-v1:
     learning_rate: 0.0001
     n_steps: 20000
     total_timesteps: 1.e+6
-    special_policy: MlpPolicy
+    policy: MlpPolicy
+    policy_type: on_policy
     special_callback: DMbicCallback
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      vf: 256
   env_params:
     env_name: alr_envs:DeepMindBallInCup-v1
     num_envs: 1
@@ -43,8 +53,13 @@ DeepMindBallInCup-v2:
     learning_rate: 0.0001
     n_steps: 20000
     total_timesteps: 1.e+6
-    special_policy: MlpPolicy
+    policy: MlpPolicy
+    policy_type: on_policy
     special_callback: DMbicCallback
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      vf: 256
   env_params:
     env_name: alr_envs:DeepMindBallInCup-v2
     num_envs: 1
@@ -61,8 +76,13 @@ DeepMindBallInCupDense-v0:
     learning_rate: 0.0001
     n_steps: 20000
     total_timesteps: 1.e+6
-    special_policy: MlpPolicy
+    policy: MlpPolicy
+    policy_type: on_policy
     special_callback: DMbicCallback
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      vf: 256
   env_params:
     env_name: alr_envs:DeepMindBallInCupDense-v0
     num_envs: 1
@@ -79,8 +99,13 @@ DeepMindBallInCupDense-v1:
     learning_rate: 0.0001
     n_steps: 20000
     total_timesteps: 1.e+6
-    special_policy: MlpPolicy
+    policy: MlpPolicy
+    policy_type: on_policy
     special_callback: DMbicCallback
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      vf: 256
   env_params:
     env_name: alr_envs:DeepMindBallInCupDense-v1
     num_envs: 1
@@ -97,8 +122,13 @@ DeepMindBallInCupDense-v2:
     learning_rate: 0.0001
     n_steps: 20000
     total_timesteps: 1.e+6
-    special_policy: MlpPolicy
+    policy: MlpPolicy
+    policy_type: on_policy
     special_callback: DMbicCallback
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      vf: 256
   env_params:
     env_name: alr_envs:DeepMindBallInCupDense-v2
     num_envs: 1
@@ -115,7 +145,12 @@ ALRReacherBalance-v0:
     learning_rate: 0.0001
     n_steps:  20000
     total_timesteps: 1.e+7
-    special_policy: MlpPolicy
+    policy: MlpPolicy
+    policy_type: on_policy
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      vf: 256
   env_params:
     env_name: alr_envs:ALRReacherBalance-v0
     num_envs: 8
@@ -131,7 +166,12 @@ ALRReacherBalance-v1:
     learning_rate: 0.0001
     n_steps:  20000
     total_timesteps: 1.e+7
-    special_policy: MlpPolicy
+    policy: MlpPolicy
+    policy_type: on_policy
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      vf: 256
   env_params:
     env_name: alr_envs:ALRReacherBalance-v1
     num_envs: 8
@@ -147,7 +187,12 @@ ALRReacherBalance-v2:
     learning_rate: 0.0001
     n_steps:  20000
     total_timesteps: 1.e+7
-    special_policy: MlpPolicy
+    policy: MlpPolicy
+    policy_type: on_policy
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      vf: 256
   env_params:
     env_name: alr_envs:ALRReacherBalance-v2
     num_envs: 8
@@ -167,7 +212,12 @@ ALRBallInACupSimpleDense-v0:
     n_steps: 400
     total_timesteps: 5.e+7
     special_policy: CustomActorCriticPolicy
+    policy_type: on_policy
     special_callback: ALRBallInACupCallback
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      vf: 256
   env_params:
     env_name: alr_envs:ALRBallInACupSimpleDense-v0
     num_envs: 8
@@ -182,7 +232,12 @@ HoleReacherDense-v0:
     learning_rate: 0.0001
     n_steps: 300
     total_timesteps: 1.e+6
-    special_policy: MlpPolicy
+    policy: MlpPolicy
+    policy_type: on_policy
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      vf: 256
   env_params:
     env_name: alr_envs:HoleReacherDense-v0
     num_envs: 1
@@ -200,7 +255,8 @@ DeepMindWalkerDense-v0:
     learning_rate: 0.0001
     n_steps: 2000
     total_timesteps: 2.e+6
-    special_policy: MlpPolicy
+    policy: MlpPolicy
+    policy_type: on_policy
   env_params:
     env_name: alr_envs:DeepMindWalkerDense-v0
     num_envs: 8

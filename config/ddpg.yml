@@ -8,6 +8,10 @@ ALRBallInACupSimpleDense-v0:
     total_timesteps: 5.e+7
     special_policy: CustomActorCriticPolicy
     special_callback: ALRBallInACupCallback
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      qf: 256
   env_params:
     env_name: alr_envs:ALRBallInACupSimpleDense-v0
     num_envs: 8
@@ -23,6 +27,10 @@ HoleReacherDense-v0:
     n_steps: 20000
     total_timesteps: 1.e+6
     special_policy: MlpPolicy
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      qf: 256
   env_params:
     env_name: alr_envs:HoleReacherDense-v0
     num_envs: 8
@@ -42,6 +50,10 @@ DeepMindBallInCup-v0:
     total_timesteps: 1.e+6
     policy: MlpPolicy
     special_callback: DMbicCallback
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      qf: 256
   env_params:
     env_name: alr_envs:DeepMindBallInCup-v0
     num_envs: 1
@@ -61,6 +73,10 @@ DeepMindBallInCup-v1:
     total_timesteps: 1.e+6
     policy: MlpPolicy
     special_callback: DMbicCallback
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      qf: 256
   env_params:
     env_name: alr_envs:DeepMindBallInCup-v1
     num_envs: 1
@@ -80,6 +96,10 @@ DeepMindBallInCup-v2:
     total_timesteps: 1.e+6
     policy: MlpPolicy
     special_callback: DMbicCallback
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      qf: 256
   env_params:
     env_name: alr_envs:DeepMindBallInCup-v2
     num_envs: 10
@@ -99,6 +119,10 @@ DeepMindBallInCupDense-v0:
     total_timesteps: 1.e+6
     policy: MlpPolicy
     special_callback: DMbicCallback
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      qf: 256
   env_params:
     env_name: alr_envs:DeepMindBallInCupDense-v0
     num_envs: 1
@@ -118,6 +142,10 @@ DeepMindBallInCupDense-v1:
     total_timesteps: 1.e+6
     policy: MlpPolicy
     special_callback: DMbicCallback
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      qf: 256
   env_params:
     env_name: alr_envs:DeepMindBallInCupDense-v1
     num_envs: 1
@@ -137,6 +165,10 @@ DeepMindBallInCupDense-v2:
     total_timesteps: 1.e+6
     policy: MlpPolicy
     special_callback: DMbicCallback
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      qf: 256
   env_params:
     env_name: alr_envs:DeepMindBallInCupDense-v2
     num_envs: 1
@@ -153,6 +185,10 @@ ALRReacher-v0:
     n_steps:  16384
     total_timesteps: 5.e+6
     special_policy: MlpPolicy
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      qf: 256
   env_params:
     env_name: alr_envs:ALRReacher-v0
     num_envs: 10
