@@ -22,7 +22,7 @@ def model_building(data, env, seed=None):
         'CustomActorCriticPolicy': CustomActorCriticPolicy
     }
 
-    policy_kwargs = dict(activation_fn=th.nn.Tanh)
+    policy_kwargs = dict(activation_fn=th.nn.Tanh, net_arch=dict(pi=[256, 256], qf=[256, 256]))
 
     if data['algorithm'] == "ppo":
         policy = POLICY[data['algo_params']['special_policy']]
@@ -37,14 +37,14 @@ def model_building(data, env, seed=None):
                      batch_size=data["algo_params"]['batch_size'],
                      n_steps=data["algo_params"]['n_steps'])
     elif data['algorithm'] == "sac":
-        model = ALGO(policy, env, verbose=1, create_eval_env=True,
+        model = ALGO(policy, env, policy_kwargs=policy_kwargs, verbose=1, create_eval_env=True,
                      tensorboard_log=data['path'],
                      seed=seed,
                      train_freq=data["algo_params"]["train_freq"],
                      learning_rate=data["algo_params"]['learning_rate'],
                      batch_size=data["algo_params"]['batch_size'])
     elif data['algorithm'] == "ddpg":
-        model = ALGO(policy, env, verbose=1, create_eval_env=True,
+        model = ALGO(policy, env, policy_kwargs=policy_kwargs, verbose=1, create_eval_env=True,
                      tensorboard_log=data['path'],
                      seed=seed,
                      learning_rate=data["algo_params"]['learning_rate'],
