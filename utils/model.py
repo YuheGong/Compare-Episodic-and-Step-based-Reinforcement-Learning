@@ -124,11 +124,12 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_w
 def policy_kwargs_building(data):
     net_arch = {}
     if data["algo_params"]["policy_type"] == "on_policy":
-        net_arch["pi"] = [data["algo_params"]["policy_kwargs"]["pi"], data["algo_params"]["policy_kwargs"]["pi"]]
-        net_arch["vf"] = [data["algo_params"]["policy_kwargs"]["vf"], data["algo_params"]["policy_kwargs"]["vf"]]
+        net_arch["pi"] = [int(data["algo_params"]["policy_kwargs"]["pi"]), int(data["algo_params"]["policy_kwargs"]["pi"])]
+        net_arch["vf"] = [int(data["algo_params"]["policy_kwargs"]["vf"]), int(data["algo_params"]["policy_kwargs"]["vf"])]
+        net_arch = [dict(net_arch)]
     elif data["algo_params"]["policy_type"] == "off_policy":
-        net_arch["pi"] = [data["algo_params"]["policy_kwargs"]["pi"], data["algo_params"]["policy_kwargs"]["pi"]]
-        net_arch["qf"] = [data["algo_params"]["policy_kwargs"]["qf"], data["algo_params"]["policy_kwargs"]["qf"]]
+        net_arch["pi"] = [int(data["algo_params"]["policy_kwargs"]["pi"]), int(data["algo_params"]["policy_kwargs"]["pi"])]
+        net_arch["qf"] = [int(data["algo_params"]["policy_kwargs"]["qf"]), int(data["algo_params"]["policy_kwargs"]["qf"])]
 
     if data["algo_params"]["policy_kwargs"]["activation_fn"] == "tanh":
         activation_fn = th.nn.Tanh
