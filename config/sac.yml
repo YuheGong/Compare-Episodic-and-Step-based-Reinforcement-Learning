@@ -161,8 +161,8 @@ ALRReacherBalance-v0:
       pi: 256
       qf: 256
   env_params:
-    env_name: alr_envs:ALRReacher-v0
-    num_envs: 10
+    env_name: alr_envs:ALRReacherBalance-v0
+    num_envs: 1
     wrapper: VecNormalize
   eval_env:
     n_eval_episode: 10
@@ -183,8 +183,8 @@ ALRReacherBalance-v1:
       pi: 256
       qf: 256
   env_params:
-    env_name: alr_envs:ALRReacher-v1
-    num_envs: 10
+    env_name: alr_envs:ALRReacherBalance-v1
+    num_envs: 1
     wrapper: VecNormalize
   eval_env:
     n_eval_episode: 10
@@ -205,8 +205,8 @@ ALRReacherBalance-v2:
       pi: 256
       qf: 256
   env_params:
-    env_name: alr_envs:ALRReacher-v2
-    num_envs: 10
+    env_name: alr_envs:ALRReacherBalance-v2
+    num_envs: 1
     wrapper: VecNormalize
   eval_env:
     n_eval_episode: 10
