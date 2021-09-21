@@ -144,7 +144,7 @@ ALRReacherBalance-v0:
     batch_size: 200
     learning_rate: 0.0001
     n_steps:  20000
-    total_timesteps: 1.e+7
+    total_timesteps: 5.e+6
     policy: MlpPolicy
     policy_type: on_policy
     policy_kwargs:

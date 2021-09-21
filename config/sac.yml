@@ -153,7 +153,7 @@ ALRReacherBalance-v0:
     learning_rate: 0.0001
     n_steps:  20000
     total_timesteps: 5.e+6
-    train_freq: 200
+    train_freq: 1
     policy: MlpPolicy
     policy_type: off_policy
     policy_kwargs:
@@ -174,8 +174,8 @@ ALRReacherBalance-v1:
     batch_size: 200
     learning_rate: 0.0001
     n_steps:  20000
-    total_timesteps: 5.e+6
-    train_freq: 200
+    total_timesteps: 1.e+7
+    train_freq: 1
     policy: MlpPolicy
     policy_type: off_policy
     policy_kwargs:
@@ -196,8 +196,8 @@ ALRReacherBalance-v2:
     batch_size: 200
     learning_rate: 0.0001
     n_steps:  20000
-    total_timesteps: 5.e+6
-    train_freq: 200
+    total_timesteps: 1.e+7
+    train_freq: 1
     policy: MlpPolicy
     policy_type: off_policy
     policy_kwargs:
