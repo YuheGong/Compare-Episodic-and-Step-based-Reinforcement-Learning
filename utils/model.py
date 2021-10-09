@@ -75,17 +75,55 @@ def model_learn(data, model, test_env, test_env_path):
     model.learn(total_timesteps=int(data['algo_params']['total_timesteps']), callback=eval_callback)
                 #, eval_freq=500, n_eval_episodes=10, eval_log_path=test_env_path, eval_env=test_env)
 
-def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_writer, opts, t):
+def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_writer, opts, t, env_id = None):
     fitness = []
     print("----------iter {} -----------".format(t))
     solutions = np.vstack(algorithm.ask())
+    #print("env",env)
+    import torch
+    #torch.nn.init.xavier_uniform(env.dynamical_net.weight)
+
     for i in range(len(solutions)):
         env.reset()
-        _, reward, done, ___ = env.step(solutions[i])
-        success_full.append(env.env.success)
+        _, reward, done, infos = env.step(solutions[i])
+        if "DeepMind" in env_id:
+            success_full.append(env.env.success)
         print('reward', -reward)
         fitness.append(-reward)
+
+        #env.optimizer.zero_grad()
+
     env.reset()
+
+    '''
+    import torch
+    print("infos",infos["trajectory"].shape)
+    print("actions", infos['step_actions'].shape)
+    print("observations", infos['step_observations'].shape)
+    loss = np.sum(infos["trajectory"] - infos['step_observations'],axis=1)
+    print("shape", loss.shape)
+    
+    loss = torch.mean(torch.Tensor(loss))
+    import tensorflow as tf
+    #loss = tf.Variable(loss, requires_grad=True)
+    loss_func = torch.nn.MSELoss()
+    from torch.autograd import Variable
+    #x = torch.unsqueeze(
+    x = torch.unsqueeze(torch.Tensor(infos["trajectory"]), dim=1)
+    y = torch.unsqueeze(torch.Tensor(infos['step_observations']), dim=1)
+    x.requires_grad_()
+    y.requires_grad_()
+    from torch.autograd import Variable
+    #x, y = (x, y)
+    loss = loss_func(x, y)
+    #loss.requres_grad = True
+    #loss_func = torch.nn.MSELoss()
+    #loss = loss_func(loss)
+    loss.backward()
+    env.optimizer.step()
+    '''
+
+
     algorithm.tell(solutions, fitness)
     _, opt, __, ___ = env.step(algorithm.mean)
 
@@ -93,25 +131,27 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_w
     print("opt", -opt)
     opts.append(opt)
     t += 1
+    if "DeepMind" in env_id:
+        success_mean.append(env.env.success)
+        if success_mean[-1]:
+            success_rate = 1
+        else:
+            success_rate = 0
 
-    success_mean.append(env.env.success)
-    if success_mean[-1]:
-        success_rate = 1
-    else:
-        success_rate = 0
+        b = 0
+        for i in range(len(success_full)):
+            if success_full[i]:
+                b += 1
+        success_rate_full = b / len(success_full)
+        success_full = []
 
-    b = 0
-    for i in range(len(success_full)):
-        if success_full[i]:
-            b += 1
-    success_rate_full = b / len(success_full)
-    success_full = []
-
-    log_writer.add_scalar("iteration/success_rate_full", success_rate_full, t)
-    log_writer.add_scalar("iteration/success_rate", success_rate, t)
+    if "DeepMind" in env_id:
+        log_writer.add_scalar("iteration/success_rate_full", success_rate_full, t)
+        log_writer.add_scalar("iteration/success_rate", success_rate, t)
+        log_writer.add_scalar("iteration/dist_entrance", env.env.dist_entrance, t)
+        log_writer.add_scalar("iteration/dist_bottom", env.env.dist_bottom, t)
     log_writer.add_scalar("iteration/reward", opt, t)
-    log_writer.add_scalar("iteration/dist_entrance", env.env.dist_entrance, t)
-    log_writer.add_scalar("iteration/dist_bottom", env.env.dist_bottom, t)
+
     #log_writer.add_scalar("iteration/dist_vec", env.env.dist_vec, t)
     for i in range(len(algorithm.mean)):
         log_writer.add_scalar(f"algorithm_params/mean[{i}]", algorithm.mean[i], t)
