@@ -52,7 +52,11 @@ def episodic(algo, env_id, stop_cri, seed=None):
     file_name = algo + ".yml"
     data = read_yaml(file_name)[env_id]
     env_name = data["env_params"]["env_name"]
-    env = gym.make(env_name[2:-1], seed=seed)
+    if 'Meta' in env_id:
+        from alr_envs.utils.make_env_helpers import make_env
+        env = make_env(env_name, seed)
+    else:
+        env = gym.make(env_name[2:-1], seed=seed)
 
     params = data["algo_params"]['x_init'] * np.random.rand(data["algo_params"]["dimension"])
     ALGOS = {
@@ -76,11 +80,11 @@ def episodic(algo, env_id, stop_cri, seed=None):
         if stop_cri:
             while t < data["algo_params"]["iteration"] and not success:
                 algorithm, env, success_full, success_mean, path, log_writer, opts, t = \
-                    cmaes_model_training(algorithm, env, success_full, success_mean, path, log_writer, opts, t)
+                    cmaes_model_training(algorithm, env, success_full, success_mean, path, log_writer, opts, t, env_id)
         else:
             while t < data["algo_params"]["iteration"]:
                 algorithm, env, success_full, success_mean, path, log_writer, opts, t = \
-                    cmaes_model_training(algorithm, env, success_full, success_mean, path, log_writer, opts, t)
+                    cmaes_model_training(algorithm, env, success_full, success_mean, path, log_writer, opts, t, env_id)
     except KeyboardInterrupt:
         data["path_in"] = path
         data["path_out"] = path + '/data.csv'

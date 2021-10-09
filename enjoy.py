@@ -55,7 +55,7 @@ def step_based(algo: str, env_id: str, model_id: str, step: str):
             env.render()
         env.close()
 
-def episodic(algo: str, env_id, model_id: str, step: str):
+def episodic(algo: str, env_id, model_id: str, step: str, seed=None):
     file_name = algo + ".yml"
     data = read_yaml(file_name)[env_id]
     env_name = data["env_params"]["env_name"]
@@ -63,11 +63,18 @@ def episodic(algo: str, env_id, model_id: str, step: str):
     path = "logs/" + algo + "/" + env_id + "_" + model_id + "/algo_mean.npy"
     algorithm = np.load(path)
 
-    env = gym.make(env_name[2:-1])
+    if 'Meta' in env_id:
+        from alr_envs.utils.make_env_helpers import make_env
+        env = make_env(env_name, seed=seed)
+    else:
+        env = gym.make(env_name[2:-1])
     env.reset()
 
     if "DeepMind" in env_id:
         env.render("rgb_array")
+        env.step(algorithm)
+    elif "Meta" in env_id:
+        env.render(mode="meta")
         env.step(algorithm)
     else:
         env.render()

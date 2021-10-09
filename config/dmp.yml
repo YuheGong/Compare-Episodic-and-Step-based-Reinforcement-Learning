@@ -12,6 +12,19 @@ DeepMindBallInCupDMP-v0:
   env_params:
     env_name: f'dmc_ball_in_cup-catch_dmp-v0'
 
+DeepMindBallInCupNNMP-v0:
+  name: DeepMind_Ball_In_Cup + NNMP
+  algorithm: cmaes
+  algo_params:
+    x_init: 1
+    dimension: 12
+    sigma0: 1
+    popsize: 10
+    iteration: 5000
+    stop_criterion: opt < 3.2
+  env_params:
+    env_name: f'dmc_ball_in_cup-catch_nnmp-v0'
+
 DeepMindBallInCupDenseDMP-v0:
   name: DeepMind_Ball_In_Cup + DMP
   algorithm: cmaes
@@ -85,7 +98,7 @@ ALRReacherBalanceDMP-v0:
     dimension: 30
     sigma0: 1
     popsize: 5
-    iteration: 13000
+    iteration: 5000
     stop_criterion: opt < 3.2
   env_params:
     env_name: f'ALRReacherBalanceDMP-v0'
@@ -111,8 +124,21 @@ ALRReacherBalanceDMP-v2:
     dimension: 30
     sigma0: 1
     popsize: 5
-    iteration: 13000
+    iteration: 5000
     stop_criterion: opt < 3.2
   env_params:
     env_name: f'ALRReacherBalanceDMP-v2'
+
+ALRReacherBalanceSparseDMP-v2:
+  name: ALRReacher + DMP
+  algorithm: cmaes
+  algo_params:
+    x_init: 0
+    dimension: 30
+    sigma0: 1
+    popsize: 5
+    iteration: 5000
+    stop_criterion: opt < 3.2
+  env_params:
+    env_name: f'ALRReacherBalanceSparseDMP-v2'
 
