@@ -47,6 +47,15 @@ def step_based(algo: str, env_id: str, model_id: str, step: str):
             obs, rewards, dones, info = env.step(action)
             env.render(mode="rgb_array")
         env.close()
+    elif "Meta" in env_id:
+        print("meta")
+        for i in range(int(step)):
+            time.sleep(0.01)
+            action, _states = model.predict(obs, deterministic=True)
+            obs, rewards, dones, info = env.step(action)
+            env.render(False)
+        #env.close()
+
     else:
         for i in range(int(step)):
             time.sleep(0.01)

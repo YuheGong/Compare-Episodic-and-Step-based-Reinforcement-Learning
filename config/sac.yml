@@ -251,7 +251,7 @@ MetaButtonPress-v2:
       pi: 256
       qf: 256
   env_params:
-    env_name: alr_envs:ButtonPress-v2
+    env_name: alr_envs:MetaButtonPress-v2
     num_envs: 1
     wrapper: VecNormalize
   eval_env:
@@ -273,7 +273,7 @@ MetaButtonPressSparse-v2:
       pi: 256
       qf: 256
   env_params:
-    env_name: alr_envs:ButtonPressSparse-v2
+    env_name: alr_envs:MetaButtonPressSparse-v2
     num_envs: 1
     wrapper: VecNormalize
   eval_env:
