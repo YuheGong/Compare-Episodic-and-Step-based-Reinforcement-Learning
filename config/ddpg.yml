@@ -42,7 +42,7 @@ HoleReacherDense-v0:
 
 DeepMindBallInCup-v0:
   name: DeepMind_Ball_In_Cup + SAC
-  algorithm: sac
+  algorithm: ddpg
   algo_params:
     batch_size: 256
     learning_rate: 0.0001
@@ -117,6 +117,7 @@ DeepMindBallInCupDense-v0:
     learning_rate: 0.0001
     n_steps: 20000
     total_timesteps: 1.e+6
+    policy_type: off_policy
     policy: MlpPolicy
     special_callback: DMbicCallback
     policy_kwargs:

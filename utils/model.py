@@ -50,6 +50,11 @@ def model_building(data, env, seed=None):
                      seed=seed,
                      learning_rate=data["algo_params"]['learning_rate'],
                      batch_size=data["algo_params"]['batch_size'])
+    elif data['algorithm'] == "td3":
+        model = ALGO(policy, env, policy_kwargs=policy_kwargs, verbose=1, create_eval_env=True,
+                     tensorboard_log=data['path'],
+                     learning_rate=data["algo_params"]['learning_rate'],
+                     batch_size=data["algo_params"]['batch_size'])
     else:
         print("the model initialization function for " + data['algorithm'] + " is still not implemented.")
 
@@ -79,6 +84,8 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_w
     fitness = []
     print("----------iter {} -----------".format(t))
     solutions = np.vstack(algorithm.ask())
+    #print("solutions_shape", solutions.shape)
+    #print("solutions", solutions)
     #print("env",env)
     import torch
     #torch.nn.init.xavier_uniform(env.dynamical_net.weight)

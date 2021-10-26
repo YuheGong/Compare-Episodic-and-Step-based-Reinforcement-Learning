@@ -65,6 +65,8 @@ def episodic(algo, env_id, stop_cri, seed=None):
     if data["algorithm"] == "cmaes":
         algorithm = ALGOS[data["algorithm"]].CMAEvolutionStrategy(x0=params, sigma0=data["algo_params"]["sigma0"], inopts={"popsize": data["algo_params"]["popsize"]})
 
+
+
     # logging
     path = "alr_envs:" + env_id
     path = logging(path, algo)
@@ -116,7 +118,7 @@ if __name__ == '__main__':
     algo = args.algo
     env_id = args.env_id
     stop_cri = args.stop_cri
-    STEP_BASED = ["ppo", "sac", "ddpg"]
+    STEP_BASED = ["ppo", "sac", "ddpg", "td3"]
     #print("algo", algo)
     EPISODIC = ["dmp", "promp"]
     if algo in STEP_BASED:

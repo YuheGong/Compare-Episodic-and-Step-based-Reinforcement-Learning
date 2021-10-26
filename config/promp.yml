@@ -120,8 +120,22 @@ ALRReacherBalanceSparseProMP-v2:
     dimension: 25
     sigma0: 0.1
     popsize: 10
-    iteration: 500
+    iteration: 5000
     stop_criterion: opt < 3.2
+  env_params:
+    env_name: f'ALRReacherBalanceSparseProMP-v2'
+
+
+GradientALRReacherBalanceSparseProMP-v0:
+  name: ALRReacher + ProMP
+  algorithm: GradientDescent
+  algo_params:
+    x_init: 0
+    dimension: 25
+    sigma0: 0.1
+    popsize: 10
+    iteration: 5000
+    stop_criterion: None
   env_params:
     env_name: f'ALRReacherBalanceSparseProMP-v2'
 
