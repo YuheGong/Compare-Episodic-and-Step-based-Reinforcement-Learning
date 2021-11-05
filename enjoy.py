@@ -71,6 +71,7 @@ def episodic(algo: str, env_id, model_id: str, step: str, seed=None):
 
     path = "logs/" + algo + "/" + env_id + "_" + model_id + "/algo_mean.npy"
     algorithm = np.load(path)
+    print("algorithm", algorithm)
 
     if 'Meta' in env_id:
         from alr_envs.utils.make_env_helpers import make_env
@@ -109,7 +110,7 @@ if __name__ == "__main__":
     model_id = args.model_id
     step = args.step
 
-    STEP_BASED = ["ppo", "sac"]
+    STEP_BASED = ["ppo", "sac", "td3"]
     EPISODIC = ["dmp", "promp"]
 
 
