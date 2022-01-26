@@ -91,10 +91,10 @@ ALRReacherBalanceProMP-v1:
   algorithm: cmaes
   algo_params:
     x_init: 0
-    dimension: 25
+    dimension: 50
     sigma0: 0.1
     popsize: 10
-    iteration: 13000
+    iteration: 5000
     stop_criterion: opt < 3.2
   env_params:
     env_name: f'ALRReacherBalanceProMP-v1'
@@ -107,7 +107,7 @@ ALRReacherBalanceProMP-v2:
     dimension: 25
     sigma0: 0.1
     popsize: 10
-    iteration: 500
+    iteration: 7500
     stop_criterion: opt < 3.2
   env_params:
     env_name: f'ALRReacherBalanceProMP-v2'

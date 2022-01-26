@@ -1,0 +1,44 @@
+[2021-09-10 16:29:32,303]:[cw2] [ERROR] EXCEPTION: ./slurm/DeepMindBallInCupDenseProMP-v1/log/rep_00
+Traceback (most recent call last):
+  File "/home/i53/student/yuhe_gong/miniconda3/envs/SimulationFramework/lib/python3.6/site-packages/numpy/core/fromnumeric.py", line 3108, in ndim
+    return a.ndim
+AttributeError: 'float' object has no attribute 'ndim'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/i53/student/yuhe_gong/MasterThesis/src/cw2/cw2/job.py", line 84, in run_task
+    self.exp.run(c, r, self.logger)
+  File "/home/i53/student/yuhe_gong/MasterThesis/src/cw2/cw2/experiment.py", line 79, in run
+    res = self.iterate(cw_config, rep, n)
+  File "cw2cmaes/cmaes_cw2.py", line 65, in iterate
+    _, reward, __, ___ = self.env.step(solutions[i])
+  File "/home/i53/student/yuhe_gong/MasterThesis/motion_primitive_env_api/mp_env_api/mp_wrappers/mp_wrapper.py", line 90, in step
+    obs, rewards[t], done, info = self.env.step(actions[t, :])
+  File "/home/i53/student/yuhe_gong/MasterThesis/src/alr-envs/alr_envs/dmc/ball_in_cup/version_1/ball_in_the_cup_mp_wrapper_dense.py", line 60, in step
+    a, reward, done, d = super().step(action)
+  File "/home/i53/student/yuhe_gong/miniconda3/envs/SimulationFramework/lib/python3.6/site-packages/gym/core.py", line 268, in step
+    observation, reward, done, info = self.env.step(action)
+  File "/home/i53/student/yuhe_gong/miniconda3/envs/SimulationFramework/lib/python3.6/site-packages/gym/wrappers/time_limit.py", line 16, in step
+    observation, reward, done, info = self.env.step(action)
+  File "/home/i53/student/yuhe_gong/MasterThesis/src/alr-envs/alr_envs/utils/dmc2gym_wrapper.py", line 160, in step
+    time_step = self._env.step(action)
+  File "/home/i53/student/yuhe_gong/miniconda3/envs/SimulationFramework/lib/python3.6/site-packages/dm_control/rl/control.py", line 103, in step
+    self._task.after_step(self._physics)
+  File "/home/i53/student/yuhe_gong/miniconda3/envs/SimulationFramework/lib/python3.6/site-packages/dm_control/suite/base.py", line 82, in after_step
+    reward = np.clip(self.get_reward(physics), 0.0, 1.0)
+  File "<__array_function__ internals>", line 6, in clip
+  File "/home/i53/student/yuhe_gong/miniconda3/envs/SimulationFramework/lib/python3.6/site-packages/numpy/core/fromnumeric.py", line 2097, in clip
+    return _wrapfunc(a, 'clip', a_min, a_max, out=out, **kwargs)
+  File "/home/i53/student/yuhe_gong/miniconda3/envs/SimulationFramework/lib/python3.6/site-packages/numpy/core/fromnumeric.py", line 58, in _wrapfunc
+    return bound(*args, **kwds)
+  File "/home/i53/student/yuhe_gong/miniconda3/envs/SimulationFramework/lib/python3.6/site-packages/numpy/core/_methods.py", line 118, in _clip
+    if _clip_dep_is_scalar_nan(max):
+  File "/home/i53/student/yuhe_gong/miniconda3/envs/SimulationFramework/lib/python3.6/site-packages/numpy/core/_methods.py", line 75, in _clip_dep_is_scalar_nan
+    if ndim(a) != 0:
+  File "<__array_function__ internals>", line 6, in ndim
+  File "/home/i53/student/yuhe_gong/miniconda3/envs/SimulationFramework/lib/python3.6/site-packages/numpy/core/fromnumeric.py", line 3110, in ndim
+    return asarray(a).ndim
+  File "/home/i53/student/yuhe_gong/miniconda3/envs/SimulationFramework/lib/python3.6/site-packages/numpy/core/_asarray.py", line 83, in asarray
+    return array(a, dtype, copy=False, order=order)
+KeyboardInterrupt

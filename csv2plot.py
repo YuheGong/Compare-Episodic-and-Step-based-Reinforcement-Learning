@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from scipy.interpolate import make_interp_spline
+
 import matplotlib.pyplot as plt
 
 
@@ -38,7 +39,7 @@ def plot_function(success_rate_value, plotdict, name):
     #X_Y_Spline = make_interp_spline(plot_mean, plot_samples)
     #X = np.linspace(plot_mean.min(), plot_mean.max(), 100)
     #Y = X_Y_Spline(X)
-    plt.plot(plot_samples, plot_mean, label=name)
+    plt.plot(plot_samples, plot_mean, label=label_name(name))
     plt.fill_between(plot_samples, plot_mean-plot_var, plot_mean+plot_var, alpha=0.1)
     return plotdict
 
@@ -50,6 +51,23 @@ def suc_rate_value(plotdict, value):
 
     success_rate_value = np.array(success_rate_full)
     return success_rate_value
+
+def label_name(name):
+    if "DMP" in name:
+        a = "DMP"
+    elif "ProMP" in name:
+        a = "ProMP"
+    if name[-1] == "0":
+        b = 'exp'
+    elif name[-1] == "1":
+        b = 'quad'
+    elif name[-1] == "2":
+        b = 'log'
+    if "Dense" in name:
+        c = "dense"
+    else:
+        c = "sparse"
+    return a + ' - ' + b + ' - ' + c
 
 folder = "slurm"
 value = "success_rate_full"
@@ -78,7 +96,7 @@ for v in range(3):
 
 
 plt.title(algo + ': success rate according to samples')
-plt.legend()
+#plt.legend()
 plt.show()
 
 

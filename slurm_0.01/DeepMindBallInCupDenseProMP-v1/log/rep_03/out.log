@@ -1,0 +1,31 @@
+[2021-09-10 16:29:35,351]:[cw2] [ERROR] EXCEPTION: ./slurm/DeepMindBallInCupDenseProMP-v1/log/rep_03
+Traceback (most recent call last):
+  File "/home/i53/student/yuhe_gong/MasterThesis/src/cw2/cw2/job.py", line 84, in run_task
+    self.exp.run(c, r, self.logger)
+  File "/home/i53/student/yuhe_gong/MasterThesis/src/cw2/cw2/experiment.py", line 79, in run
+    res = self.iterate(cw_config, rep, n)
+  File "cw2cmaes/cmaes_cw2.py", line 65, in iterate
+    _, reward, __, ___ = self.env.step(solutions[i])
+  File "/home/i53/student/yuhe_gong/MasterThesis/motion_primitive_env_api/mp_env_api/mp_wrappers/mp_wrapper.py", line 90, in step
+    obs, rewards[t], done, info = self.env.step(actions[t, :])
+  File "/home/i53/student/yuhe_gong/MasterThesis/src/alr-envs/alr_envs/dmc/ball_in_cup/version_1/ball_in_the_cup_mp_wrapper_dense.py", line 60, in step
+    a, reward, done, d = super().step(action)
+  File "/home/i53/student/yuhe_gong/miniconda3/envs/SimulationFramework/lib/python3.6/site-packages/gym/core.py", line 268, in step
+    observation, reward, done, info = self.env.step(action)
+  File "/home/i53/student/yuhe_gong/miniconda3/envs/SimulationFramework/lib/python3.6/site-packages/gym/wrappers/time_limit.py", line 16, in step
+    observation, reward, done, info = self.env.step(action)
+  File "/home/i53/student/yuhe_gong/MasterThesis/src/alr-envs/alr_envs/utils/dmc2gym_wrapper.py", line 160, in step
+    time_step = self._env.step(action)
+  File "/home/i53/student/yuhe_gong/miniconda3/envs/SimulationFramework/lib/python3.6/site-packages/dm_control/rl/control.py", line 105, in step
+    reward = self._task.get_reward(self._physics)
+  File "/home/i53/student/yuhe_gong/MasterThesis/src/alr-envs/alr_envs/dmc/ball_in_cup/version_1/ball_in_the_cup_mp_wrapper_dense.py", line 94, in get_reward
+    cup = self.env.physics.named.data.site_xpos['cup', ['x', 'z']]
+  File "/home/i53/student/yuhe_gong/miniconda3/envs/SimulationFramework/lib/python3.6/site-packages/dm_control/mujoco/index.py", line 497, in __getitem__
+    return self._field[self._convert_key(key)]
+  File "/home/i53/student/yuhe_gong/miniconda3/envs/SimulationFramework/lib/python3.6/site-packages/dm_control/mujoco/index.py", line 479, in _convert_key
+    for axis, key_item in zip(self._axes, key))
+  File "/home/i53/student/yuhe_gong/miniconda3/envs/SimulationFramework/lib/python3.6/site-packages/dm_control/mujoco/index.py", line 479, in <genexpr>
+    for axis, key_item in zip(self._axes, key))
+  File "/home/i53/student/yuhe_gong/miniconda3/envs/SimulationFramework/lib/python3.6/site-packages/dm_control/mujoco/index.py", line 364, in convert_key_item
+    for k in key_item.flat])
+KeyboardInterrupt

@@ -43,7 +43,7 @@ def plot_function(success_rate_value, plotdict, name, samples):
     #print(plot_mean-plot_var)
     #print(plot_mean+plot_var)
     #assert 1==239
-    plt.plot(plot_samples, plot_mean, label=name)
+    plt.plot(plot_samples, plot_mean, label=name)#label_name(name))
     plt.fill_between(plot_samples, plot_mean-plot_var, plot_mean+plot_var, alpha=0.1)
     return plotdict
 
@@ -56,11 +56,29 @@ def suc_rate_value(plotdict, value):
     success_rate_value = np.array(success_rate_full)
     return success_rate_value
 
+def label_name(name):
+    if "ppo" in name:
+        a = "DMP"
+    elif "ProMP" in name:
+        a = "ProMP"
+    if name[-1] == "0":
+        b = 'exp'
+    elif name[-1] == "1":
+        b = 'quad'
+    elif name[-1] == "2":
+        b = 'log'
+    if "Dense" in name:
+        c = "dense"
+    else:
+        c = "sparse"
+    return a + ' - ' + b + ' - ' + c
+
+
 folder = "ppo"
 samples = 20000
 
-folder = "sac"
-samples = 2000
+#folder = "sac"
+#samples = 500
 
 
 value = "eval/success_rate"
@@ -75,6 +93,7 @@ for v in range(3):
     plotdict = {}
     plotdict = dict_building(folder, name)
     success_rate_value = suc_rate_value(plotdict,value)
+    name = name + folder
     plot_function(success_rate_value, plotdict, name, samples)
     #assert 1==239
 
@@ -89,7 +108,7 @@ for v in range(3):
 
 
 plt.title( folder.upper() + ': success rate according to samples')
-plt.legend()
+#plt.legend(bbox_to_anchor=(1,0), loc=3, borderaxespad=0)
 plt.show()
 
 

@@ -1,0 +1,24 @@
+algo_params:
+  batch_size: 200
+  learning_rate: 0.0001
+  n_steps: 20000
+  num_timesteps: 400
+  policy: MlpPolicy
+  policy_kwargs:
+    activation_fn: tanh
+    pi: 256
+    qf: 256
+  policy_type: off_policy
+  total_timesteps: 1000000.0
+  train_freq: 1
+algorithm: td3
+env_params:
+  env_name: alr_envs:ALRReacherBalanceSparse-v2
+  num_envs: 1
+  wrapper: VecNormalize
+eval_env:
+  eval_freq: 10004
+  n_eval_episode: 10
+path: logs/td3/ALRReacherBalanceSparse-v2_1
+path_in: logs/td3/ALRReacherBalanceSparse-v2_1/TD3_1
+path_out: logs/td3/ALRReacherBalanceSparse-v2_1/data.csv

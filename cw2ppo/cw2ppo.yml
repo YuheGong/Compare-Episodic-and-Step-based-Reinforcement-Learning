@@ -1,0 +1,55 @@
+# Slurm config
+name: "SLURM"
+partition: "gpu_8"
+account: ""  # important for HHLR cluster
+job-name: "Compare Episodic and Step-based Reinforcement Learning"  # this will be the experiment's name in slurm
+#experiment_copy_dst: "/home/max_li/exp_code"
+num_parallel_jobs: 1  # max number of jobs executed in parallel
+ntasks: 1   #  leave that like it is
+cpus-per-task: 1   # there are 5 cores for each GPU on the gpu_8 queue and 10 per GPU on the gpu_4 queue. Never use 5! don't ask why!
+time: 300   # in minutes
+sbatch_args:   # gpus need to be explicitly requested using this
+  gres: "gpu:1" #and this
+---
+# DEFAULT
+name: "DEFAULT"
+repetitions: 20  # number of times one set of parameters is run
+iterations: 2000  # number of iterations per repetition
+path: "cmaes"
+gui: false
+params:
+  stop_at_target: False
+  target_fitness: 1.0e-5
+  stop_at_divergence: False
+  divergence_fitness: 1.0e+12
+  env_num: 10
+  algorithm: ppo
+  batch_size: 50
+  learning_rate: 0.0001
+  n_steps: 2000
+  total_timesteps: 2.e+6
+  #env_name: DeepMindBallInCup-v0
+  #env_name: DeepMindBallInCupDense-v0
+  #env_name: DeepMindBallInCup-v1
+  #env_name: DeepMindBallInCupDense-v1
+  #env_name: DeepMindBallInCup-v2
+  env_name: DeepMindBallInCupDense-v2
+
+---
+#name: 'DeepMindBallInCup-v0'
+#name: 'DeepMindBallInCupDense-v0'
+#name: 'DeepMindBallInCup-v1'
+#name: 'DeepMindBallInCupDense-v1'
+#name: 'DeepMindBallInCup-v2'
+name: 'DeepMindBallInCupDense-v2'
+path: "/home/yre/Desktop/KIT/masterthesis/Compare-Episodic-and-Step-based-Reinforcement-Learning/fifthweek_ppo"
+#path: "/home/i53/student/yuhe_gong/MasterThesis/fifthweek_ppo"
+params:
+  problem:
+    #name: 'DeepMindBallInCup-v0'
+    #name: 'DeepMindBallInCupDense-v0'
+    #name: 'DeepMindBallInCup-v1'
+    #name: 'DeepMindBallInCupDense-v1'
+    #name: 'DeepMindBallInCup-v2'
+    name: 'DeepMindBallInCupDense-v2'
+

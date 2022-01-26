@@ -3,7 +3,7 @@ from utils.callback import ALRBallInACupCallback,DMbicCallback
 from utils.custom import CustomActorCriticPolicy
 from stable_baselines3 import PPO, A2C, DQN, HER, SAC, TD3, DDPG
 import torch as th
-
+from stable_baselines3.common.noise import NormalActionNoise
 def model_building(data, env, seed=None):
     ALGOS = {
         'a2c': A2C,
@@ -51,10 +51,13 @@ def model_building(data, env, seed=None):
                      learning_rate=data["algo_params"]['learning_rate'],
                      batch_size=data["algo_params"]['batch_size'])
     elif data['algorithm'] == "td3":
+        n_actions =env.action_space.shape[-1]
+
+        action_noise = NormalActionNoise(mean=np.zeros(n_actions), sigma=0.1* np.ones(n_actions))
         model = ALGO(policy, env, policy_kwargs=policy_kwargs, verbose=1, create_eval_env=True,
                      tensorboard_log=data['path'],
-                     learning_rate=data["algo_params"]['learning_rate'],
-                     batch_size=data["algo_params"]['batch_size'])
+                     learning_rate=data["algo_params"]['learning_rate'],action_noise=action_noise,
+                     batch_size=data["algo_params"]['batch_size'], train_freq=200, gradient_steps=200)
     else:
         print("the model initialization function for " + data['algorithm'] + " is still not implemented.")
 
@@ -89,6 +92,7 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_w
     #print("env",env)
     import torch
     #torch.nn.init.xavier_uniform(env.dynamical_net.weight)
+    solutions = solutions.clip(-2,2)
 
     for i in range(len(solutions)):
         env.reset()
@@ -157,7 +161,7 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_w
         log_writer.add_scalar("iteration/success_rate", success_rate, t)
         log_writer.add_scalar("iteration/dist_entrance", env.env.dist_entrance, t)
         log_writer.add_scalar("iteration/dist_bottom", env.env.dist_bottom, t)
-    log_writer.add_scalar("iteration/reward", opt, t)
+    log_writer.add_scalar("eval/mean_reward", opt, t*2000)
 
     #log_writer.add_scalar("iteration/dist_vec", env.env.dist_vec, t)
     for i in range(len(algorithm.mean)):

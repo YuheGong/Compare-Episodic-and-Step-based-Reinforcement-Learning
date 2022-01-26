@@ -77,7 +77,7 @@ python enjoy.py --algo ppo --env_id DeepMindBallInCup-v0 --model_id 3 --step 400
 
 python enjoy.py --algo sac --env_id DeepMindBallInCup-v0 --model_id 3 --step 400
 
-python enjoy.py --algo ppo --env_id ALRReacher-v0 --model_id 10 --step 400
+python enjoy.py --algo ppo --env_id ALRReacherBalance-v0 --model_id 10 --step 400
 
 
 

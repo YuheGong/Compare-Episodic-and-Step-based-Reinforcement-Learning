@@ -1,0 +1,26 @@
+algo_params:
+  batch_size: 50
+  learning_rate: 0.0001
+  n_steps: 20000
+  num_timesteps: 1000000
+  policy: MlpPolicy
+  policy_kwargs:
+    activation_fn: tanh
+    pi: 256
+    vf: 256
+  policy_type: on_policy
+  special_callback: DMbicCallback
+  total_timesteps: 1000000.0
+algorithm: ppo
+env_params:
+  env_name: alr_envs:DeepMindBallInCupDense-v2
+  num_envs: 1
+  wrapper: VecNormalize
+eval_env:
+  eval_freq: 500
+  n_eval_episode: 10
+name: DeepMind_Ball_In_Cup + PPO
+path: logs/ppo/DeepMindBallInCupDense-v2_3
+path_in: logs/ppo/DeepMindBallInCupDense-v2_3/PPO_1
+path_out: logs/ppo/DeepMindBallInCupDense-v2_3/data.csv
+seed: 10

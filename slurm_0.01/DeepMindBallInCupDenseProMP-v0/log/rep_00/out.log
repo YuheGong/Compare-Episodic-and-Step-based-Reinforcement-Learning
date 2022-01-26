@@ -1,0 +1,17 @@
+[2021-09-10 16:29:20,317]:[cw2] [ERROR] EXCEPTION: ./slurm/DeepMindBallInCupDenseProMP-v0/log/rep_00
+Traceback (most recent call last):
+  File "/home/i53/student/yuhe_gong/MasterThesis/src/cw2/cw2/job.py", line 84, in run_task
+    self.exp.run(c, r, self.logger)
+  File "/home/i53/student/yuhe_gong/MasterThesis/src/cw2/cw2/experiment.py", line 79, in run
+    res = self.iterate(cw_config, rep, n)
+  File "cw2cmaes/cmaes_cw2.py", line 65, in iterate
+    _, reward, __, ___ = self.env.step(solutions[i])
+  File "/home/i53/student/yuhe_gong/MasterThesis/motion_primitive_env_api/mp_env_api/mp_wrappers/mp_wrapper.py", line 90, in step
+    obs, rewards[t], done, info = self.env.step(actions[t, :])
+  File "/home/i53/student/yuhe_gong/MasterThesis/src/alr-envs/alr_envs/dmc/ball_in_cup/ball_in_the_cup_mp_wrapper_dense.py", line 57, in step
+    if self.check_success():
+  File "/home/i53/student/yuhe_gong/MasterThesis/src/alr-envs/alr_envs/dmc/ball_in_cup/ball_in_the_cup_mp_wrapper_dense.py", line 117, in check_success
+    ball = self.env.physics.named.data.xpos['ball', ['x', 'z']]
+  File "/home/i53/student/yuhe_gong/miniconda3/envs/SimulationFramework/lib/python3.6/site-packages/dm_control/mujoco/engine.py", line 490, in named
+    return self._named
+KeyboardInterrupt

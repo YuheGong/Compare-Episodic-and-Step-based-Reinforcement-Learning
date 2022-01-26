@@ -169,7 +169,7 @@ ALRReacherBalance-v0:
     eval_freq: 1000
 
 ALRReacherBalance-v1:
-  algorithm: sac
+  algorithm: td3
   algo_params:
     batch_size: 200
     learning_rate: 0.0001
@@ -185,7 +185,7 @@ ALRReacherBalance-v1:
   env_params:
     env_name: alr_envs:ALRReacherBalance-v1
     num_envs: 1
-    wrapper: VecNormalize
+    wrapper: None
   eval_env:
     n_eval_episode: 10
     eval_freq: 1000

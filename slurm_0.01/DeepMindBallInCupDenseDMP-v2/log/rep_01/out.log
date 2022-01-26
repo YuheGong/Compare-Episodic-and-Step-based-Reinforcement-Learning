@@ -1,0 +1,25 @@
+[2021-09-10 16:29:38,983]:[cw2] [ERROR] EXCEPTION: ./slurm/DeepMindBallInCupDenseDMP-v2/log/rep_01
+Traceback (most recent call last):
+  File "/home/i53/student/yuhe_gong/MasterThesis/src/cw2/cw2/job.py", line 84, in run_task
+    self.exp.run(c, r, self.logger)
+  File "/home/i53/student/yuhe_gong/MasterThesis/src/cw2/cw2/experiment.py", line 79, in run
+    res = self.iterate(cw_config, rep, n)
+  File "cw2cmaes/cmaes_cw2.py", line 73, in iterate
+    _, opt, __, ___ = self.env.step(self.algorithm.mean)
+  File "/home/i53/student/yuhe_gong/MasterThesis/motion_primitive_env_api/mp_env_api/mp_wrappers/mp_wrapper.py", line 90, in step
+    obs, rewards[t], done, info = self.env.step(actions[t, :])
+  File "/home/i53/student/yuhe_gong/MasterThesis/src/alr-envs/alr_envs/dmc/ball_in_cup/version_2/ball_in_the_cup_mp_wrapper_dense.py", line 52, in step
+    a, reward, done, d = super().step(action)
+  File "/home/i53/student/yuhe_gong/miniconda3/envs/SimulationFramework/lib/python3.6/site-packages/gym/core.py", line 268, in step
+    observation, reward, done, info = self.env.step(action)
+  File "/home/i53/student/yuhe_gong/miniconda3/envs/SimulationFramework/lib/python3.6/site-packages/gym/wrappers/time_limit.py", line 16, in step
+    observation, reward, done, info = self.env.step(action)
+  File "/home/i53/student/yuhe_gong/MasterThesis/src/alr-envs/alr_envs/utils/dmc2gym_wrapper.py", line 160, in step
+    time_step = self._env.step(action)
+  File "/home/i53/student/yuhe_gong/miniconda3/envs/SimulationFramework/lib/python3.6/site-packages/dm_control/rl/control.py", line 103, in step
+    self._task.after_step(self._physics)
+  File "/home/i53/student/yuhe_gong/miniconda3/envs/SimulationFramework/lib/python3.6/site-packages/dm_control/suite/base.py", line 83, in after_step
+    _set_reward_colors(physics, reward)
+  File "/home/i53/student/yuhe_gong/miniconda3/envs/SimulationFramework/lib/python3.6/site-packages/dm_control/suite/base.py", line 108, in _set_reward_colors
+    colors[_MATERIALS] = blend_coef * highlight + (1.0 - blend_coef) * default
+KeyboardInterrupt

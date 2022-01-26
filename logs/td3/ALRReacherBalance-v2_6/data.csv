@@ -1,0 +1,2 @@
+,train/actor_loss,train/critic_loss,train/learning_rate,zz_step_neuralnetwork,time/fps
+0,0.07995819300413132,0.0018118417356163263,9.999999747378752e-05,600.0,153.0
