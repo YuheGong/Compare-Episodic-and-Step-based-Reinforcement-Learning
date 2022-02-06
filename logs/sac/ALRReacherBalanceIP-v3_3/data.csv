@@ -1,2 +1,0 @@
-,train/actor_loss,train/critic_loss,train/ent_coef,train/ent_coef_loss,train/learning_rate,time/fps
-0,-14.288578987121582,0.2983860969543457,0.9231918454170227,-0.6718617081642151,9.999999747378752e-05,74.0

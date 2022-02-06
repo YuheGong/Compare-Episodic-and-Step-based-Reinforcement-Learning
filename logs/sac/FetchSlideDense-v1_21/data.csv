@@ -1,2 +1,0 @@
-,time/fps,train/actor_loss,train/critic_loss,train/ent_coef,train/ent_coef_loss,train/learning_rate,rollout/success rate
-0,106.0,-5.610256195068359,0.29098230600357056,0.9902253746986389,-0.06609395146369934,9.999999747378752e-05,0.0
