@@ -112,6 +112,32 @@ ALRReacherBalanceProMP-v2:
   env_params:
     env_name: f'ALRReacherBalanceProMP-v2'
 
+ALRReacherBalanceProMP-v3:
+  name: ALRReacher + ProMP
+  algorithm: cmaes
+  algo_params:
+    x_init: 0
+    dimension: 50
+    sigma0: 0.1
+    popsize: 10
+    iteration: 1000
+    stop_criterion: opt < 3.2
+  env_params:
+    env_name: f'ALRReacherBalanceProMP-v3'
+
+ALRReacherBalanceProMP-v4:
+  name: ALRReacher + ProMP
+  algorithm: cmaes
+  algo_params:
+    x_init: 0
+    dimension: 50
+    sigma0: 0.1
+    popsize: 10
+    iteration: 1000
+    stop_criterion: opt < 3.2
+  env_params:
+    env_name: f'ALRReacherBalanceProMP-v4'
+
 ALRReacherBalanceSparseProMP-v2:
   name: ALRReacher + ProMP
   algorithm: cmaes
@@ -124,6 +150,58 @@ ALRReacherBalanceSparseProMP-v2:
     stop_criterion: opt < 3.2
   env_params:
     env_name: f'ALRReacherBalanceSparseProMP-v2'
+
+ALRReacherBalanceProMPIP-v3:
+  name: ALRReacher + ProMP
+  algorithm: cmaes
+  algo_params:
+    x_init: 0
+    dimension: 50
+    sigma0: 0.1
+    popsize: 10
+    iteration: 1333
+    stop_criterion: opt < 3.2
+  env_params:
+    env_name: f'ALRReacherBalanceProMPIP-v3'
+
+ALRReacherBalanceProMPIP-v4:
+  name: ALRReacher + ProMP
+  algorithm: cmaes
+  algo_params:
+    x_init: 0
+    dimension: 50
+    sigma0: 0.1
+    popsize: 10
+    iteration: 1333
+    stop_criterion: opt < 3.2
+  env_params:
+    env_name: f'ALRReacherBalanceProMPIP-v4'
+
+ALRReacherBalanceProMPIP-v5:
+  name: ALRReacher + ProMP
+  algorithm: cmaes
+  algo_params:
+    x_init: 0
+    dimension: 50
+    sigma0: 0.1
+    popsize: 10
+    iteration: 2223
+    stop_criterion: opt < 3.2
+  env_params:
+    env_name: f'ALRReacherBalanceProMPIP-v5'
+
+ALRReacherBalanceProMPIP-v6:
+  name: ALRReacher + ProMP
+  algorithm: cmaes
+  algo_params:
+    x_init: 0
+    dimension: 50
+    sigma0: 0.1
+    popsize: 10
+    iteration: 2223
+    stop_criterion: opt < 3.2
+  env_params:
+    env_name: f'ALRReacherBalanceProMPIP-v6'
 
 
 GradientALRReacherBalanceSparseProMP-v0:

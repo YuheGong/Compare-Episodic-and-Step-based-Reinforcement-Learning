@@ -8,6 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from utils.yaml import write_yaml, read_yaml
 import alr_envs
+from stable_baselines3.common.vec_env.obs_dict_wrapper import  ObsDictWrapper
 
 
 def make_env(env_id, rank):
@@ -24,9 +25,10 @@ def step_based(algo: str, env_id: str, model_id: str, step: str):
     stats_path = os.path.join(path, stats_file)
     env = DummyVecEnv(env_fns=[make_env(env_id, i) for i in range(num_envs)])
     #env = VecNormalize.load(stats_path, env)
+    #env = ObsDictWrapper(env)
     env = gym.make("alr_envs:" + env_id)
 
-    model_path = os.path.join(path, "eval/best_model.zip")
+    model_path = os.path.join(path, "model.zip")#"eval/best_model.zip")
     #model_path = os.path.join(path, "model.zip")
 
     ALGOS = {
@@ -44,7 +46,7 @@ def step_based(algo: str, env_id: str, model_id: str, step: str):
     obs = env.reset()
     if "DeepMind" in env_id:
         for i in range(int(step)):
-            time.sleep(0.01)
+            time.sleep(0.1)
             action, _states = model.predict(obs, deterministic=True)
             obs, rewards, dones, info = env.step(action)
             env.render(mode="rgb_array")
@@ -60,7 +62,7 @@ def step_based(algo: str, env_id: str, model_id: str, step: str):
 
     else:
         for i in range(int(step)):
-            time.sleep(0.01)
+            time.sleep(0.1)
             action, _states = model.predict(obs, deterministic=True)
             obs, rewards, dones, info = env.step(action)
             env.render()

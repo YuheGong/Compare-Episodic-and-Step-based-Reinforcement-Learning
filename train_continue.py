@@ -15,7 +15,7 @@ def step_based(algo: str, env_id: str, model_id: str):
     path = logging(data['env_params']['env_name'], data['algorithm'])
     data['path'] = path
     data["continue"] = True
-    data['continue_path'] = "logs/ppo/" + env_id + "_" + model_id
+    data['continue_path'] = "logs/td3/" + env_id + "_" + model_id
 
     # choose the algorithm according to the algo
     ALGOS = {
@@ -72,7 +72,7 @@ if __name__ == '__main__':
     env_id = args.env_id
     model_id = args.model_id
 
-    STEP_BASED = ["ppo", "sac"]
+    STEP_BASED = ["ppo", "sac", "td3"]
     EPISODIC = ["dmp", "promp"]
     if algo in STEP_BASED:
         step_based(algo, env_id, model_id)

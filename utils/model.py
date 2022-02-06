@@ -38,7 +38,7 @@ def model_building(data, env, seed=None):
                      batch_size=data["algo_params"]['batch_size'],
                      n_steps=data["algo_params"]['n_steps'])
     elif data['algorithm'] == "sac":
-        model = ALGO(policy, env, policy_kwargs=policy_kwargs, verbose=1, create_eval_env=True,
+        model = ALGO(policy, env, policy_kwargs=policy_kwargs, verbose=1, #create_eval_env=True,
                      tensorboard_log=data['path'],
                      seed=seed,
                      train_freq=data["algo_params"]["train_freq"],
@@ -54,7 +54,7 @@ def model_building(data, env, seed=None):
         n_actions =env.action_space.shape[-1]
 
         action_noise = NormalActionNoise(mean=np.zeros(n_actions), sigma=0.1* np.ones(n_actions))
-        model = ALGO(policy, env, policy_kwargs=policy_kwargs, verbose=1, create_eval_env=True,
+        model = ALGO(policy, env, policy_kwargs=policy_kwargs, verbose=1, #create_eval_env=True,
                      tensorboard_log=data['path'],
                      learning_rate=data["algo_params"]['learning_rate'],action_noise=action_noise,
                      batch_size=data["algo_params"]['batch_size'], train_freq=200, gradient_steps=200)
@@ -80,7 +80,7 @@ def model_learn(data, model, test_env, test_env_path):
                                  log_path=test_env_path, eval_freq=data['eval_env']['eval_freq'],
                                  deterministic=False, render=False)
 
-    model.learn(total_timesteps=int(data['algo_params']['total_timesteps']), callback=eval_callback)
+    model.learn(total_timesteps=int(data['algo_params']['total_timesteps']) , callback=eval_callback)
                 #, eval_freq=500, n_eval_episodes=10, eval_log_path=test_env_path, eval_env=test_env)
 
 def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_writer, opts, t, env_id = None):
@@ -161,7 +161,7 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_w
         log_writer.add_scalar("iteration/success_rate", success_rate, t)
         log_writer.add_scalar("iteration/dist_entrance", env.env.dist_entrance, t)
         log_writer.add_scalar("iteration/dist_bottom", env.env.dist_bottom, t)
-    log_writer.add_scalar("eval/mean_reward", opt, t*2000)
+    log_writer.add_scalar("eval/mean_reward", opt, t*2250)
 
     #log_writer.add_scalar("iteration/dist_vec", env.env.dist_vec, t)
     for i in range(len(algorithm.mean)):

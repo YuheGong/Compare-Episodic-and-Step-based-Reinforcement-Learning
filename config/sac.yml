@@ -207,7 +207,7 @@ ALRReacherBalance-v2:
   env_params:
     env_name: alr_envs:ALRReacherBalance-v2
     num_envs: 1
-    wrapper: None
+    wrapper: VecNormalize
   eval_env:
     n_eval_episode: 10
     eval_freq: 1000
@@ -219,7 +219,7 @@ ALRReacherBalance-v3:
     batch_size: 200
     learning_rate: 0.0001
     n_steps:  20000
-    total_timesteps: 1.e+7
+    total_timesteps: 2.e+6
     train_freq: 1
     policy: MlpPolicy
     policy_type: off_policy
@@ -229,6 +229,29 @@ ALRReacherBalance-v3:
       qf: 256
   env_params:
     env_name: alr_envs:ALRReacherBalance-v3
+    num_envs: 1
+    wrapper: VecNormalize
+  eval_env:
+    n_eval_episode: 10
+    eval_freq: 1000
+
+
+ALRReacherBalanceIP-v3:
+  algorithm: sac
+  algo_params:
+    batch_size: 200
+    learning_rate: 0.0001
+    n_steps:  20000
+    total_timesteps: 2.e+6
+    train_freq: 1
+    policy: MlpPolicy
+    policy_type: off_policy
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      qf: 256
+  env_params:
+    env_name: alr_envs:ALRReacherBalanceIP-v3
     num_envs: 1
     wrapper: None
   eval_env:
@@ -257,7 +280,28 @@ ALRReacherBalanceSparse-v2:
     n_eval_episode: 10
     eval_freq: 10004
 
-
+### Fetch environment
+FetchReachDense-v1:
+  algorithm: sac
+  algo_params:
+    batch_size: 200
+    learning_rate: 0.0001
+    n_steps: 20000
+    total_timesteps: 2.e+6
+    train_freq: 1
+    policy: MlpPolicy
+    policy_type: off_policy
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      qf: 256
+  env_params:
+    env_name: gym:FetchReachDense-v1
+    num_envs: 1
+    wrapper: None
+  eval_env:
+    n_eval_episode: 10
+    eval_freq: 1000
 
 ### Meta World
 MetaButtonPress-v2:
