@@ -296,7 +296,7 @@ FetchReacher-v0:
       pi: 256
       qf: 256
   env_params:
-    env_name: gym:FetchReacher-v0
+    env_name: alr_envs:FetchReacher-v0
     num_envs: 1
     wrapper: None
   eval_env:
