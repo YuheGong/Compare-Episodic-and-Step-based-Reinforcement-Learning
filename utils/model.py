@@ -43,7 +43,7 @@ def model_building(data, env, seed=None):
                      seed=seed,
                      train_freq=data["algo_params"]["train_freq"],
                      learning_rate=data["algo_params"]['learning_rate'],
-                     batch_size=data["algo_params"]['batch_size'])
+                     batch_size=data["algo_params"]['batch_size'],gradient_steps=115)
     elif data['algorithm'] == "ddpg":
         model = ALGO(policy, env, policy_kwargs=policy_kwargs, verbose=1, create_eval_env=True,
                      tensorboard_log=data['path'],
@@ -96,6 +96,7 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_w
 
     for i in range(len(solutions)):
         env.reset()
+
         _, reward, done, infos = env.step(solutions[i])
         if "DeepMind" in env_id:
             success_full.append(env.env.success)
@@ -161,7 +162,7 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_w
         log_writer.add_scalar("iteration/success_rate", success_rate, t)
         log_writer.add_scalar("iteration/dist_entrance", env.env.dist_entrance, t)
         log_writer.add_scalar("iteration/dist_bottom", env.env.dist_bottom, t)
-    log_writer.add_scalar("eval/mean_reward", opt, t*2250)
+    log_writer.add_scalar("eval/mean_reward", opt, t*1250)
 
     #log_writer.add_scalar("iteration/dist_vec", env.env.dist_vec, t)
     for i in range(len(algorithm.mean)):

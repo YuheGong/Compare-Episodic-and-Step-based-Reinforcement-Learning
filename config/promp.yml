@@ -218,6 +218,19 @@ GradientALRReacherBalanceSparseProMP-v0:
     env_name: f'ALRReacherBalanceSparseProMP-v2'
 
 
+FetchReacherProMP-v0:
+  name: FetchReacher + ProMP
+  algorithm: cmaes
+  algo_params:
+    x_init: 0
+    dimension: 30
+    sigma0: 0.1
+    popsize: 10
+    iteration: 1000
+    stop_criterion: opt < 1
+  env_params:
+    env_name: f'FetchReacherProMP-v0'
+
 ### MetaWorld
 MetaButtonPressDetPMP-v2:
   name: DeepMind_Ball_In_Cup + ProMP

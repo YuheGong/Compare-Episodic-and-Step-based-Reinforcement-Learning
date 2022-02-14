@@ -2,7 +2,7 @@ algo_params:
   batch_size: 200
   learning_rate: 0.0001
   n_steps: 20000
-  num_timesteps: 0
+  num_timesteps: 157600
   policy: MlpPolicy
   policy_kwargs:
     activation_fn: tanh

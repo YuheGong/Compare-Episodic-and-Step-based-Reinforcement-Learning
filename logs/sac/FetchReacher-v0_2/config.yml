@@ -2,7 +2,7 @@ algo_params:
   batch_size: 200
   learning_rate: 0.0001
   n_steps: 20000
-  num_timesteps: 5000
+  num_timesteps: 225
   policy: MlpPolicy
   policy_kwargs:
     activation_fn: tanh
@@ -13,7 +13,7 @@ algo_params:
   train_freq: 1
 algorithm: sac
 env_params:
-  env_name: gym:FetchReacher-v0
+  env_name: alr_envs:FetchReacher-v0
   num_envs: 1
   wrapper: None
 eval_env:
