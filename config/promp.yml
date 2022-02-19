@@ -91,7 +91,7 @@ ALRReacherBalanceProMP-v1:
   algorithm: cmaes
   algo_params:
     x_init: 0
-    dimension: 50
+    dimension: 25
     sigma0: 0.1
     popsize: 10
     iteration: 5000
@@ -117,7 +117,7 @@ ALRReacherBalanceProMP-v3:
   algorithm: cmaes
   algo_params:
     x_init: 0
-    dimension: 50
+    dimension: 25
     sigma0: 0.1
     popsize: 10
     iteration: 1000
@@ -130,7 +130,7 @@ ALRReacherBalanceProMP-v4:
   algorithm: cmaes
   algo_params:
     x_init: 0
-    dimension: 50
+    dimension: 25
     sigma0: 0.1
     popsize: 10
     iteration: 1000
@@ -142,7 +142,7 @@ ALRReacherBalanceSparseProMP-v2:
   name: ALRReacher + ProMP
   algorithm: cmaes
   algo_params:
-    x_init: 0
+    x_init: 1
     dimension: 25
     sigma0: 0.1
     popsize: 10
@@ -151,15 +151,31 @@ ALRReacherBalanceSparseProMP-v2:
   env_params:
     env_name: f'ALRReacherBalanceSparseProMP-v2'
 
+
+
+ALRReacherBalanceProMPIP-v2:
+  name: ALRReacher + ProMP
+  algorithm: cmaes
+  algo_params:
+    x_init: 0
+    dimension: 25
+    sigma0: 0.1
+    popsize: 10
+    iteration: 2333
+    stop_criterion: opt < 3.2
+  env_params:
+    env_name: f'ALRReacherBalanceProMPIP-v2'
+
+
 ALRReacherBalanceProMPIP-v3:
   name: ALRReacher + ProMP
   algorithm: cmaes
   algo_params:
     x_init: 0
-    dimension: 50
+    dimension: 25
     sigma0: 0.1
     popsize: 10
-    iteration: 1333
+    iteration: 2333
     stop_criterion: opt < 3.2
   env_params:
     env_name: f'ALRReacherBalanceProMPIP-v3'
@@ -169,7 +185,7 @@ ALRReacherBalanceProMPIP-v4:
   algorithm: cmaes
   algo_params:
     x_init: 0
-    dimension: 50
+    dimension: 25
     sigma0: 0.1
     popsize: 10
     iteration: 1333
@@ -224,9 +240,9 @@ FetchReacherProMP-v0:
   algo_params:
     x_init: 0
     dimension: 30
-    sigma0: 0.1
+    sigma0: 1
     popsize: 10
-    iteration: 1000
+    iteration: 5000
     stop_criterion: opt < 1
   env_params:
     env_name: f'FetchReacherProMP-v0'
@@ -236,11 +252,11 @@ MetaButtonPressDetPMP-v2:
   name: DeepMind_Ball_In_Cup + ProMP
   algorithm: cmaes
   algo_params:
-    x_init: 1
+    x_init: 0
     dimension: 20
     sigma0: 0.1
     popsize: 10
-    iteration: 1000
+    iteration: 3000
   env_params:
     env_name: ButtonPressDetPMP-v2
 
