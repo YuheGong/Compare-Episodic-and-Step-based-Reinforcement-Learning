@@ -43,7 +43,8 @@ def model_building(data, env, seed=None):
                      seed=seed,
                      train_freq=data["algo_params"]["train_freq"],
                      learning_rate=data["algo_params"]['learning_rate'],
-                     batch_size=data["algo_params"]['batch_size'],gradient_steps=115)
+                     batch_size=data["algo_params"]['batch_size'],
+                     gradient_steps=data["algo_params"]['gradient_steps'])
     elif data['algorithm'] == "ddpg":
         model = ALGO(policy, env, policy_kwargs=policy_kwargs, verbose=1, create_eval_env=True,
                      tensorboard_log=data['path'],
@@ -52,12 +53,14 @@ def model_building(data, env, seed=None):
                      batch_size=data["algo_params"]['batch_size'])
     elif data['algorithm'] == "td3":
         n_actions =env.action_space.shape[-1]
-
         action_noise = NormalActionNoise(mean=np.zeros(n_actions), sigma=0.1* np.ones(n_actions))
         model = ALGO(policy, env, policy_kwargs=policy_kwargs, verbose=1, #create_eval_env=True,
                      tensorboard_log=data['path'],
+                     seed=seed,
                      learning_rate=data["algo_params"]['learning_rate'],action_noise=action_noise,
-                     batch_size=data["algo_params"]['batch_size'], train_freq=200, gradient_steps=200)
+                     batch_size=data["algo_params"]['batch_size'],
+                     gradient_steps=data["algo_params"]['gradient_steps'],
+                     train_freq=data["algo_params"]["train_freq"])
     else:
         print("the model initialization function for " + data['algorithm'] + " is still not implemented.")
 

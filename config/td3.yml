@@ -153,7 +153,8 @@ ALRReacherBalance-v0:
     learning_rate: 0.0001
     n_steps:  20000
     total_timesteps: 5.e+6
-    train_freq: 1
+    gradient_steps: 200
+    train_freq: 200
     policy: MlpPolicy
     policy_type: off_policy
     policy_kwargs:
@@ -168,14 +169,15 @@ ALRReacherBalance-v0:
     n_eval_episode: 10
     eval_freq: 1000
 
-ALRReacherBalance-v1:
+ALRReacherBalanceIP-v3:
   algorithm: td3
   algo_params:
     batch_size: 200
     learning_rate: 0.0001
     n_steps:  20000
-    total_timesteps: 1.e+7
-    train_freq: 1
+    total_timesteps: 2.e+6
+    gradient_steps: 200
+    train_freq: 200
     policy: MlpPolicy
     policy_type: off_policy
     policy_kwargs:
@@ -183,7 +185,77 @@ ALRReacherBalance-v1:
       pi: 256
       qf: 256
   env_params:
-    env_name: alr_envs:ALRReacherBalance-v1
+    env_name: alr_envs:ALRReacherBalanceIP-v1
+    num_envs: 1
+    wrapper: None
+  eval_env:
+    n_eval_episode: 10
+    eval_freq: 1000
+
+ALRReacherBalanceIP-v4:
+  algorithm: td3
+  algo_params:
+    batch_size: 200
+    learning_rate: 0.0001
+    n_steps:  20000
+    total_timesteps: 2.e+6
+    gradient_steps: 200
+    train_freq: 200
+    policy: MlpPolicy
+    policy_type: off_policy
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      qf: 256
+  env_params:
+    env_name: alr_envs:ALRReacherBalanceIP-v4
+    num_envs: 1
+    wrapper: None
+  eval_env:
+    n_eval_episode: 10
+    eval_freq: 1000
+
+
+ALRReacherBalanceIP-v5:
+  algorithm: td3
+  algo_params:
+    batch_size: 200
+    learning_rate: 0.0001
+    n_steps:  20000
+    total_timesteps: 8.e+6
+    gradient_steps: 200
+    train_freq: 200
+    policy: MlpPolicy
+    policy_type: off_policy
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      qf: 256
+  env_params:
+    env_name: alr_envs:ALRReacherBalanceIP-v5
+    num_envs: 1
+    wrapper: None
+  eval_env:
+    n_eval_episode: 10
+    eval_freq: 1000
+
+ALRReacherBalanceIP-v6:
+  algorithm: td3
+  algo_params:
+    batch_size: 200
+    learning_rate: 0.0001
+    n_steps:  20000
+    total_timesteps: 8.e+6
+    gradient_steps: 200
+    train_freq: 200
+    policy: MlpPolicy
+    policy_type: off_policy
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      qf: 256
+  env_params:
+    env_name: alr_envs:ALRReacherBalanceIP-v6
     num_envs: 1
     wrapper: None
   eval_env:
@@ -237,11 +309,12 @@ ALRReacherBalanceSparse-v2:
 FetchReacher-v0:
   algorithm: td3
   algo_params:
-    batch_size: 200
+    batch_size: 100
     learning_rate: 0.0001
     n_steps: 20000
     total_timesteps: 1.e+6
-    train_freq: 200
+    gradient_steps: 100
+    train_freq: 100
     policy: MlpPolicy
     policy_type: off_policy
     policy_kwargs:
@@ -250,6 +323,29 @@ FetchReacher-v0:
       qf: 256
   env_params:
     env_name: alr_envs:FetchReacher-v0
+    num_envs: 1
+    wrapper: None
+  eval_env:
+    n_eval_episode: 10
+    eval_freq: 1000
+
+FetchReacher-v1:
+  algorithm: td3
+  algo_params:
+    batch_size: 100
+    learning_rate: 0.0001
+    n_steps: 20000
+    total_timesteps: 1.e+6
+    gradient_steps: 100
+    train_freq: 100
+    policy: MlpPolicy
+    policy_type: off_policy
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      qf: 256
+  env_params:
+    env_name: alr_envs:FetchReacher-v1
     num_envs: 1
     wrapper: None
   eval_env:
