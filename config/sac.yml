@@ -326,7 +326,7 @@ ALRReacherBalanceIP-v6:
     wrapper: None
   eval_env:
     n_eval_episode: 1
-      eval_freq: 2250
+    eval_freq: 2250
 
 ALRReacherBalanceSparse-v2:
   algorithm: sac
