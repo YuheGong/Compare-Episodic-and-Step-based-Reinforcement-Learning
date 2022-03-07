@@ -23,13 +23,13 @@ def step_based(algo: str, env_id: str, model_id: str, step: str):
     num_envs = 1
     stats_file = 'env_normalize.pkl'
     stats_path = os.path.join(path, stats_file)
-    #env = DummyVecEnv(env_fns=[make_env(env_id, i) for i in range(num_envs)])
+    env = DummyVecEnv(env_fns=[make_env(env_id, i) for i in range(num_envs)])
     #env = VecNormalize.load(stats_path, env)
     #env = ObsDictWrapper(env)
     env = gym.make("alr_envs:" + env_id)
 
     model_path = os.path.join(path, "eval/best_model.zip")
-    #model_path = os.path.join(path, "model.zip")
+    # model_path = os.path.join(path, "model.zip")
 
     ALGOS = {
         'a2c': A2C,

@@ -58,9 +58,9 @@ def model_building(data, env, seed=None):
                      tensorboard_log=data['path'],
                      seed=seed,
                      learning_rate=data["algo_params"]['learning_rate'],action_noise=action_noise,
-                     batch_size=data["algo_params"]['batch_size'],
-                     gradient_steps=data["algo_params"]['gradient_steps'],
-                     train_freq=data["algo_params"]["train_freq"])
+                     batch_size=data["algo_params"]['batch_size'])#,
+                     #gradient_steps=data["algo_params"]['gradient_steps'],
+                     #train_freq=data["algo_params"]["train_freq"])
     else:
         print("the model initialization function for " + data['algorithm'] + " is still not implemented.")
 
@@ -119,7 +119,7 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_w
     print("shape", loss.shape)
     
     loss = torch.mean(torch.Tensor(loss))
-    import tensorflow as tf
+    import tensorflow as 1tf
     #loss = tf.Variable(loss, requires_grad=True)
     loss_func = torch.nn.MSELoss()
     from torch.autograd import Variable
