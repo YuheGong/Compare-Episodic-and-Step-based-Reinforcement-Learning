@@ -161,7 +161,7 @@ ALRReacherBalanceProMPIP-v2:
     dimension: 25
     sigma0: 0.1
     popsize: 10
-    iteration: 2333
+    iteration: 500
     stop_criterion: opt < 3.2
   env_params:
     env_name: f'ALRReacherBalanceProMPIP-v2'
@@ -175,7 +175,7 @@ ALRReacherBalanceProMPIP-v3:
     dimension: 25
     sigma0: 0.1
     popsize: 10
-    iteration: 2333
+    iteration: 2222
     stop_criterion: opt < 3.2
   env_params:
     env_name: f'ALRReacherBalanceProMPIP-v3'
@@ -198,10 +198,10 @@ ALRReacherBalanceProMPIP-v5:
   algorithm: cmaes
   algo_params:
     x_init: 0
-    dimension: 50
+    dimension: 25
     sigma0: 0.1
     popsize: 10
-    iteration: 2223
+    iteration: 3555
     stop_criterion: opt < 3.2
   env_params:
     env_name: f'ALRReacherBalanceProMPIP-v5'
@@ -211,10 +211,10 @@ ALRReacherBalanceProMPIP-v6:
   algorithm: cmaes
   algo_params:
     x_init: 0
-    dimension: 50
+    dimension: 25
     sigma0: 0.1
     popsize: 10
-    iteration: 2223
+    iteration: 3555
     stop_criterion: opt < 3.2
   env_params:
     env_name: f'ALRReacherBalanceProMPIP-v6'
@@ -242,10 +242,23 @@ FetchReacherProMP-v0:
     dimension: 30
     sigma0: 1
     popsize: 10
-    iteration: 5000
+    iteration: 1000
     stop_criterion: opt < 1
   env_params:
     env_name: f'FetchReacherProMP-v0'
+
+FetchReacherProMP-v1:
+  name: FetchReacher + ProMP
+  algorithm: cmaes
+  algo_params:
+    x_init: 0
+    dimension: 30
+    sigma0: 1
+    popsize: 10
+    iteration: 1000
+    stop_criterion: opt < 1
+  env_params:
+    env_name: f'FetchReacherProMP-v1'
 
 ### MetaWorld
 MetaButtonPressDetPMP-v2:

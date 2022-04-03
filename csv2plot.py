@@ -1,15 +1,18 @@
 import pandas as pd
 import numpy as np
 from scipy.interpolate import make_interp_spline
-
+from tensorboard.backend.event_processing import event_accumulator
+from tqdm import tqdm
 import matplotlib.pyplot as plt
 
 
-def dict_building(folder,name):
+def dict_building(folder,name, num):
     path = "/home/yre/Desktop/KIT/masterthesis/Compare-Episodic-and-Step-based-Reinforcement-Learning/" \
-           + folder + "/" + name + "/log"
-    plotdict = {'df{}'.format(q): pd.read_csv(path + "/rep_0{}".format(q) + "/rep_{}".format(q) + ".csv") for q in
-                range(5)}
+           + folder + "/" + name
+    plotdict = {'df{}'.format(q): pd.read_csv(path + "_{}".format(q) + "/data.csv", nrows=num) for q in
+                range(1,2)}
+
+    #plotdict = plotdict[0:5001]
     #plotdict.update({'df{}'.format(q): pd.read_csv(path + "/rep_{}".format(q) + "/rep_{}".format(q) + ".csv") for q in
     #                 range(10, 20)})
     return plotdict
@@ -19,33 +22,64 @@ def dict_building_self(folder,name):
     path = "/home/yre/Desktop/KIT/masterthesis/Compare-Episodic-and-Step-based-Reinforcement-Learning/" \
            + folder + "/" + name
     plotdict = {'df{}'.format(q): pd.read_csv(path + "_{}".format(q) + "/data" + ".csv") for q in
-                range(5)}
+                range(1,21)}
     #plotdict.update({'df{}'.format(q): pd.read_csv(path + "/rep_{}".format(q) + "/rep_{}".format(q) + ".csv") for q in
     #                 range(10, 20)})
     return plotdict
 
 
-def plot_function(success_rate_value, plotdict, name):
-    plot_mean = np.mean(success_rate_value,axis=0)
-    #plot_std = np.sort(np.std(success_rate_value, axis=0))
-    plot_samples = plotdict["df0"]["total_samples"] * 50
-    plot_var = np.std(success_rate_value, axis=0)#np.zeros(len(success_rate_value[0]))
-    #print("success_rate_value",success_rate_value)
-    #for i in range(len(success_rate_value[0])):
-    #    plot_var[i] = np.std(success_rate_value[:, i])
+def plot_function(result, algo):
+    plot_mean = result['eval/mean_reward'].reshape(-1)
+    plot_samples = np.array(result['step']).reshape(-1)
+    var = np.array(result['var']).reshape(-1)
+    X_Y_Spline = make_interp_spline(plot_samples.reshape(-1), plot_mean.reshape(-1))
+    X = np.linspace(plot_samples.min(), plot_samples.max(), 50)
+    Y = X_Y_Spline(X)
 
-    #print(plot_samples)
-    #print(np.zeros(2000).shape)
-    #X_Y_Spline = make_interp_spline(plot_mean, plot_samples)
-    #X = np.linspace(plot_mean.min(), plot_mean.max(), 100)
-    #Y = X_Y_Spline(X)
-    plt.plot(plot_samples, plot_mean, label=label_name(name))
-    plt.fill_between(plot_samples, plot_mean-plot_var, plot_mean+plot_var, alpha=0.1)
-    return plotdict
+    Z_Y_Spline = make_interp_spline(plot_samples.reshape(-1), var.reshape(-1))
+    #X = np.linspace(plot_samples.min(), plot_samples.max(), 50)
+    Z = Z_Y_Spline(X)
+    # plt.plot(plot_samples, plot_mean, label=algo.upper())
+    plt.plot(X, Y, label=algo.upper())
+    plt.fill_between(X, Y-Z, Y+Z, alpha=0.2)
+
+def plot_function_pt3(result, algo):
+    plot_mean = result['eval/mean_reward'].reshape(-1)
+    plot_samples = np.array(result['step']).reshape(-1)
+    var = np.array(result['var']).reshape(-1)
+    X_Y_Spline = make_interp_spline(plot_samples.reshape(-1), plot_mean.reshape(-1))
+    X = np.linspace(plot_samples.min(), plot_samples.max(), 50)
+    Y = X_Y_Spline(X)
+
+    Z_Y_Spline = make_interp_spline(plot_samples.reshape(-1), var.reshape(-1))
+    # X = np.linspace(plot_samples.min(), plot_samples.max(), 50)
+    Z = Z_Y_Spline(X)
+    #print("z", Z)
+    #print("z",  var)
+    #assert 1==123
+    # plt.plot(plot_samples, plot_mean, label=algo.upper())
+    plt.plot(X, Y, label="Episodic TD3")
+    plt.fill_between(X, Y-Z, Y+Z, alpha=0.2)
+
+def plot_function_promp(result, algo):
+    plot_mean = result['eval/mean_reward'].reshape(-1)
+    plot_samples = np.array(result['step']).reshape(-1)
+    var = np.array(result['var']).reshape(-1)
+    X_Y_Spline = make_interp_spline(plot_samples.reshape(-1), plot_mean.reshape(-1))
+    X = np.linspace(plot_samples.min(), plot_samples.max(), 50000)
+    Y = X_Y_Spline(X)
+
+    Z_Y_Spline = make_interp_spline(plot_samples.reshape(-1), var.reshape(-1))
+    # X = np.linspace(plot_samples.min(), plot_samples.max(), 50)
+    Z = Z_Y_Spline(X)
+    plt.plot(X, Y, label="ProMP")
+    plt.fill_between(X, Y-Z, Y+Z, alpha=0.2)
 
 
 def suc_rate_value(plotdict, value):
+    #plotdict = plotdict[0:5001]
     success_rate_full = []
+    #print("plotdict",plotdict)
     for k in plotdict.items():
         success_rate_full.append(k[1][value])
 
@@ -57,6 +91,8 @@ def label_name(name):
         a = "DMP"
     elif "ProMP" in name:
         a = "ProMP"
+    else:
+        a = 'should write'
     if name[-1] == "0":
         b = 'exp'
     elif name[-1] == "1":
@@ -69,22 +105,137 @@ def label_name(name):
         c = "sparse"
     return a + ' - ' + b + ' - ' + c
 
-folder = "slurm"
-value = "success_rate_full"
-algo = "DMP"
+
+def csv_save(folder, name, algo, foler_num):
+    # save csv file
+    steps = []
+    rewards = []
+    result = {}
+    for i in range(1,4):
+        path = "/home/yre/Desktop/KIT/masterthesis/Compare-Episodic-and-Step-based-Reinforcement-Learning/" \
+               + folder + "/" + name
+        in_path = path + '_'+ f'{i}' + '/' + algo + '_1'
+        ex_path = path + '_'+ f'_{i}' + '/' +  "eval_reward_mean.csv"
+        event_data = event_accumulator.EventAccumulator(in_path)  # a python interface for loading Event data
+        event_data.Reload()  # synchronously loads all of the data written so far b
+        # print(event_data.Tags())  # print all tags
+        event_data.Reload()
+        tags = event_data.Tags()
+
+        keys = event_data.scalars.Keys() # get all tags,save in a list
+        for hist in tags['scalars']:
+            if hist == 'eval/mean_reward':
+                histograms = event_data.Scalars(hist)
+                rewards.append(np.array(
+                    [np.array(h.value) for
+                    h in histograms]))
+                steps.append(np.array(
+                    [np.array(h.step) for
+                     h in histograms]))
+                #print(steps[-1][-1], steps[-1].shape)
+    #assert 1==123
+    rewards = np.array(rewards)
+    var = np.std(rewards, axis=0)
+    rewards = rewards.mean(axis=0)
+    steps = np.array(steps)
+    steps = steps.mean(axis=0)
+
+    result['eval/mean_reward'] = rewards
+    result['step'] = steps
+    result['var'] = var
+    return result
+
+def csv_save_promp(folder, name, algo, foler_num):
+    # save csv file
+    steps = []
+    rewards = []
+    result = {}
+    for i in range(1,2):
+        path = "/home/yre/Desktop/KIT/masterthesis/Compare-Episodic-and-Step-based-Reinforcement-Learning/" \
+               + folder + "/" + name
+        in_path = path + '_'+ f'{i}' + '/' + algo + '_1'
+        ex_path = path + '_'+ f'_{i}' + '/' +  "eval_reward_mean.csv"
+        event_data = event_accumulator.EventAccumulator(in_path)  # a python interface for loading Event data
+        event_data.Reload()  # synchronously loads all of the data written so far b
+        # print(event_data.Tags())  # print all tags
+        event_data.Reload()
+        tags = event_data.Tags()
+
+        keys = event_data.scalars.Keys() # get all tags,save in a list
+        for hist in tags['scalars']:
+            if hist == 'eval/mean_reward':
+                histograms = event_data.Scalars(hist)
+                rewards.append(np.array(
+                    [np.array(h.value) for
+                    h in histograms]))
+                steps.append(np.array(
+                    [np.array(h.step) for
+                     h in histograms]))
+                #print(steps[-1][-1], steps[-1].shape)
+    #assert 1==123
+    rewards = np.array(rewards)
+    var = np.std(rewards, axis=0)
+    rewards = rewards.mean(axis=0)
+    steps = np.array(steps)
+    steps = steps.mean(axis=0)
+
+    result['eval/mean_reward'] = rewards
+    result['step'] = steps
+    result['var'] = var
+    return result
+
+
+folder = "logs"
+value = "eval/mean_reward"
+#algo = "sac"
 #algo = "ProMP"
 
-
+folder_num = 12 #12
+env = "ALRReacherBalanceIP-v5"
+#env = "FetchReacher-v0"
 #folder = "forthweek"
 #value = "reward"
 
-for v in range(3):
+for v in range(1):
     #name = "DeepMindBallInCup" + algo + "-v{}".format(v)
-    name = "DeepMindBallInCup" + algo + "-v{}".format(v)
-    plotdict = dict_building(folder, name)
-    success_rate_value = suc_rate_value(plotdict,value)
-    plot_function(success_rate_value, plotdict, name)
+    #name = algo + "/" + env  #+ algo + "-v{}".format(v)
+    #result = csv_save(folder, name, algo.upper(), folder_num)
+    #plotdict = dict_building(folder, name, num=325)
+    #success_rate_value = suc_rate_value(plotdict,value)
+    #plot_function(result,algo)
 
+    algo = "td3"
+    name = algo +  "/" + env  # + algo + "-v{}".format(v)
+    result = csv_save(folder, name, 'run', folder_num)
+    #plotdict = dict_building(folder, name,num=1000)
+    #success_rate_value = suc_rate_value(plotdict, value)
+    plot_function(result,algo)
+
+    algo = "pt3"
+    name = algo +  "/" + env  # + algo + "-v{}".format(v)
+    result = csv_save(folder, name, "run", folder_num)
+    # plotdict = dict_building(folder, name,num=1000)
+    # success_rate_value = suc_rate_value(plotdict, value)
+    plot_function_pt3(result,algo)
+
+    algo = "sac"
+    name = algo + "/" + env  # + algo + "-v{}".format(v)
+    result = csv_save(folder, name, "run", folder_num)
+    # plotdict = dict_building(folder, name,num=1000)
+    # success_rate_value = suc_rate_value(plotdict, value)
+    plot_function(result, algo)
+
+
+    
+    algo = "promp"
+    name = algo + "/" + env  # + algo + "-v{}".format(v)
+    result = csv_save_promp(folder, name, "run", folder_num)
+    #result["step"] = result["step"] /1250 * 1000
+    # plotdict = dict_building(folder, name,num=1000)
+    # success_rate_value = suc_rate_value(plotdict, value)
+    plot_function_promp(result, algo)
+
+    '''
     #name = "DeepMindBallInCupDense" + algo + "-v{}".format(v)
     name = "DeepMindBallInCupDense" + algo + "-v{}".format(v)
     plotdict = dict_building(folder, name)
@@ -93,11 +244,26 @@ for v in range(3):
 
     #plot_function(folder, "DeepMindBallInCupProMP-v{}".format(v))
     #plot_function(folder, "DeepMindBallInCupDenseProMP-v{}".format(v))
+    '''
 
 
-plt.title(algo + ': success rate according to samples')
-#plt.legend()
+    #csv_save(folder, name)
+#plt.title("ALR Reacher - Line trajectory")
+plt.title("ALR Reacher - Circle-sinus Trajectory")
+plt.xlabel("timesteps")
+plt.ylabel("rewards")
+plt.ylim(ymin=-120)
+#plt.title("ALRReacher-v3")
+#plt.ylim(ymin=-100)
+plt.ylim(ymax=0)
+plt.legend()
 plt.show()
+plt.savefig("latex/alr5.png")
+
+
+import tikzplotlib
+#tikzplotlib.save("latex/alr3.tex")
+tikzplotlib.save("latex/alr5.tex")
 
 
 

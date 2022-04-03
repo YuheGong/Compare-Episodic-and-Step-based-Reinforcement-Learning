@@ -29,6 +29,7 @@ def step_based(algo: str, env_id: str, model_id: str, step: str):
     env = gym.make("alr_envs:" + env_id)
 
     model_path = os.path.join(path, "eval/best_model.zip")
+
     # model_path = os.path.join(path, "model.zip")
 
     ALGOS = {
@@ -65,7 +66,7 @@ def step_based(algo: str, env_id: str, model_id: str, step: str):
             time.sleep(0.1)
             action, _states = model.predict(obs, deterministic=True)
             obs, rewards, dones, info = env.step(action)
-            env.render()
+            #env.render()
         env.close()
 
 def episodic(algo: str, env_id, model_id: str, step: str, seed=None):
@@ -93,7 +94,7 @@ def episodic(algo: str, env_id, model_id: str, step: str, seed=None):
     else:
         env.render()
         env.step(algorithm)
-    #env.render()
+    env.render()
 
 
 

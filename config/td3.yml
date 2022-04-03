@@ -215,7 +215,7 @@ ALRReacherBalanceIP-v4:
     wrapper: None
   eval_env:
     n_eval_episode: 1
-      eval_freq: 2250
+    eval_freq: 2250
 
 ALRReacherBalanceIP-v5:
   algorithm: td3
@@ -238,7 +238,7 @@ ALRReacherBalanceIP-v5:
     wrapper: None
   eval_env:
     n_eval_episode: 1
-      eval_freq: 2250
+    eval_freq: 2250
 
 ALRReacherBalanceIP-v6:
   algorithm: td3
@@ -261,7 +261,7 @@ ALRReacherBalanceIP-v6:
     wrapper: None
   eval_env:
     n_eval_episode: 1
-      eval_freq: 2250
+    eval_freq: 2250
 
 ALRReacherBalance-v2:
   algorithm: td3

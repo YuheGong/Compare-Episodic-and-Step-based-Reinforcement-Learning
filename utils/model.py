@@ -4,6 +4,7 @@ from utils.custom import CustomActorCriticPolicy
 from stable_baselines3 import PPO, A2C, DQN, HER, SAC, TD3, DDPG
 import torch as th
 from stable_baselines3.common.noise import NormalActionNoise
+
 def model_building(data, env, seed=None):
     ALGOS = {
         'a2c': A2C,
@@ -143,6 +144,10 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_w
     _, opt, __, ___ = env.step(algorithm.mean)
 
     np.save(path + "/algo_mean.npy", algorithm.mean)
+    if len(opts) > 10:
+        if opt > opts[-1]:
+            np.save(path + "/best_model.npy", algorithm.mean)
+
     print("opt", -opt)
     opts.append(opt)
     t += 1
@@ -165,7 +170,7 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_w
         log_writer.add_scalar("iteration/success_rate", success_rate, t)
         log_writer.add_scalar("iteration/dist_entrance", env.env.dist_entrance, t)
         log_writer.add_scalar("iteration/dist_bottom", env.env.dist_bottom, t)
-    log_writer.add_scalar("eval/mean_reward", opt, t*1250)
+    log_writer.add_scalar("eval/mean_reward", opt, t*1000)
 
     #log_writer.add_scalar("iteration/dist_vec", env.env.dist_vec, t)
     for i in range(len(algorithm.mean)):
