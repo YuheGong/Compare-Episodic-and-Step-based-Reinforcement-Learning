@@ -150,7 +150,7 @@ def csv_save_promp(folder, name, algo, foler_num):
     steps = []
     rewards = []
     result = {}
-    for i in range(1,2):
+    for i in range(1,4):
         path = "/home/yre/Desktop/KIT/masterthesis/Compare-Episodic-and-Step-based-Reinforcement-Learning/" \
                + folder + "/" + name
         in_path = path + '_'+ f'{i}' + '/' + algo + '_1'
@@ -176,7 +176,7 @@ def csv_save_promp(folder, name, algo, foler_num):
     rewards = np.array(rewards)
     var = np.std(rewards, axis=0)
     rewards = rewards.mean(axis=0)
-    steps = np.array(steps)
+    steps = np.array(steps) /5 * 8
     steps = steps.mean(axis=0)
 
     result['eval/mean_reward'] = rewards
@@ -191,7 +191,7 @@ value = "eval/mean_reward"
 #algo = "ProMP"
 
 folder_num = 12 #12
-env = "ALRReacherBalanceIP-v5"
+env = "ALRReacherBalanceIP-v3"
 #env = "FetchReacher-v0"
 #folder = "forthweek"
 #value = "reward"
@@ -249,7 +249,7 @@ for v in range(1):
 
     #csv_save(folder, name)
 #plt.title("ALR Reacher - Line trajectory")
-plt.title("ALR Reacher - Circle-sinus Trajectory")
+plt.title("ALR Reacher - Line Trajectory")
 plt.xlabel("timesteps")
 plt.ylabel("rewards")
 plt.ylim(ymin=-120)

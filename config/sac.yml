@@ -483,16 +483,49 @@ HoleReacherDense-v0:
 
 
 DeepMindWalkerDense-v0:
-  name: DeepMind_Walker + PPO
-  algorithm: ppo
+  name: DeepMind_Walker +  SAC
+  algorithm: sac
   algo_params:
-    batch_size: 50
+    batch_size: 200
     learning_rate: 0.0001
-    n_steps: 2000
-    total_timesteps: 2.e+6
+    n_steps: 20000
+    total_timesteps: 1.e+6
+    gradient_steps: 1
+    train_freq: 1
     policy: MlpPolicy
     policy_type: off_policy
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      qf: 256
   env_params:
     env_name: alr_envs:DeepMindWalkerDense-v0
-    num_envs: 8
+    num_envs: 1
     wrapper: VecNormalize
+  eval_env:
+    n_eval_episode: 10
+    eval_freq: 500
+
+Ant-v1:
+  algorithm: sac
+  algo_params:
+    batch_size: 100
+    learning_rate: 0.0001
+    n_steps: 20000
+    total_timesteps: 2.e+6
+    train_freq: 200
+    gradient_steps: 200
+    policy: MlpPolicy
+    policy_type: off_policy
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      qf: 256
+  env_params:
+    env_name: alr_envs:Ant-v1
+    num_envs: 1
+    wrapper: None
+  eval_env:
+    n_eval_episode: 1
+    eval_freq: 2250
+
