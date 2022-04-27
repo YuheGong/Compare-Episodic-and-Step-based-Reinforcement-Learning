@@ -1,0 +1,21 @@
+algo_params:
+  batch_size: 50
+  learning_rate: 0.0001
+  n_steps: 2000
+  num_timesteps: 5736
+  policy: MlpPolicy
+  policy_type: off_policy
+  total_timesteps: 2000000.0
+algorithm: ppo
+env_params:
+  env_name: alr_envs:DeepMindWalkerDense-v0
+  num_envs: 8
+  wrapper: VecNormalize
+eval_env:
+  eval_freq: 500
+  n_eval_episode: 10
+name: DeepMind_Walker + PPO
+path: logs/ppo/DeepMindWalkerDense-v0_1
+path_in: logs/ppo/DeepMindWalkerDense-v0_1/PPO_1
+path_out: logs/ppo/DeepMindWalkerDense-v0_1/data.csv
+seed: null
