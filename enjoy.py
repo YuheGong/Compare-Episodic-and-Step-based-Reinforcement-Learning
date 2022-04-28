@@ -45,13 +45,16 @@ def step_based(algo: str, env_id: str, model_id: str, step: str):
     model = ALGO.load(model_path)
 
     obs = env.reset()
+    rewards = 0
     if "DeepMind" in env_id:
         for i in range(int(step)):
             #time.sleep(0.1)
-            action, _states = model.predict(obs, deterministic=True)
-            obs, rewards, dones, info = env.step(action)
-            env.render(mode="rgb_array")
-            #env.render(mode="human")
+            action, _states = model.predict(obs, deterministic=False)
+            obs, reward, dones, info = env.step(action)
+            rewards += reward
+            #env.render(mode="rgb_array")
+            env.render(mode="human")
+        print("rewards", rewards)
         env.close()
     elif "Meta" in env_id:
         print("meta")

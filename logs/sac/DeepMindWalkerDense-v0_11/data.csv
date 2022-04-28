@@ -1,2 +1,0 @@
-,eval/mean_reward,time/fps,train/actor_loss,train/critic_loss,train/ent_coef,train/ent_coef_loss,train/learning_rate,eval/mean_ep_length
-0,117.38096618652344,33.0,-18.920082092285156,0.4437035322189331,0.9139942526817322,-0.9071821570396423,9.999999747378752e-05,250.0
