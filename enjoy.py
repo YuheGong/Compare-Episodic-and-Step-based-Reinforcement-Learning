@@ -28,7 +28,7 @@ def step_based(algo: str, env_id: str, model_id: str, step: str):
     #env = ObsDictWrapper(env)
     env = gym.make("alr_envs:" + env_id)
 
-    model_path = os.path.join(path, "eval/best_model.zip")
+    model_path = os.path.join(path, "model")
 
     # model_path = os.path.join(path, "model.zip")
 
@@ -46,7 +46,7 @@ def step_based(algo: str, env_id: str, model_id: str, step: str):
 
     obs = env.reset()
     rewards = 0
-    if "DeepMind" in env_id:
+    if "dmc" in env_id:
         for i in range(int(step)):
             #time.sleep(0.1)
             action, _states = model.predict(obs, deterministic=False)
@@ -54,7 +54,6 @@ def step_based(algo: str, env_id: str, model_id: str, step: str):
             rewards += reward
             #env.render(mode="rgb_array")
             env.render(mode="human")
-        print("rewards", rewards)
         env.close()
     elif "Meta" in env_id:
         print("meta")

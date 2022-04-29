@@ -84,7 +84,7 @@ def model_learn(data, model, test_env, test_env_path):
                                  log_path=test_env_path, eval_freq=data['eval_env']['eval_freq'],
                                  deterministic=False, render=False)
 
-    model.learn(total_timesteps=int(data['algo_params']['total_timesteps']) , callback=eval_callback)
+    model.learn(total_timesteps=int(data['algo_params']['total_timesteps']) , callback=eval_callback,  eval_env=test_env)
                 #, eval_freq=500, n_eval_episodes=10, eval_log_path=test_env_path, eval_env=test_env)
 
 def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_writer, opts, t, env_id = None):
