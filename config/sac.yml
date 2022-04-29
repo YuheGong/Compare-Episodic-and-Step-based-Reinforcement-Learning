@@ -506,7 +506,7 @@ DeepMindWalkerDense-v0:
     n_eval_episode: 10
     eval_freq: 500
 
-DeepMindCheetahDense-v0:
+dmcCheetahDense-v0:
   name: DeepMind_Walker +  SAC
   algorithm: sac
   algo_params:
@@ -523,7 +523,7 @@ DeepMindCheetahDense-v0:
       pi: 256
       qf: 256
   env_params:
-    env_name: alr_envs:DeepMindCheetahDense-v0
+    env_name: alr_envs:dmcCheetahDense-v0
     num_envs: 1
     wrapper: VecNormalize
   eval_env:
