@@ -28,7 +28,7 @@ def step_based(algo: str, env_id: str, model_id: str, step: str):
     #env = ObsDictWrapper(env)
     env = gym.make("alr_envs:" + env_id)
 
-    model_path = os.path.join(path, "model")
+    model_path = os.path.join(path, "eval/best_model")
 
     # model_path = os.path.join(path, "model.zip")
 
