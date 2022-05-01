@@ -483,14 +483,14 @@ HoleReacherDense-v0:
     eval_freq: 500
 
 
-DeepMindWalkerDense-v0:
+dmcWalkerDense-v0:
   name: DeepMind_Walker +  SAC
   algorithm: sac
   algo_params:
     batch_size: 200
     learning_rate: 0.0001
     n_steps: 20000
-    total_timesteps: 1.e+6
+    total_timesteps: 5.e+6
     gradient_steps: 1
     train_freq: 1
     policy: MlpPolicy
@@ -500,9 +500,9 @@ DeepMindWalkerDense-v0:
       pi: 256
       qf: 256
   env_params:
-    env_name: alr_envs:DeepMindWalkerDense-v0
+    env_name: alr_envs:dmcWalkerDense-v0
     num_envs: 1
-    wrapper: VecNormalize
+    wrapper: None
   eval_env:
     n_eval_episode: 10
     eval_freq: 500
