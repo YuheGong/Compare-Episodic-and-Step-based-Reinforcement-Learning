@@ -483,7 +483,7 @@ dmcWalkerDense-v0:
   algorithm: sac
   algo_params:
     batch_size: 200
-    learning_rate: 0.001
+    learning_rate: 0.0001
     n_steps: 20000
     total_timesteps: 3.e+6
     gradient_steps: 1
@@ -507,7 +507,7 @@ dmcCheetahDense-v0:
   algorithm: sac
   algo_params:
     batch_size: 200
-    learning_rate: 0.001
+    learning_rate: 0.0001
     n_steps: 20000
     total_timesteps: 3.e+6
     gradient_steps: 1
