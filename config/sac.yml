@@ -488,9 +488,9 @@ dmcWalkerDense-v0:
   algorithm: sac
   algo_params:
     batch_size: 200
-    learning_rate: 0.0001
+    learning_rate: 0.001
     n_steps: 20000
-    total_timesteps: 5.e+6
+    total_timesteps: 3.e+6
     gradient_steps: 1
     train_freq: 1
     policy: MlpPolicy
@@ -514,7 +514,7 @@ dmcCheetahDense-v0:
     batch_size: 200
     learning_rate: 0.001
     n_steps: 20000
-    total_timesteps: 1.e+6
+    total_timesteps: 3.e+6
     gradient_steps: 1
     train_freq: 1
     policy: MlpPolicy

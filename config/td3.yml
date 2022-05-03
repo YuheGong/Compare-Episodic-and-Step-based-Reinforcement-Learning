@@ -477,3 +477,51 @@ InvertedDoublePendulum-v0:
   eval_env:
     n_eval_episode: 10
     eval_freq: 500
+
+dmcWalkerDense-v0:
+  name: DeepMind_Walker + TD3
+  algorithm: sac
+  algo_params:
+    batch_size: 200
+    learning_rate: 0.001
+    n_steps: 20000
+    total_timesteps: 3.e+6
+    gradient_steps: 1
+    train_freq: 1
+    policy: MlpPolicy
+    policy_type: off_policy
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      qf: 256
+  env_params:
+    env_name: alr_envs:dmcWalkerDense-v0
+    num_envs: 1
+    wrapper: None
+  eval_env:
+    n_eval_episode: 10
+    eval_freq: 500
+
+dmcCheetahDense-v0:
+  name: DeepMind_Walker +  TD3
+  algorithm: sac
+  algo_params:
+    batch_size: 200
+    learning_rate: 0.001
+    n_steps: 20000
+    total_timesteps: 3.e+6
+    gradient_steps: 1
+    train_freq: 1
+    policy: MlpPolicy
+    policy_type: off_policy
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      qf: 256
+  env_params:
+    env_name: alr_envs:dmcCheetahDense-v0
+    num_envs: 1
+    wrapper: None
+  eval_env:
+    n_eval_episode: 10
+    eval_freq: 500
