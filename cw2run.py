@@ -7,4 +7,3 @@ for i in range(5):
     #os.system(str)
     #str = f'python cw2cmaes/cmaes_cw2.py cw2cmaes/promp_dense_{i}.yml -o'
     #os.system(str)
-d
