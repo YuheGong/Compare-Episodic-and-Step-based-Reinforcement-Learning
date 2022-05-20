@@ -101,10 +101,11 @@ DeepMindBallInCupDense-v1:
   algo_params:
     batch_size: 50
     learning_rate: 0.0001
+    gradient_steps: 100
     n_steps: 200
     total_timesteps: 1.e+6
     special_callback: DMbicCallback
-    train_freq: 1
+    train_freq: 100
     policy: MlpPolicy
     policy_type: off_policy
     policy_kwargs:

@@ -77,6 +77,7 @@ def episodic(algo, env_id, stop_cri, seed=None):
     success = False
     success_mean = []
     success_full = []
+    print("algo", algorithm)
 
     try:
         if stop_cri:
