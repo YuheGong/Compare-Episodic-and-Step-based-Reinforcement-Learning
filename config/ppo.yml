@@ -189,7 +189,7 @@ ALRReacherBalanceIP-v3:
     batch_size: 200
     learning_rate: 0.0001
     n_steps:  20000
-    total_timesteps: 1.e+6
+    total_timesteps: 2.e+6
     policy: MlpPolicy
     policy_type: on_policy
     policy_kwargs:
@@ -199,18 +199,18 @@ ALRReacherBalanceIP-v3:
   env_params:
     env_name: alr_envs:ALRReacherBalanceIP-v3
     num_envs: 8
-    wrapper: VecNormalize
+    wrapper: None
   eval_env:
     n_eval_episode: 1
     eval_freq: 1000
 
-ALRReacherBalance-v1:
+ALRReacherBalanceIP-v4:
   algorithm: ppo
   algo_params:
     batch_size: 200
     learning_rate: 0.0001
     n_steps:  20000
-    total_timesteps: 1.e+7
+    total_timesteps: 2.e+6
     policy: MlpPolicy
     policy_type: on_policy
     policy_kwargs:
@@ -218,20 +218,20 @@ ALRReacherBalance-v1:
       pi: 256
       vf: 256
   env_params:
-    env_name: alr_envs:ALRReacherBalance-v1
+    env_name: alr_envs:ALRReacherBalanceIP-v4
     num_envs: 8
-    wrapper: VecNormalize
+    wrapper: None
   eval_env:
     n_eval_episode: 1
-    eval_freq: 16384
+    eval_freq: 1000
 
-ALRReacherBalance-v2:
+ALRReacherBalanceIP-v5:
   algorithm: ppo
   algo_params:
     batch_size: 200
     learning_rate: 0.0001
     n_steps:  20000
-    total_timesteps: 5.e+6
+    total_timesteps: 8.e+6
     policy: MlpPolicy
     policy_type: on_policy
     policy_kwargs:
@@ -239,12 +239,33 @@ ALRReacherBalance-v2:
       pi: 256
       vf: 256
   env_params:
-    env_name: alr_envs:ALRReacherBalance-v2
+    env_name: alr_envs:ALRReacherBalanceIP-v5
     num_envs: 8
-    wrapper: VecNormalize
+    wrapper: None
   eval_env:
     n_eval_episode: 1
-    eval_freq: 16384
+    eval_freq: 1000
+
+ALRReacherBalanceIP-v6:
+  algorithm: ppo
+  algo_params:
+    batch_size: 200
+    learning_rate: 0.0001
+    n_steps:  20000
+    total_timesteps: 8.e+6
+    policy: MlpPolicy
+    policy_type: on_policy
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      vf: 256
+  env_params:
+    env_name: alr_envs:ALRReacherBalanceIP-v6
+    num_envs: 8
+    wrapper: None
+  eval_env:
+    n_eval_episode: 1
+    eval_freq: 1000
 
 
 ### other ENVs
