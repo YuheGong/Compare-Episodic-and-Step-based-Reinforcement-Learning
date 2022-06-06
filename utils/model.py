@@ -32,7 +32,7 @@ def model_building(data, env, seed=None):
         policy = data['algo_params']['policy']
 
     if data['algorithm'] == "ppo":
-        model = ALGO(policy, env, policy_kwargs=policy_kwargs, verbose=1, create_eval_env=True,
+        model = ALGO(policy, env, policy_kwargs=policy_kwargs, verbose=1, #create_eval_env=True,
                      tensorboard_log=data['path'],
                      seed=seed,
                      learning_rate=data["algo_params"]['learning_rate'],

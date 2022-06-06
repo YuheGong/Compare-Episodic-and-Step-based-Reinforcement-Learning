@@ -137,14 +137,14 @@ DeepMindBallInCupDense-v2:
     n_eval_episode: 10
     eval_freq: 500
 
-### ALR Reacher ENV with different goal
-ALRReacherBalance-v0:
+
+FetchReacher-v0:
   algorithm: ppo
   algo_params:
     batch_size: 200
     learning_rate: 0.0001
-    n_steps:  20000
-    total_timesteps: 5.e+6
+    n_steps:  1000
+    total_timesteps: 1.e+6
     policy: MlpPolicy
     policy_type: on_policy
     policy_kwargs:
@@ -152,12 +152,57 @@ ALRReacherBalance-v0:
       pi: 256
       vf: 256
   env_params:
-    env_name: alr_envs:ALRReacherBalance-v0
+    env_name: alr_envs:FetchReacher-v0
+    num_envs: 8
+    wrapper: None
+  eval_env:
+    n_eval_episode: 1
+    eval_freq: 1000
+
+FetchReacher-v1:
+  algorithm: ppo
+  algo_params:
+    batch_size: 200
+    learning_rate: 0.0001
+    n_steps:  1000
+    total_timesteps: 1.e+6
+    policy: MlpPolicy
+    policy_type: on_policy
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      vf: 256
+  env_params:
+    env_name: alr_envs:FetchReacher-v1
+    num_envs: 8
+    wrapper: None
+  eval_env:
+    n_eval_episode: 1
+    eval_freq: 1000
+
+
+
+### ALR Reacher ENV with different goal
+ALRReacherBalanceIP-v3:
+  algorithm: ppo
+  algo_params:
+    batch_size: 200
+    learning_rate: 0.0001
+    n_steps:  20000
+    total_timesteps: 1.e+6
+    policy: MlpPolicy
+    policy_type: on_policy
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      vf: 256
+  env_params:
+    env_name: alr_envs:ALRReacherBalanceIP-v3
     num_envs: 8
     wrapper: VecNormalize
   eval_env:
     n_eval_episode: 1
-    eval_freq: 16384
+    eval_freq: 1000
 
 ALRReacherBalance-v1:
   algorithm: ppo
