@@ -142,6 +142,7 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_w
 
     algorithm.tell(solutions, fitness)
     _, opt, __, ___ = env.step(algorithm.mean)
+    opt=env.env.rewards_no_ip
 
     np.save(path + "/algo_mean.npy", algorithm.mean)
     if len(opts) > 10:

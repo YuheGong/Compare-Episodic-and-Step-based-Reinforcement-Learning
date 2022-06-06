@@ -172,10 +172,10 @@ ALRReacherBalanceProMPIP-v3:
   algorithm: cmaes
   algo_params:
     x_init: 0
-    dimension: 25
-    sigma0: 0.1
+    dimension: 50
+    sigma0: 0.001
     popsize: 10
-    iteration: 2222
+    iteration: 889
     stop_criterion: opt < 3.2
   env_params:
     env_name: f'ALRReacherBalanceProMPIP-v3'
@@ -185,10 +185,10 @@ ALRReacherBalanceProMPIP-v4:
   algorithm: cmaes
   algo_params:
     x_init: 0
-    dimension: 25
-    sigma0: 0.1
+    dimension: 50
+    sigma0: 0.001
     popsize: 10
-    iteration: 1333
+    iteration: 889
     stop_criterion: opt < 3.2
   env_params:
     env_name: f'ALRReacherBalanceProMPIP-v4'
