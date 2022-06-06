@@ -293,7 +293,7 @@ dmcCheetahDenseProMP-v0:
   algo_params:
     x_init: 1.e-7
     dimension: 60
-    sigma0: 0.001
+    sigma0: 0.1
     popsize: 10
     iteration: 2000
   env_params:

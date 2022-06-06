@@ -188,7 +188,7 @@ ALRReacherBalanceIP-v3:
   algo_params:
     batch_size: 200
     learning_rate: 0.0001
-    n_steps:  20000
+    n_steps:  1000
     total_timesteps: 2.e+6
     policy: MlpPolicy
     policy_type: on_policy
@@ -209,7 +209,7 @@ ALRReacherBalanceIP-v4:
   algo_params:
     batch_size: 200
     learning_rate: 0.0001
-    n_steps:  20000
+    n_steps:  1000
     total_timesteps: 2.e+6
     policy: MlpPolicy
     policy_type: on_policy
@@ -230,7 +230,7 @@ ALRReacherBalanceIP-v5:
   algo_params:
     batch_size: 200
     learning_rate: 0.0001
-    n_steps:  20000
+    n_steps:  1000
     total_timesteps: 8.e+6
     policy: MlpPolicy
     policy_type: on_policy
@@ -251,7 +251,7 @@ ALRReacherBalanceIP-v6:
   algo_params:
     batch_size: 200
     learning_rate: 0.0001
-    n_steps:  20000
+    n_steps: 1000
     total_timesteps: 8.e+6
     policy: MlpPolicy
     policy_type: on_policy
