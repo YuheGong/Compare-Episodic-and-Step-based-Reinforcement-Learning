@@ -626,3 +626,26 @@ ALRHalfCheetahJump-v0:
     n_eval_episode: 1
     eval_freq: 2250
 
+
+MetaPickAndPlace-v0:
+  algorithm: sac
+  algo_params:
+    batch_size: 100
+    learning_rate: 0.0001
+    n_steps: 20000
+    total_timesteps: 5.e+6
+    train_freq: 100
+    gradient_steps: 100
+    policy: MlpPolicy
+    policy_type: off_policy
+    policy_kwargs:
+      activation_fn: tanh
+      pi: 256
+      qf: 256
+  env_params:
+    env_name: alr_envs:MetaPickAndPlace-v0
+    num_envs: 1
+    wrapper: None
+  eval_env:
+    n_eval_episode: 10
+    eval_freq: 1000

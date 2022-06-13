@@ -279,10 +279,10 @@ dmcWalkerDenseProMP-v0:
   algorithm: cmaes
   algo_params:
     x_init: 1.e-7
-    dimension: 60
-    sigma0: 0.001
+    dimension: 300
+    sigma0: 0.1
     popsize: 10
-    iteration: 2000
+    iteration: 1000
   env_params:
     env_name: f'dmcWalkerDenseProMP-v0'
 
@@ -291,11 +291,11 @@ dmcCheetahDenseProMP-v0:
   name: DeepMind_Ball_In_Cup + ProMP
   algorithm: cmaes
   algo_params:
-    x_init: 1.e-7
-    dimension: 60
-    sigma0: 0.1
+    x_init: 1
+    dimension: 30
+    sigma0: 1
     popsize: 10
-    iteration: 2000
+    iteration: 1000
   env_params:
     env_name: f'dmcCheetahDenseProMP-v0'
 
