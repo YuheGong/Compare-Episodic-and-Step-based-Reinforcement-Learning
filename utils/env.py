@@ -10,7 +10,7 @@ def make_env(env_name, path, rank, seed=0):
         return env
     return _init
 
-def env_maker(data: dict, num_envs: int, training=True, norm_reward=True):
+def env_maker(data: dict, num_envs: int, training=True, norm_reward=True, seed=None):
     if data["env_params"]['wrapper'] == "VecNormalize":
         env = DummyVecEnv(env_fns=[make_env(data["env_params"]['env_name'], data['path'], i) for i in range(num_envs)])
         env = VecNormalize(env, training = training, norm_obs=True, norm_reward=norm_reward)
@@ -18,7 +18,7 @@ def env_maker(data: dict, num_envs: int, training=True, norm_reward=True):
         #env = DummyVecEnv(env_fns=[make_env(data["env_params"]['env_name'], data['path'], i) for i in range(num_envs)])
         #env = ObsDictWrapper(env)
     else:
-        env = gym.make(data["env_params"]['env_name'])
+        env = gym.make(data["env_params"]['env_name'], seed=seed)
 
     return env
 
