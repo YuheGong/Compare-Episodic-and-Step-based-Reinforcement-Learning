@@ -14,7 +14,7 @@ def step_based(algo: str, env_id: str, seed=None):
     file_name = algo +".yml"
     if "Meta" in args.env_id:
         data = read_yaml(file_name)["Meta-v2"]
-        data['env_params']['env_name'] = data['env_params']['env_name'] + ":" + args.env
+        data['env_params']['env_name'] = data['env_params']['env_name'] + ":" + args.env_id
     else:
         data = read_yaml(file_name)[env_id]
 

@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from utils.yaml import write_yaml, read_yaml
 import alr_envs
 from stable_baselines3.common.vec_env.obs_dict_wrapper import  ObsDictWrapper
-
+from stable_baselines3.common.vec_env import VecVideoRecorder, DummyVecEnv
 
 def make_env(env_id, rank):
     def _init():
@@ -46,6 +46,8 @@ def step_based(algo: str, env_id: str, model_id: str, step: str):
 
     obs = env.reset()
     rewards = 0
+    reward = 0
+    infos = []
     if "dmc" in env_id:
         for i in range(int(step)):
             #time.sleep(0.1)
@@ -58,12 +60,16 @@ def step_based(algo: str, env_id: str, model_id: str, step: str):
     elif "Meta" in env_id:
         print("meta")
         for i in range(int(step)):
-            time.sleep(0.01)
+            time.sleep(0.05)
             action, _states = model.predict(obs, deterministic=True)
             obs, rewards, dones, info = env.step(action)
+            infos.append(info['obj_to_target'])
+            reward += rewards
             env.render(False)
-        #env.close()
-
+        env.close()
+        infos = np.array(infos)
+        print(np.min(infos), reward)
+        a = 1
     else:
         for i in range(int(step)):
             #time.sleep(0.1)
@@ -78,6 +84,7 @@ def episodic(algo: str, env_id, model_id: str, step: str, seed=None):
     env_name = data["env_params"]["env_name"]
 
     path = "logs/" + algo + "/" + env_id + "_" + model_id + "/algo_mean.npy"
+    path = "logs/" + algo + "/" + env_id + "_" + model_id + "/best_model.npy"
     algorithm = np.load(path)
     print("algorithm", algorithm)
 
