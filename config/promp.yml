@@ -273,6 +273,18 @@ MetaButtonPressDetPMP-v2:
   env_params:
     env_name: ButtonPressDetPMP-v2
 
+MetaPickAndPlaceProMP-v0:
+  name: DeepMind_Ball_In_Cup + ProMP
+  algorithm: cmaes
+  algo_params:
+    x_init: 0.01
+    dimension: 40
+    sigma0: 1
+    popsize: 10
+    iteration: 5000
+  env_params:
+    env_name: MetaPickAndPlaceProMP-v0
+
 
 dmcWalkerDenseProMP-v0:
   name: DeepMind_Ball_In_Cup + ProMP
@@ -293,7 +305,7 @@ dmcCheetahDenseProMP-v0:
   algo_params:
     x_init: 1
     dimension: 30
-    sigma0: 1
+    sigma0: 10
     popsize: 10
     iteration: 1000
   env_params:

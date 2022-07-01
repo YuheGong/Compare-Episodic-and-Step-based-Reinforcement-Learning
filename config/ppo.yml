@@ -349,13 +349,13 @@ dmcCheetahDense-v0:
     eval_freq: 500
 
 
-MetaPickAndPlace-v0:
+Meta-v2:
   algorithm: ppo
   algo_params:
     batch_size: 200
     learning_rate: 0.0001
-    n_steps:  1000
-    total_timesteps: 5.e+6
+    n_steps: 200
+    total_timesteps: 1.e+7
     policy: MlpPolicy
     policy_type: on_policy
     policy_kwargs:
@@ -363,9 +363,9 @@ MetaPickAndPlace-v0:
       pi: 256
       vf: 256
   env_params:
-    env_name: alr_envs:MetaPickAndPlace-v0
-    num_envs: 8
+    env_name: alr_envs
+    num_envs: 1
     wrapper: None
   eval_env:
     n_eval_episode: 1
-    eval_freq: 1000
+    eval_freq: 200

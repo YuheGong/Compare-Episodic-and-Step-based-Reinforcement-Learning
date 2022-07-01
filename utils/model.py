@@ -87,7 +87,7 @@ def model_learn(data, model, test_env, test_env_path):
     model.learn(total_timesteps=int(data['algo_params']['total_timesteps']) , callback=eval_callback,  eval_env=test_env)
                 #, eval_freq=500, n_eval_episodes=10, eval_log_path=test_env_path, eval_env=test_env)
 
-def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_writer, opts, t, env_id = None):
+def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_writer, opts, t, env_id, opt_best):
     fitness = []
     print("----------iter {} -----------".format(t))
     solutions = np.vstack(algorithm.ask())
@@ -96,7 +96,8 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_w
     #print("env",env)
     import torch
     #torch.nn.init.xavier_uniform(env.dynamical_net.weight)
-    solutions = solutions.clip(-2,2)
+    solutions = solutions.clip(-1,1)
+    #solutions = solutions
 
     for i in range(len(solutions)):
         env.reset()
@@ -141,15 +142,18 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_w
 
 
     algorithm.tell(solutions, fitness)
-    _, opt, __, ___ = env.step(algorithm.mean)
+
+    _, opt, __, ___ = env.step(np.array(algorithm.mean).clip(-1,1))
     #opt=env.env.rewards_no_ip
 
-    np.save(path + "/algo_mean.npy", algorithm.mean)
-    if len(opts) > 10:
-        if opt > opts[-1]:
-            np.save(path + "/best_model.npy", algorithm.mean)
+    np.save(path + "/algo_mean.npy", np.array(algorithm.mean).clip(-1,1))
+    if t == 0:
+        opt_best = opt
+    if opt > opt_best:
+        opt_best = opt
+        np.save(path + "/best_model.npy", algorithm.mean)
 
-    print("opt", -opt)
+    print("opt", opt)
     opts.append(opt)
     t += 1
     if "DeepMind" in env_id:
@@ -171,7 +175,7 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_w
         log_writer.add_scalar("iteration/success_rate", success_rate, t)
         log_writer.add_scalar("iteration/dist_entrance", env.env.dist_entrance, t)
         log_writer.add_scalar("iteration/dist_bottom", env.env.dist_bottom, t)
-    log_writer.add_scalar("eval/mean_reward", opt, t*1000)
+    log_writer.add_scalar("eval/mean_reward", opt, t*2000)
 
     #log_writer.add_scalar("iteration/dist_vec", env.env.dist_vec, t)
     for i in range(len(algorithm.mean)):
@@ -179,7 +183,7 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_w
         log_writer.add_scalar(f"algorithm_params/covariance_matrix_mean[{i}]", np.mean(algorithm.C[i]), t)
         log_writer.add_scalar(f"algorithm_params/covariance_matrix_variance[{i}]", np.var(algorithm.C[i]), t)
 
-    return algorithm, env, success_full, success_mean, path, log_writer, opts, t
+    return algorithm, env, success_full, success_mean, path, log_writer, opts, t, opt_best
 
 
 def policy_kwargs_building(data):

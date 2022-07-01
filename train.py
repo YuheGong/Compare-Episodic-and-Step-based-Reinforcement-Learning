@@ -12,12 +12,18 @@ from utils.csv import csv_save
 
 def step_based(algo: str, env_id: str, seed=None):
     file_name = algo +".yml"
-    data = read_yaml(file_name)[env_id]
+    if "Meta" in args.env_id:
+        data = read_yaml(file_name)["Meta-v2"]
+    else:
+        data = read_yaml(file_name)[env_id]
 
     # create log folder
     path = logging(data['env_params']['env_name'], data['algorithm'])
     data['path'] = path
     data['seed'] = seed
+
+    if "Meta" in args.env:
+        data['env_params']['env_name'] = data['env_params']['env_name'] + ":" + args.env
 
     # make the environment
     env = env_maker(data, num_envs=data["env_params"]['num_envs'])
@@ -78,16 +84,19 @@ def episodic(algo, env_id, stop_cri, seed=None):
     success_mean = []
     success_full = []
     print("algo", algorithm)
+    opt_best = 0
 
     try:
         if stop_cri:
             while t < data["algo_params"]["iteration"] and not success:
-                algorithm, env, success_full, success_mean, path, log_writer, opts, t = \
-                    cmaes_model_training(algorithm, env, success_full, success_mean, path, log_writer, opts, t, env_id)
+                algorithm, env, success_full, success_mean, path, log_writer, opts, t, opt_best= \
+                    cmaes_model_training(algorithm, env, success_full, success_mean, path, log_writer,
+                                         opts, t, env_id, opt_best)
         else:
             while t < data["algo_params"]["iteration"]:
-                algorithm, env, success_full, success_mean, path, log_writer, opts, t = \
-                    cmaes_model_training(algorithm, env, success_full, success_mean, path, log_writer, opts, t, env_id)
+                algorithm, env, success_full, success_mean, path, log_writer, opts, t, opt_best = \
+                    cmaes_model_training(algorithm, env, success_full, success_mean, path,
+                                         log_writer, opts, t, env_id, opt_best)
     except KeyboardInterrupt:
         data["path_in"] = path
         data["path_out"] = path + '/data.csv'
