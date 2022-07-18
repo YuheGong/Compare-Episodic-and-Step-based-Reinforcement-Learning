@@ -17,9 +17,10 @@ def env_maker(data: dict, num_envs: int, training=True, norm_reward=True, seed=N
     #elif "Fetch" in data["env_params"]['env_name']:
         #env = DummyVecEnv(env_fns=[make_env(data["env_params"]['env_name'], data['path'], i) for i in range(num_envs)])
         #env = ObsDictWrapper(env)
+    elif "Hopper" in data["env_params"]['env_name']:
+        env = gym.make(data["env_params"]['env_name'])
     else:
         env = gym.make(data["env_params"]['env_name'], seed=seed)
-
     return env
 
 def env_save(data: dict, model, env, eval_env):

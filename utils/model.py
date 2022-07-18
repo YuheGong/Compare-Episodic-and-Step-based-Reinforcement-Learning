@@ -132,7 +132,7 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_w
 
     algorithm.tell(solutions, fitness)
 
-    _, opt, __, ___ = env.step(np.array(algorithm.mean).clip(-1,1))
+    _, opt, __, infos = env.step(np.array(algorithm.mean).clip(-1,1))
     #opt=env.env.rewards_no_ip
 
     np.save(path + "/algo_mean.npy", np.array(algorithm.mean).clip(-1,1))
@@ -145,6 +145,7 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_w
     print("opt", opt)
     opts.append(opt)
     t += 1
+
     if "DeepMind" in env_id:
         success_mean.append(env.env.success)
         if success_mean[-1]:
@@ -158,20 +159,28 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_w
                 b += 1
         success_rate_full = b / len(success_full)
         success_full = []
-
-    if "DeepMind" in env_id:
         log_writer.add_scalar("iteration/success_rate_full", success_rate_full, t)
         log_writer.add_scalar("iteration/success_rate", success_rate, t)
         log_writer.add_scalar("iteration/dist_entrance", env.env.dist_entrance, t)
         log_writer.add_scalar("iteration/dist_bottom", env.env.dist_bottom, t)
-    log_writer.add_scalar("eval/mean_reward", opt, t*2000)
+
+    step = t * env.traj_steps * solutions.shape[0]
+    log_writer.add_scalar("eval/mean_reward", opt, step)
+    if "Meta" in env_id:
+
+        log_writer.add_scalar("eval/last_success", infos["last_info"]["success"], step)
+        log_writer.add_scalar("eval/last_object_to_target", infos["last_info"]["obj_to_target"], step)
+        #log_writer.add_scalar("eval/min_object_to_target", infos["last_info"]["obj_to_target"], step)
+        log_writer.add_scalar("eval/control_cost", np.sum(np.square(infos["step_actions"])), step)
+
 
     #log_writer.add_scalar("iteration/dist_vec", env.env.dist_vec, t)
+    '''
     for i in range(len(algorithm.mean)):
         log_writer.add_scalar(f"algorithm_params/mean[{i}]", algorithm.mean[i], t)
         log_writer.add_scalar(f"algorithm_params/covariance_matrix_mean[{i}]", np.mean(algorithm.C[i]), t)
         log_writer.add_scalar(f"algorithm_params/covariance_matrix_variance[{i}]", np.var(algorithm.C[i]), t)
-
+    '''
     return algorithm, env, success_full, success_mean, path, log_writer, opts, t, opt_best
 
 

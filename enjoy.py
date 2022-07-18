@@ -30,7 +30,7 @@ def step_based(algo: str, env_id: str, model_id: str, step: str):
 
     model_path = os.path.join(path, "eval/best_model")
 
-    # model_path = os.path.join(path, "model.zip")
+    #model_path = os.path.join(path, "model.zip")
 
     ALGOS = {
         'a2c': A2C,
@@ -80,7 +80,12 @@ def step_based(algo: str, env_id: str, model_id: str, step: str):
 
 def episodic(algo: str, env_id, model_id: str, step: str, seed=None):
     file_name = algo + ".yml"
-    data = read_yaml(file_name)[env_id]
+    if "Meta" in env_id:
+        data = read_yaml(file_name)["Meta-v2"]
+        data['env_params']['env_name'] = data['env_params']['env_name'] + ":" + env_id
+    else:
+        data = read_yaml(file_name)[env_id]
+
     env_name = data["env_params"]["env_name"]
 
     path = "logs/" + algo + "/" + env_id + "_" + model_id + "/algo_mean.npy"

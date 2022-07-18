@@ -312,3 +312,14 @@ dmcCheetahDenseProMP-v0:
     env_name: f'dmcCheetahDenseProMP-v0'
 
 
+Meta-v2:
+  name: Meta + ProMP
+  algorithm: cmaes
+  algo_params:
+    x_init: 1
+    dimension: 80
+    sigma0: 1
+    popsize: 10
+    iteration: 1500
+  env_params:
+    env_name: alr_envs

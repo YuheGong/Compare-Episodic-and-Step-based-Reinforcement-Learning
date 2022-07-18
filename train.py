@@ -54,8 +54,14 @@ def step_based(algo: str, env_id: str, seed=None):
 
 def episodic(algo, env_id, stop_cri, seed=None):
     file_name = algo + ".yml"
-    data = read_yaml(file_name)[env_id]
+    if "Meta" in args.env_id:
+        data = read_yaml(file_name)["Meta-v2"]
+        data['env_params']['env_name'] = data['env_params']['env_name'] + ":" + args.env_id
+    else:
+        data = read_yaml(file_name)[env_id]
+
     env_name = data["env_params"]["env_name"]
+
     if 'Meta' in env_id:
         from alr_envs.utils.make_env_helpers import make_env
         env = make_env(env_name, seed)
