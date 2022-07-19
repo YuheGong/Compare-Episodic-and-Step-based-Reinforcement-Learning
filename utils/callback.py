@@ -2,7 +2,7 @@ from stable_baselines3.common.callbacks import EvalCallback, BaseCallback
 import os
 import numpy as np
 
-from .evaluation import meta_custom_evaluate_policy
+from .evaluation import meta_custom_evaluate_policy, hopper_custom_evaluate_policy
 from stable_baselines3.common.vec_env import sync_envs_normalization
 import os
 import warnings
@@ -155,7 +155,7 @@ class HopperJumpCallback(EvalCallback):
             # Reset success rate buffer
             self._is_success_buffer = []
 
-            episode_rewards, episode_lengths = evaluate_policy(
+            episode_rewards, episode_lengths, max_height, min_goal_dist = hopper_custom_evaluate_policy(
                 self.model,
                 self.eval_env,
                 n_eval_episodes=self.n_eval_episodes,
@@ -212,8 +212,8 @@ class HopperJumpCallback(EvalCallback):
                 if self.callback is not None:
                     return self._on_event()
 
-            self.logger.record("eval/max_height", self.eval_env.num_envs[0].max_height)
-            self.logger.record("eval/min_goal_dist", self.eval_env.num_envs[0].min_goal_dist)
+            self.logger.record("eval/max_height", max_height)
+            self.logger.record("eval/min_goal_dist", min_goal_dist)
         return True
 
 
