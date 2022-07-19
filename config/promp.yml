@@ -323,3 +323,16 @@ Meta-v2:
     iteration: 1500
   env_params:
     env_name: alr_envs
+
+
+HopperXYJumpStepProMP-v0:
+  name: Meta + ProMP
+  algorithm: cmaes
+  algo_params:
+    x_init: 1
+    dimension: 30
+    sigma0: 1
+    popsize: 10
+    iteration: 4000
+  env_params:
+    env_name: alr_envs:HopperXYJumpStepProMP-v0

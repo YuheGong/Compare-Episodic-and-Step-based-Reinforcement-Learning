@@ -96,6 +96,8 @@ def episodic(algo: str, env_id, model_id: str, step: str, seed=None):
     if 'Meta' in env_id:
         from alr_envs.utils.make_env_helpers import make_env
         env = make_env(env_name, seed=seed)
+    elif "Hopper" in env_id:
+        env = gym.make(env_name)
     else:
         env = gym.make(env_name[2:-1])
     env.reset()
