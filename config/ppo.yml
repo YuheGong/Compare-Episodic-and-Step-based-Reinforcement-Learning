@@ -371,12 +371,12 @@ Meta-v2:
     eval_freq: 200
 
 
-HopperXYJump-v0:
+HopperXYJumpMiddle-v0:
   algorithm: ppo
   algo_params:
-    batch_size: 200
+    batch_size: 250
     learning_rate: 0.0001
-    n_steps: 200
+    n_steps: 250
     total_timesteps: 1.e+7
     policy: MlpPolicy
     policy_type: on_policy
@@ -385,9 +385,9 @@ HopperXYJump-v0:
       pi: 256
       vf: 256
   env_params:
-    env_name: alr_envs:HopperJump-v0
-    num_envs: 1
-    wrapper: None
+    env_name: alr_envs:HopperXYJumpMiddle-v0
+    num_envs: 8
+    wrapper: VecNormalize
   eval_env:
     n_eval_episode: 1
     eval_freq: 250

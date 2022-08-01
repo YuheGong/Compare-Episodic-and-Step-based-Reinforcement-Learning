@@ -633,7 +633,7 @@ Meta-v2:
     batch_size: 200
     learning_rate: 0.0001
     n_steps: 20000
-    total_timesteps: 2.e+6
+    total_timesteps: 1.e+7
     train_freq: 200
     gradient_steps: 200
     policy: MlpPolicy
@@ -647,10 +647,10 @@ Meta-v2:
     num_envs: 1
     wrapper: None
   eval_env:
-    n_eval_episode: 1
+    n_eval_episode: 10
     eval_freq: 200
 
-HopperXYJump-v0:
+HopperXYJumpMiddle-v0:
   algorithm: sac
   algo_params:
     batch_size: 250
@@ -666,9 +666,9 @@ HopperXYJump-v0:
       pi: 256
       qf: 256
   env_params:
-    env_name: alr_envs:HopperXYJump-v0
+    env_name: alr_envs:HopperXYJumpMiddle-v0
     num_envs: 1
-    wrapper: None
+    wrapper: VecNormalize
   eval_env:
     n_eval_episode: 1
     eval_freq: 250

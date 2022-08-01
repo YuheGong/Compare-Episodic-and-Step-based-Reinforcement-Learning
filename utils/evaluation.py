@@ -71,6 +71,10 @@ def meta_custom_evaluate_policy(
 
     episode_rewards, episode_lengths = [], []
     not_reseted = True
+    total_min_target_object = 0
+    total_last_target_object = 0
+    total_last_success = 0
+
     while len(episode_rewards) < n_eval_episodes:
         # Number of loops here might differ from true episodes
         # played, if underlying wrappers modify episode lengths.
@@ -103,6 +107,10 @@ def meta_custom_evaluate_policy(
                 min_target_object = info[0]['obj_to_target']
         last_success = info[0]['success']
         last_target_object = info[0]['obj_to_target']
+        
+        total_min_target_object += min_target_object
+        total_last_target_object += last_target_object 
+        total_last_success += last_success
 
 
         if is_monitor_wrapped:
@@ -119,14 +127,19 @@ def meta_custom_evaluate_policy(
             episode_rewards.append(episode_reward)
             episode_lengths.append(episode_length)
 
+    
+    total_min_target_object /= n_eval_episodes
+    total_last_target_object /= n_eval_episodes
+    total_last_success /= n_eval_episodes
+
     mean_reward = np.mean(episode_rewards)
     #mean_reward = env.envs[0].rewards_no_ip
     std_reward = np.std(episode_rewards)
     if reward_threshold is not None:
         assert mean_reward > reward_threshold, "Mean reward below threshold: " f"{mean_reward:.2f} < {reward_threshold:.2f}"
     if return_episode_rewards:
-        return episode_rewards, episode_lengths, min_target_object, last_target_object, last_success, control_cost
-    return mean_reward, std_reward, min_target_object, last_target_object, last_success, control_cost
+        return episode_rewards, episode_lengths, total_min_target_object, total_last_target_object, total_last_success, control_cost
+    return mean_reward, std_reward, total_min_target_object, total_last_target_object, total_last_success, control_cost
 
 
 

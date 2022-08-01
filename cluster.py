@@ -1,7 +1,7 @@
 import os
 
 for i in range(5):
-    str = f'python train.py --algo sac --e HopperXYJumpStep-v0 --seed {i}'
+    str = f'python train.py --algo ppo --e HopperXYJumpMiddle-v0 --seed {i}'
     os.system(str)
 
     #str = f'python train.py --algo promp --env Meta-promp-soccer-v2 --seed {i}'

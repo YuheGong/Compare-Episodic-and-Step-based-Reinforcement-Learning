@@ -54,7 +54,7 @@ def model_building(data, env, seed=None):
                      batch_size=data["algo_params"]['batch_size'])
     elif data['algorithm'] == "td3":
         n_actions =env.action_space.shape[-1]
-        action_noise = NormalActionNoise(mean=np.zeros(n_actions), sigma=0.5* np.ones(n_actions))
+        action_noise = NormalActionNoise(mean=np.zeros(n_actions), sigma=0.1* np.ones(n_actions))
         model = ALGO(policy, env, policy_kwargs=policy_kwargs, verbose=1, #create_eval_env=True,
                      tensorboard_log=data['path'],
                      seed=seed,
