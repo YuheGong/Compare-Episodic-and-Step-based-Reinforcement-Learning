@@ -548,7 +548,7 @@ Meta-v2:
     num_envs: 1
     wrapper: None
   eval_env:
-    n_eval_episode: 10
+    n_eval_episode: 1
     eval_freq: 200
 
 
