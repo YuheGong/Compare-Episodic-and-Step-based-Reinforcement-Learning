@@ -325,7 +325,7 @@ Meta-v2:
     env_name: alr_envs
 
 
-HopperXYJumpStepProMP-v0:
+HopperXYJumpMiddleProMP-v0:
   name: Meta + ProMP
   algorithm: cmaes
   algo_params:
@@ -335,4 +335,4 @@ HopperXYJumpStepProMP-v0:
     popsize: 10
     iteration: 4000
   env_params:
-    env_name: alr_envs:HopperXYJumpStepProMP-v0
+    env_name: alr_envs:HopperXYJumpMiddleProMP-v0

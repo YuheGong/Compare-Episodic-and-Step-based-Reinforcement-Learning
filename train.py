@@ -24,7 +24,7 @@ def step_based(algo: str, env_id: str, seed=None):
     data['seed'] = seed
 
     # make the environment
-    env = env_maker(data, num_envs=data["env_params"]['num_envs'])
+    env = env_maker(data, num_envs=data["env_params"]['num_envs'], seed=seed)
     eval_env = env_maker(data, num_envs=1, training=False, norm_reward=False)
 
     # make the model and save the model

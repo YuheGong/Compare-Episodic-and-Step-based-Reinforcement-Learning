@@ -24,13 +24,13 @@ def step_based(algo: str, env_id: str, model_id: str, step: str):
     stats_file = 'env_normalize.pkl'
     stats_path = os.path.join(path, stats_file)
     env = DummyVecEnv(env_fns=[make_env(env_id, i) for i in range(num_envs)])
-    #env = VecNormalize.load(stats_path, env)
+    env = VecNormalize.load(stats_path, env)
     #env = ObsDictWrapper(env)
-    env = gym.make("alr_envs:" + env_id)
+    #env = gym.make("alr_envs:" + env_id)
 
     model_path = os.path.join(path, "eval/best_model")
 
-    #model_path = os.path.join(path, "model.zip")
+    model_path = os.path.join(path, "model.zip")
 
     ALGOS = {
         'a2c': A2C,
@@ -72,10 +72,11 @@ def step_based(algo: str, env_id: str, model_id: str, step: str):
         a = 1
     else:
         for i in range(int(step)):
-            #time.sleep(0.1)
             action, _states = model.predict(obs, deterministic=True)
             obs, rewards, dones, info = env.step(action)
             env.render()
+            if i == 0 or i==125 or i==249:
+                time.sleep(5)
         env.close()
 
 def episodic(algo: str, env_id, model_id: str, step: str, seed=None):
