@@ -80,13 +80,11 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_w
     fitness = []
     print("----------iter {} -----------".format(t))
     solutions = np.vstack(algorithm.ask())
-    #print("solutions_shape", solutions.shape)
-    #print("solutions", solutions)
-    #print("env",env)
-    import torch
-    #torch.nn.init.xavier_uniform(env.dynamical_net.weight)
-    solutions = solutions.clip(-1,1)
-    #solutions = solutions
+
+    #solutions = solutions.clip(-1,1)
+    #a = th.distributions.MultivariateNormal(th.zeros(20), th.Tensor(algorithm.sm.covariance_matrix))
+    #entro = a.entropy()
+
 
     for i in range(len(solutions)):
         env.reset()
@@ -99,7 +97,6 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_w
 
         #env.optimizer.zero_grad()
 
-    env.reset()
 
     '''
     import torch
@@ -131,8 +128,23 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_w
 
 
     algorithm.tell(solutions, fitness)
+    sigma = algorithm.sigma
+    opt=0
+    info = []
+    eval_num = 1
+    for i in range(eval_num):
+        env.reset()
+        _, op, __, infos = env.step(np.array(algorithm.mean))
+        #print("op", op)
+        opt += op
+        if "Hopper" in env_id:
+            max_height = env.max_height
+            min_goal_dist = env.min_goal_dist
+        #info["success"].append(infos["last_info"]["success"])
+        #info["success"].append(infos["last_info"]["success"])
+        #info["success"].append(infos["last_info"]["success"])
+    opt = opt/eval_num
 
-    _, opt, __, infos = env.step(np.array(algorithm.mean).clip(-1,1))
     #opt=env.env.rewards_no_ip
 
     np.save(path + "/algo_mean.npy", np.array(algorithm.mean).clip(-1,1))
@@ -166,12 +178,17 @@ def cmaes_model_training(algorithm, env, success_full, success_mean, path, log_w
 
     step = t * env.traj_steps * solutions.shape[0]
     log_writer.add_scalar("eval/mean_reward", opt, step)
+    log_writer.add_scalar("eval/sigma", sigma, step)
+    #log_writer.add_scalar("eval/entropy", entro, step)
     if "Meta" in env_id:
 
         log_writer.add_scalar("eval/last_success", infos["last_info"]["success"], step)
         log_writer.add_scalar("eval/last_object_to_target", infos["last_info"]["obj_to_target"], step)
         #log_writer.add_scalar("eval/min_object_to_target", infos["last_info"]["obj_to_target"], step)
         log_writer.add_scalar("eval/control_cost", np.sum(np.square(infos["step_actions"])), step)
+    elif "Hopper" in env_id:
+        log_writer.add_scalar("eval/max_height", max_height, step)
+        log_writer.add_scalar("eval/min_goal_dist", min_goal_dist, step)
 
 
     #log_writer.add_scalar("iteration/dist_vec", env.env.dist_vec, t)

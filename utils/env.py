@@ -22,7 +22,7 @@ def env_maker(data: dict, num_envs: int, training=True, norm_reward=True, seed=N
     elif "Hopper" in data["env_params"]['env_name']:
         env = gym.make(data["env_params"]['env_name'])
     else:
-        env = gym.make(data["env_params"]['env_name'], seed=seed)
+        env = gym.make(data["env_params"]['env_name'])
     return env
 
 def env_save(data: dict, model, env, eval_env):

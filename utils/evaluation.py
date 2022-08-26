@@ -71,9 +71,10 @@ def meta_custom_evaluate_policy(
 
     episode_rewards, episode_lengths = [], []
     not_reseted = True
-    total_min_target_object = 0
-    total_last_target_object = 0
-    total_last_success = 0
+    total_min_target_object = []
+    total_last_target_object = []
+    total_last_success = []
+    total_success_rate = []
 
     while len(episode_rewards) < n_eval_episodes:
         # Number of loops here might differ from true episodes
@@ -90,6 +91,7 @@ def meta_custom_evaluate_policy(
         last_target_object = 0
         last_success = 0
         control_cost = 0
+        success_rate = []
 
         while not done:
             action, state = model.predict(obs, state=state, deterministic=deterministic)
@@ -105,12 +107,15 @@ def meta_custom_evaluate_policy(
             control_cost += np.sum(np.square(action))
             if min_target_object > info[0]['obj_to_target']:
                 min_target_object = info[0]['obj_to_target']
+            success_rate.append(info[0]['success'])
         last_success = info[0]['success']
+        success_rate = np.any(np.array(success_rate))
         last_target_object = info[0]['obj_to_target']
         
-        total_min_target_object += min_target_object
-        total_last_target_object += last_target_object 
-        total_last_success += last_success
+        total_min_target_object.append(min_target_object)
+        total_last_target_object.append(last_target_object)
+        total_last_success.append(last_success)
+        total_success_rate.append(success_rate)
 
 
         if is_monitor_wrapped:
@@ -128,9 +133,10 @@ def meta_custom_evaluate_policy(
             episode_lengths.append(episode_length)
 
     
-    total_min_target_object /= n_eval_episodes
-    total_last_target_object /= n_eval_episodes
-    total_last_success /= n_eval_episodes
+    total_min_target_object = np.mean(np.array(total_min_target_object))
+    total_last_target_object = np.mean(np.array(total_last_target_object))
+    total_last_success = np.mean(np.array(total_last_success))
+    total_success_rate = np.mean(np.array(total_success_rate))
 
     mean_reward = np.mean(episode_rewards)
     #mean_reward = env.envs[0].rewards_no_ip
@@ -138,8 +144,8 @@ def meta_custom_evaluate_policy(
     if reward_threshold is not None:
         assert mean_reward > reward_threshold, "Mean reward below threshold: " f"{mean_reward:.2f} < {reward_threshold:.2f}"
     if return_episode_rewards:
-        return episode_rewards, episode_lengths, total_min_target_object, total_last_target_object, total_last_success, control_cost
-    return mean_reward, std_reward, total_min_target_object, total_last_target_object, total_last_success, control_cost
+        return episode_rewards, episode_lengths, total_min_target_object, total_last_target_object, total_last_success, control_cost, total_success_rate
+    return mean_reward, std_reward, total_min_target_object, total_last_target_object, total_last_success, control_cost, total_success_rate
 
 
 

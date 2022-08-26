@@ -55,7 +55,7 @@ class MetaCallback(EvalCallback):
             self._is_success_buffer = []
 
             episode_rewards, episode_lengths, min_target_object,\
-            last_target_object, last_success, control_cost = meta_custom_evaluate_policy(
+            last_target_object, last_success, control_cost, success_rate = meta_custom_evaluate_policy(
                 self.model,
                 self.eval_env,
                 n_eval_episodes=self.n_eval_episodes,
@@ -116,6 +116,7 @@ class MetaCallback(EvalCallback):
             self.logger.record("eval/last_object_to_target", last_target_object)
             self.logger.record("eval/min_object_to_target", min_target_object)
             self.logger.record("eval/control_cost", control_cost)
+            self.logger.record("eval/success_rate", success_rate)
         return True
 
 

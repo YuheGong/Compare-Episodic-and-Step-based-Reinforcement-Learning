@@ -327,8 +327,8 @@ FetchReacher-v0:
     num_envs: 1
     wrapper: None
   eval_env:
-    n_eval_episode: 10
-    eval_freq: 1000
+    n_eval_episode: 1
+    eval_freq: 100
 
 FetchReacher-v1:
   algorithm: td3
@@ -350,8 +350,8 @@ FetchReacher-v1:
     num_envs: 1
     wrapper: None
   eval_env:
-    n_eval_episode: 10
-    eval_freq: 1000
+    n_eval_episode: 1
+    eval_freq: 100
 
 ### Meta World
 MetaButtonPress-v2:
@@ -534,7 +534,7 @@ Meta-v2:
     batch_size: 200
     learning_rate: 0.0001
     n_steps: 20000
-    total_timesteps: 1.e+7
+    total_timesteps: 2.e+7
     gradient_steps: 200
     train_freq: 200
     policy: MlpPolicy
@@ -548,7 +548,7 @@ Meta-v2:
     num_envs: 1
     wrapper: None
   eval_env:
-    n_eval_episode: 1
+    n_eval_episode: 10
     eval_freq: 200
 
 
