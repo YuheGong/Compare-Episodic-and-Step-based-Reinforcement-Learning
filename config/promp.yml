@@ -16,9 +16,9 @@ DeepMindBallInCupDenseProMP-v0:
   algorithm: cmaes
   algo_params:
     x_init: 1
-    dimension: 10
+    dimension: 100
     sigma0: 1
-    popsize: 50
+    popsize: 10
     iteration: 1000
   env_params:
     env_name: f'dmc_ball_in_cup-catch_dense_detpmp-v0'
@@ -316,11 +316,11 @@ Meta-v2:
   name: Meta + ProMP
   algorithm: cmaes
   algo_params:
-    x_init: [-1.e-7, -0.01,-1.e-7, 1]
+    x_init: 1
     dimension: 20
     sigma0: 0.1
     popsize: 10
-    iteration: 1000
+    iteration: 3000
   env_params:
     env_name: alr_envs
 
@@ -329,7 +329,7 @@ HopperXYJumpMiddleProMP-v0:
   name: Meta + ProMP
   algorithm: cmaes
   algo_params:
-    x_init: 0
+    x_init: 1
     dimension: 30
     sigma0: 1
     popsize: 10
@@ -342,9 +342,9 @@ HopperXYJumpStepProMP-v0:
   name: Meta + ProMP
   algorithm: cmaes
   algo_params:
-    x_init: 0
+    x_init: 0.01
     dimension: 30
-    sigma0: 1
+    sigma0: 0.1
     popsize: 10
     iteration: 1600
   env_params:

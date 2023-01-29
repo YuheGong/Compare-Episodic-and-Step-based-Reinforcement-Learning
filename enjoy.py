@@ -48,36 +48,64 @@ def step_based(algo: str, env_id: str, model_id: str, step: str):
     rewards = 0
     reward = 0
     infos = []
+    jump_height = []
+    goal_dist = []
     if "dmc" in env_id:
         for i in range(int(step)):
             #time.sleep(0.1)
             action, _states = model.predict(obs, deterministic=False)
             obs, reward, dones, info = env.step(action)
             rewards += reward
-            #env.render(mode="rgb_array")
             env.render(mode="human")
         env.close()
     elif "Meta" in env_id:
         print("meta")
         for i in range(int(step)):
-            time.sleep(0.05)
+            #time.sleep(0.05)
             action, _states = model.predict(obs, deterministic=True)
             obs, rewards, dones, info = env.step(action)
             infos.append(info['obj_to_target'])
             reward += rewards
             env.render(False)
+            #if i == 59 or i==89 or i == 199 or i == 19 or i==1:
+            #   time.sleep(5)
         env.close()
         infos = np.array(infos)
         print(np.min(infos), reward)
         a = 1
     else:
         for i in range(int(step)):
+            #time.sleep(0.05)
             action, _states = model.predict(obs, deterministic=True)
             obs, rewards, dones, info = env.step(action)
+            #reward += info[0]["reward"]
+            #jump_height.append(info[0]["height"])
+            #goal_dist.append(info[0]["goal_dist"])
             env.render()
-            if i == 0 or i==125 or i==249:
-                time.sleep(5)
+            #if i == 0 or i==50-1 or i==100-1 or i==150-1 or i==199 or i==249:
+            #    time.sleep(5)
         env.close()
+
+        import matplotlib.pyplot as plt
+        jump_height = np.array(jump_height)
+        goal_dist = np.array(goal_dist)
+        np.savez("jump_hieght"+algo,jump_height)
+        np.savez("goal_dist"+algo,goal_dist)
+        # plt.plot(goal[:, 0], label='x axis')
+        plt.plot(jump_height, label='TD3')
+        # plt.plot(goal[:, 1], label='y axis')
+        #plt.plot(goal[:, 1], label='y-axis')
+        # plt.plot(goal[:, 2], label='x axis')
+        plt.legend()
+        plt.xlabel("timesteps")
+        plt.ylabel("jump height")
+        # plt.show()
+        # plt.title('Goal Position')
+        import tikzplotlib
+        tikzplotlib.save("hopper_height.tex")
+        #plt.show()
+        print(reward)
+
 
 def episodic(algo: str, env_id, model_id: str, step: str, seed=None):
     file_name = algo + ".yml"
@@ -90,7 +118,7 @@ def episodic(algo: str, env_id, model_id: str, step: str, seed=None):
     env_name = data["env_params"]["env_name"]
 
     path = "logs/" + algo + "/" + env_id + "_" + model_id + "/algo_mean.npy"
-    path = "logs/" + algo + "/" + env_id + "_" + model_id + "/best_model.npy"
+    #path = "logs/" + algo + "/" + env_id + "_" + model_id + "/best_model.npy"
     algorithm = np.load(path)
     print("algorithm", algorithm)
 
@@ -135,7 +163,6 @@ if __name__ == "__main__":
 
     STEP_BASED = ["ppo", "sac", "td3"]
     EPISODIC = ["dmp", "promp"]
-
 
 
     if algo in STEP_BASED:

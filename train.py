@@ -25,7 +25,7 @@ def step_based(algo: str, env_id: str, seed=None):
 
     # make the environment
     env = env_maker(data, num_envs=data["env_params"]['num_envs'], seed=seed)
-    eval_env = env_maker(data, num_envs=1, training=False, norm_reward=False)
+    eval_env = env_maker(data, num_envs=1, training=False, norm_reward=False, seed=seed)
 
     # make the model and save the model
     model = model_building(data, env, seed)
@@ -70,7 +70,8 @@ def episodic(algo, env_id, stop_cri, seed=None):
     else:
         env = gym.make(env_name[2:-1], seed=seed)
 
-    params = data["algo_params"]['x_init'] * np.random.rand(data["algo_params"]["dimension"])
+    params = (data["algo_params"]['x_init'] * np.random.rand(data["algo_params"]["dimension"]))
+    #params = (data["algo_params"]['x_init'] * np.zeros(data["algo_params"]["dimension"]).reshape(5,4)).reshape(20)
     ALGOS = {
         'cmaes': cma,
     }
@@ -100,9 +101,9 @@ def episodic(algo, env_id, stop_cri, seed=None):
                                          opts, t, env_id, opt_best)
         else:
             while t < data["algo_params"]["iteration"]:
-                algorithm, env, success_full, success_mean, path, log_writer, opts, t, opt_best = \
+                algorithm, env, success_full, success_mean, path, log_writer, opts, t= \
                     cmaes_model_training(algorithm, env, success_full, success_mean, path,
-                                         log_writer, opts, t, env_id, opt_best)
+                                         log_writer, opts, t, env_id)
     except KeyboardInterrupt:
         data["path_in"] = path
         data["path_out"] = path + '/data.csv'

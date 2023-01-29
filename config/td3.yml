@@ -72,28 +72,28 @@ DeepMindBallInCup-v2:
     eval_freq: 500
 
 DeepMindBallInCupDense-v0:
-  name: DeepMind_Ball_In_Cup + SAC
-  algorithm: sac
+  name: DeepMind_Ball_In_Cup + TD3
+  algorithm: td3
   algo_params:
     batch_size: 50
     learning_rate: 0.0001
     n_steps: 500
-    total_timesteps: 1.e+6
-    special_callback: DMbicCallback
-    train_freq: 1
+    total_timesteps: 6.e+7
+    gradient_steps: 50
+    train_freq: 50
     policy: MlpPolicy
     policy_type: off_policy
     policy_kwargs:
       activation_fn: tanh
-      pi: 256
-      qf: 256
+      pi: [256, 256]
+      qf: [256, 256]
   env_params:
     env_name: alr_envs:DeepMindBallInCupDense-v0
     num_envs: 1
     wrapper: VecNormalize
   eval_env:
     n_eval_episode: 10
-    eval_freq: 500
+    eval_freq: 10000
 
 DeepMindBallInCupDense-v1:
   name: DeepMind_Ball_In_Cup + SAC
