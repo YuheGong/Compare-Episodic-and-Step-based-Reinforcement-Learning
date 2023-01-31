@@ -16,7 +16,7 @@ DeepMindBallInCupDenseProMP-v0:
   algorithm: cmaes
   algo_params:
     x_init: 1
-    dimension: 100
+    dimension: 20
     sigma0: 1
     popsize: 10
     iteration: 1000
