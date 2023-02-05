@@ -72,10 +72,10 @@ DeepMindBallInCupDense-v0:
   name: DeepMind_Ball_In_Cup + PPO
   algorithm: ppo
   algo_params:
-    batch_size: 500
+    batch_size: 50
     learning_rate: 0.0001
     n_steps: 20000
-    total_timesteps: 6.e+6
+    total_timesteps: 3.e+6
     policy: MlpPolicy
     policy_type: on_policy
     policy_kwargs:
